@@ -302,8 +302,9 @@ long hashmap_hash_cstring(void *in_context, void *in_key)
 {
     /* implements 'djb2' by Dan Bernstein */
     unsigned long hash = 5381;
+    unsigned char *key = (unsigned char*)in_key;
     int c;
-    while ( (c = *((unsigned char*)in_key++)) )
+    while ( (c = *(key++)) )
     {
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
     }

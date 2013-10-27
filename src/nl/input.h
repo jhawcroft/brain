@@ -27,13 +27,28 @@
 #include "common.h"
 
 
+typedef struct NLInput
+{
+    Array *sentences; /* NLSentence */
+    
+} NLInput;
 
-void nl_tokenize(NLInput *in_input, NLTokenizer *in_tokenizer);
-void nl_split_sentences(NLInput *in_input, NLSplitter *in_splitter);
-void nl_split_words(NLInput *in_input, NLSplitter *in_splitter);
-void nl_wordize(NLInput *in_input, NLWordizer *in_wordizer);
-void nl_trim_empty_sentences(NLInput *in_input);
-NLInput* nl_input_parse(char const *in_utterance);
+
+
+int nl_tokenize(NLInput *in_input, NLTokenizer *in_tokenizer);
+int nl_split_sentences(NLInput *in_input, NLSplitter *in_splitter);
+int nl_split_words(NLInput *in_input, NLSplitter *in_splitter);
+int nl_wordize(NLInput *in_input, NLWordizer *in_wordizer);
+int nl_trim_empty_sentences(NLInput *in_input);
+
+
+int nl_input_parse(char const *in_utterance, NLInput **out_result);
+void nl_input_dispose(NLInput *in_input);
+
+
+#if DEBUG == 1
+void nl_input_debug(NLInput *in_input);
+#endif
 
 
 

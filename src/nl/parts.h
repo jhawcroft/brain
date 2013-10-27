@@ -45,6 +45,10 @@ typedef struct nlvalue_struct
 } nlvalue_t;
 
 
+
+#define NL_TOKFLG_TEXT 1
+
+
 typedef struct NLToken
 {
     int flags;
@@ -65,29 +69,27 @@ typedef struct NLSentence
 } NLSentence;
 
 
-typedef struct NLInput
-{
-    NLSentence **sentences;
-    int sentence_count;
-    
-} NLInput;
-
 
 
 NLSentence* nl_sentence_create(void);
 void nl_sentence_dispose(NLSentence *in_sentence);
+void nl_sentence_disposer_(void *in_context, void *in_item);
+
 
 NLToken* nl_sentence_insert_token(NLSentence *in_sentence, int in_at_index, NLToken *in_token);
 NLToken* nl_sentence_append_token(NLSentence *in_sentence, NLToken *in_token);
 NLToken* nl_sentence_remove_token(NLSentence *in_sentence, int in_index);
 
-NLSentence* nl_input_append_sentence(NLInput *in_input, NLSentence *in_sentence);
-NLSentence* nl_input_remove_sentence(NLInput *in_input, int in_index);
+
 
 
 NLToken* nl_token_create(char const *in_string, int in_length, int in_flags,
                          NLConceptRef in_concept, char const *in_value);
 void nl_token_dispose(NLToken *in_token);
+
+
+
+
 
 
 

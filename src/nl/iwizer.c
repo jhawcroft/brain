@@ -19,28 +19,30 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* input nl word-concept lookup */
 
-#include <stdlib.h>
+#include "common.h"
 
-#include "alloc.h"
+// job is to lookup words associated concepts and tag the words appropriately using a wordizer
 
-
-void* brain_alloc_(size_t in_size, int in_hint)
+int nl_wordize(NLInput *in_input, NLWordizer *in_wordizer)
 {
-    return malloc(in_size);
-}
-
-
-void* brain_realloc_(void *in_mem, size_t in_size, int in_hint)
-{
-    return realloc(in_mem, in_size);
-}
-
-
-void brain_free_(void *in_mem)
-{
-    free(in_mem);
+    return NL_OK;
 }
 
 
 
+/* DEPRECATED? */
+static void nl_lookup_concepts_(NLInput *in_input)
+{
+    /*for (int s = 0; s < in_input->sentence_count; s++)
+     {
+     NLSentence *sentence = in_input->sentences[s];
+     for (int t = 0; t < sentence->token_count; t++)
+     {
+     NLToken *token = sentence->tokens[t];
+     if (token->flags & NL_TOKEN_FLAGS_TEXT)
+     token->concepts = kb_token_text_to_concepts(token->characters);
+     }
+     }*/
+}

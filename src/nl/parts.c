@@ -60,6 +60,12 @@ void nl_sentence_dispose(NLSentence *in_sentence)
 }
 
 
+void nl_sentence_disposer_(void *in_context, void *in_item)
+{
+    nl_sentence_dispose(in_item);
+}
+
+
 NLToken* nl_sentence_insert_token(NLSentence *in_sentence, int in_at_index, NLToken *in_token)
 {
     NLToken **new_tokens = brain_realloc_(in_sentence->tokens,
@@ -148,31 +154,7 @@ void nl_token_dispose(NLToken *in_token)
 }
 
 
-/* Input */
 
-NLSentence* nl_input_append_sentence(NLInput *in_input, NLSentence *in_sentence)
-{
-    NLSentence **new_sentences
-    = brain_realloc_(in_input->sentences,
-                     sizeof(NLSentence*) * (in_input->sentence_count + 1),
-                     0);
-    if (!new_sentences) return NULL;
-    in_input->sentences = new_sentences;
-    new_sentences[in_input->sentence_count++] = in_sentence;
-    return in_sentence;
-}
-
-
-NLSentence* nl_input_remove_sentence(NLInput *in_input, int in_index)
-{
-    NLSentence *sentence = in_input->sentences[in_index];
-    if (! memmove(&(in_input->sentences[in_index]),
-                  &(in_input->sentences[in_index+1]),
-                  sizeof(NLSentence*) * (in_input->sentence_count - in_index - 1)) )
-        return NULL;
-    in_input->sentence_count--;
-    return sentence;
-}
 
 
 

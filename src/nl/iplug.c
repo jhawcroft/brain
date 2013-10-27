@@ -76,5 +76,11 @@ int nl_register_wordizer(NLWordizer *in_wordizer)
 }
 
 
+void nl_add_attribute(nlatts_t *in_atts, char const *in_att_name, char const *in_att_value)
+{
+    hashmap_add((Hashmap*)in_atts, strdup(in_att_name), strdup(in_att_value));
+}
+
+
 
 

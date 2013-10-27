@@ -41,6 +41,7 @@
 #include "nl.h"
 #include "parts.h"
 #include "context.h"
+#include "input.h"
 
 
 

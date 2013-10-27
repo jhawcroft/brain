@@ -39,7 +39,7 @@ static void plug_nl_words_shutdown(void *in_context)
 
 
 static int plug_nl_words_get_next_end(void *in_context, char const *in_characters, int in_length,
-                               int *out_end_offset, int *out_end_length)
+                               int *out_end_offset, int *out_end_length, nlatts_t *in_atts)
 {
     for (int i = 0; i < in_length; i++)
     {

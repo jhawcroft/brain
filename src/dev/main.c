@@ -19,6 +19,7 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* development test program */
 
 #include <stdio.h>
 #include <stdlib.h>

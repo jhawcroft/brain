@@ -21,8 +21,8 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef AI_NLPartA_IdeaA_set_h
-#define AI_NLPartA_IdeaA_set_h
+#ifndef JHW_PTRSET_H
+#define JHW_PTRSET_H
 
 typedef struct PtrSet_ PtrSet;
 

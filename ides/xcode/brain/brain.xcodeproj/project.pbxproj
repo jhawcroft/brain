@@ -21,6 +21,12 @@
 		03AC1B74181CD3BE009E66D9 /* glue.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B72181CD3BE009E66D9 /* glue.c */; };
 		03BFAEF0181CAAF50023011F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 03BFAEEF181CAAF50023011F /* main.c */; };
 		03D18C42181CDDDC00D7EFF1 /* ptrset.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C40181CDDDC00D7EFF1 /* ptrset.c */; };
+		03D18C44181CEC8A00D7EFF1 /* iparse.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C43181CEC8A00D7EFF1 /* iparse.c */; };
+		03D18C47181CEE7C00D7EFF1 /* isplit.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C46181CEE7C00D7EFF1 /* isplit.c */; };
+		03D18C49181CEF8300D7EFF1 /* itok.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C48181CEF8300D7EFF1 /* itok.c */; };
+		03D18C4B181CEF8900D7EFF1 /* iwizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C4A181CEF8900D7EFF1 /* iwizer.c */; };
+		03D18C4E181CFA8600D7EFF1 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C4C181CFA8600D7EFF1 /* array.c */; };
+		03D18C50181D030700D7EFF1 /* debug.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C4F181D030700D7EFF1 /* debug.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +66,14 @@
 		03BFAEEF181CAAF50023011F /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../../../../src/dev/main.c; sourceTree = "<group>"; };
 		03D18C40181CDDDC00D7EFF1 /* ptrset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ptrset.c; path = ../../../../src/cont/ptrset.c; sourceTree = "<group>"; };
 		03D18C41181CDDDC00D7EFF1 /* ptrset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ptrset.h; path = ../../../../src/cont/ptrset.h; sourceTree = "<group>"; };
+		03D18C43181CEC8A00D7EFF1 /* iparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iparse.c; path = ../../../../src/nl/iparse.c; sourceTree = "<group>"; };
+		03D18C45181CED0800D7EFF1 /* input.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = input.h; path = ../../../../src/nl/input.h; sourceTree = "<group>"; };
+		03D18C46181CEE7C00D7EFF1 /* isplit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = isplit.c; path = ../../../../src/nl/isplit.c; sourceTree = "<group>"; };
+		03D18C48181CEF8300D7EFF1 /* itok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = itok.c; path = ../../../../src/nl/itok.c; sourceTree = "<group>"; };
+		03D18C4A181CEF8900D7EFF1 /* iwizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iwizer.c; path = ../../../../src/nl/iwizer.c; sourceTree = "<group>"; };
+		03D18C4C181CFA8600D7EFF1 /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = array.c; path = ../../../../src/cont/array.c; sourceTree = "<group>"; };
+		03D18C4D181CFA8600D7EFF1 /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = array.h; path = ../../../../src/cont/array.h; sourceTree = "<group>"; };
+		03D18C4F181D030700D7EFF1 /* debug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = debug.c; path = ../../../../src/nl/debug.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,12 +90,14 @@
 		03AC1B4F181CB423009E66D9 /* cont */ = {
 			isa = PBXGroup;
 			children = (
-				03AC1B72181CD3BE009E66D9 /* glue.c */,
 				03AC1B73181CD3BE009E66D9 /* glue.h */,
+				03AC1B72181CD3BE009E66D9 /* glue.c */,
 				03AC1B6C181CCEB8009E66D9 /* hashmap.h */,
 				03AC1B6B181CCEB8009E66D9 /* hashmap.c */,
 				03D18C41181CDDDC00D7EFF1 /* ptrset.h */,
 				03D18C40181CDDDC00D7EFF1 /* ptrset.c */,
+				03D18C4D181CFA8600D7EFF1 /* array.h */,
+				03D18C4C181CFA8600D7EFF1 /* array.c */,
 			);
 			name = cont;
 			sourceTree = "<group>";
@@ -175,10 +191,16 @@
 				03AC1B52181CBCB9009E66D9 /* common.h */,
 				03AC1B53181CBF1E009E66D9 /* parts.h */,
 				03AC1B51181CBC57009E66D9 /* context.h */,
+				03D18C45181CED0800D7EFF1 /* input.h */,
 				03AC1B4D181CAC04009E66D9 /* init.c */,
 				03AC1B61181CC28F009E66D9 /* iplug.c */,
 				03AC1B69181CCBC6009E66D9 /* parts.c */,
+				03D18C43181CEC8A00D7EFF1 /* iparse.c */,
+				03D18C46181CEE7C00D7EFF1 /* isplit.c */,
+				03D18C48181CEF8300D7EFF1 /* itok.c */,
+				03D18C4A181CEF8900D7EFF1 /* iwizer.c */,
 				03AC1B54181CBF92009E66D9 /* plug */,
+				03D18C4F181D030700D7EFF1 /* debug.c */,
 			);
 			name = nl;
 			sourceTree = "<group>";
@@ -235,18 +257,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				03AC1B74181CD3BE009E66D9 /* glue.c in Sources */,
+				03D18C49181CEF8300D7EFF1 /* itok.c in Sources */,
 				03AC1B5E181CBFA0009E66D9 /* sentences.c in Sources */,
 				03AC1B62181CC28F009E66D9 /* iplug.c in Sources */,
 				03BFAEF0181CAAF50023011F /* main.c in Sources */,
+				03D18C4E181CFA8600D7EFF1 /* array.c in Sources */,
 				03AC1B66181CC502009E66D9 /* alloc.c in Sources */,
 				03AC1B5C181CBFA0009E66D9 /* builtins.c in Sources */,
 				03D18C42181CDDDC00D7EFF1 /* ptrset.c in Sources */,
 				03AC1B5D181CBFA0009E66D9 /* emoticons.c in Sources */,
 				03AC1B6A181CCBC6009E66D9 /* parts.c in Sources */,
+				03D18C50181D030700D7EFF1 /* debug.c in Sources */,
 				03AC1B5F181CBFA0009E66D9 /* wordizer.c in Sources */,
 				03AC1B6D181CCEB8009E66D9 /* hashmap.c in Sources */,
 				03AC1B5B181CBFA0009E66D9 /* acronyms.c in Sources */,
+				03D18C4B181CEF8900D7EFF1 /* iwizer.c in Sources */,
+				03D18C44181CEC8A00D7EFF1 /* iparse.c in Sources */,
 				03AC1B4E181CAC04009E66D9 /* init.c in Sources */,
+				03D18C47181CEE7C00D7EFF1 /* isplit.c in Sources */,
 				03AC1B60181CBFA0009E66D9 /* words.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,6 +353,10 @@
 		03BFAEEA181C9FA60023011F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"OTHER_CFLAGS[arch=*]" = (
+					"-pedantic",
+					"-Wunused-result",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;

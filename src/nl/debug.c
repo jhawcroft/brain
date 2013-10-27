@@ -19,28 +19,35 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* natural language debug routines */
 
-#include <stdlib.h>
+#include <stdio.h>
 
-#include "alloc.h"
+#include "common.h"
 
 
-void* brain_alloc_(size_t in_size, int in_hint)
+#if DEBUG == 1
+
+
+void nl_input_debug(NLInput *in_input)
 {
-    return malloc(in_size);
+    printf("nl_input_debug():\n");
+    
+    /* enumerate all sentences */
+    for (int i = 0; i < array_count(in_input->sentences); i++)
+    {
+        NLSentence *sentence = array_item(in_input->sentences, i);
+        printf("Sentence %d:\n", (i+1));
+        
+        /* enumerate tokens */
+        for (int t = 0; t < sentence->token_count; t++)
+        {
+            NLToken *token = sentence->tokens[t];
+            printf("Token %d: flags=%04X, chars=\"%s\" (%d)\n", (t+1), token->flags, token->characters, token->length);
+        }
+    }
 }
 
 
-void* brain_realloc_(void *in_mem, size_t in_size, int in_hint)
-{
-    return realloc(in_mem, in_size);
-}
 
-
-void brain_free_(void *in_mem)
-{
-    free(in_mem);
-}
-
-
-
+#endif

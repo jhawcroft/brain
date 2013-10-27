@@ -21,8 +21,8 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef JoshHashMap_hashmap_h
-#define JoshHashMap_hashmap_h
+#ifndef JHW_HASHMAP_H
+#define JHW_HASHMAP_H
 
 /* Types */
 

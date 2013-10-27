@@ -60,10 +60,12 @@ typedef struct NLWordizer
 
 
 
+typedef struct nlatts_struct nlatts_t;
+
 typedef int (*NLSplitterStartup) (void **out_context);
 typedef void (*NLSplitterShutdown) (void *in_context);
 typedef int (*NLSplitterGetNextEndPoint) (void *in_context, char const *in_characters, int in_length,
-int *out_end_offset, int *out_end_length);
+int *out_end_offset, int *out_end_length, nlatts_t *in_atts);
 
 typedef struct NLSplitter
 {
@@ -82,6 +84,9 @@ enum
     NL_EMEM,
     NL_ESEARCH,
 };
+
+
+void nl_add_attribute(nlatts_t *in_atts, char const *in_att_name, char const *in_att_value);
 
 
 #endif
