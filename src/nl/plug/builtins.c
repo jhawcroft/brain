@@ -19,26 +19,30 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* builtin NLIP plugins; loader */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "nl.h"
+#include "../common.h"
 
 
-void fatal(char const *in_message)
+void nli_bi_plug_acronym_load(void);
+void nli_bi_plug_emoticon_load(void);
+
+void nli_bi_plug_wordizer_load(void);
+
+void nli_bi_plug_ss_load(void);
+void nli_bi_plug_ws_load(void);
+
+
+void nli_load_bi_plugs_(void)
 {
-    printf("fatal error: %s\n", in_message);
-    abort();
+    nli_bi_plug_acronym_load();
+    nli_bi_plug_emoticon_load();
+    
+    nli_bi_plug_wordizer_load();
+    
+    nli_bi_plug_ss_load();
+    nli_bi_plug_ws_load();
 }
 
 
-int main(int argc, const char * argv[])
-{
-    if (nl_startup()) fatal("couldn't start NL");
-    
-    
-    
-    return 0;
-}
 

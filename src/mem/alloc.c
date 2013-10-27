@@ -20,25 +20,27 @@
  
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 
-#include "nl.h"
+#include "alloc.h"
 
 
-void fatal(char const *in_message)
+void* brain_alloc_(size_t in_size, int in_hint)
 {
-    printf("fatal error: %s\n", in_message);
-    abort();
+    return malloc(in_size);
 }
 
 
-int main(int argc, const char * argv[])
+void* brain_realloc_(void *in_mem, size_t in_size, int in_hint)
 {
-    if (nl_startup()) fatal("couldn't start NL");
-    
-    
-    
-    return 0;
+    return realloc(in_mem, in_size);
 }
+
+
+void brain_free_(void *in_mem)
+{
+    return free(in_mem);
+}
+
+
 

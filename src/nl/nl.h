@@ -27,6 +27,9 @@
 #define BRAIN_NL_H
 
 
+#include "../../includes/nlip.h"
+
+
 /* initalize the natural language processing system */
 int nl_startup(void);
 
@@ -39,14 +42,6 @@ typedef struct nlmeaning_struct
     int argument_count;
     
 } nlmeaning_t;
-
-
-/* return/error codes */
-enum
-{
-    NL_OK = 0,
-    NL_EMEM,
-};
 
 
 /* converts an utterance (1 or more sentences) into a meaning (0 or more meanings) */
@@ -66,7 +61,7 @@ int nl_meanings_to_output(nlmeaning_t *in_meanings, int in_count, char **out_out
 void nl_meanings_dispose(nlmeaning_t *in_meanings, int in_count);
 void nl_string_dispose(char *in_string);
 
-void nl_shutdown(void);
+int nl_shutdown(void);
 
 
 

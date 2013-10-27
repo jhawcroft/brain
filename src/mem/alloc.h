@@ -19,26 +19,21 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* memory allocator */
 
-#include <stdio.h>
+#ifndef BRAIN_ALLOC_H
+#define BRAIN_ALLOC_H
+
 #include <stdlib.h>
 
-#include "nl.h"
+
+void* brain_alloc_(size_t in_size, int in_hint);
+void* brain_realloc_(void *in_mem, size_t in_size, int in_hint);
+void brain_free_(void *in_mem);
 
 
-void fatal(char const *in_message)
-{
-    printf("fatal error: %s\n", in_message);
-    abort();
-}
+#endif
 
 
-int main(int argc, const char * argv[])
-{
-    if (nl_startup()) fatal("couldn't start NL");
-    
-    
-    
-    return 0;
-}
+
 

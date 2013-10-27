@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03AC1B4E181CAC04009E66D9 /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B4D181CAC04009E66D9 /* init.c */; };
+		03AC1B5B181CBFA0009E66D9 /* acronyms.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B55181CBFA0009E66D9 /* acronyms.c */; };
+		03AC1B5C181CBFA0009E66D9 /* builtins.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B56181CBFA0009E66D9 /* builtins.c */; };
+		03AC1B5D181CBFA0009E66D9 /* emoticons.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B57181CBFA0009E66D9 /* emoticons.c */; };
+		03AC1B5E181CBFA0009E66D9 /* sentences.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B58181CBFA0009E66D9 /* sentences.c */; };
+		03AC1B5F181CBFA0009E66D9 /* wordizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B59181CBFA0009E66D9 /* wordizer.c */; };
+		03AC1B60181CBFA0009E66D9 /* words.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B5A181CBFA0009E66D9 /* words.c */; };
+		03AC1B62181CC28F009E66D9 /* iplug.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B61181CC28F009E66D9 /* iplug.c */; };
+		03AC1B66181CC502009E66D9 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B64181CC502009E66D9 /* alloc.c */; };
 		03BFAEF0181CAAF50023011F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 03BFAEEF181CAAF50023011F /* main.c */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +33,20 @@
 
 /* Begin PBXFileReference section */
 		03AC1B4C181CAB1A009E66D9 /* nl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nl.h; path = ../../../../src/nl/nl.h; sourceTree = "<group>"; };
+		03AC1B4D181CAC04009E66D9 /* init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = init.c; path = ../../../../src/nl/init.c; sourceTree = "<group>"; };
+		03AC1B51181CBC57009E66D9 /* context.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = context.h; path = ../../../../src/nl/context.h; sourceTree = "<group>"; };
+		03AC1B52181CBCB9009E66D9 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = common.h; path = ../../../../src/nl/common.h; sourceTree = "<group>"; };
+		03AC1B53181CBF1E009E66D9 /* parts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = parts.h; path = ../../../../src/nl/parts.h; sourceTree = "<group>"; };
+		03AC1B55181CBFA0009E66D9 /* acronyms.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = acronyms.c; path = ../../../../src/nl/plug/acronyms.c; sourceTree = "<group>"; };
+		03AC1B56181CBFA0009E66D9 /* builtins.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = builtins.c; path = ../../../../src/nl/plug/builtins.c; sourceTree = "<group>"; };
+		03AC1B57181CBFA0009E66D9 /* emoticons.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = emoticons.c; path = ../../../../src/nl/plug/emoticons.c; sourceTree = "<group>"; };
+		03AC1B58181CBFA0009E66D9 /* sentences.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sentences.c; path = ../../../../src/nl/plug/sentences.c; sourceTree = "<group>"; };
+		03AC1B59181CBFA0009E66D9 /* wordizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = wordizer.c; path = ../../../../src/nl/plug/wordizer.c; sourceTree = "<group>"; };
+		03AC1B5A181CBFA0009E66D9 /* words.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = words.c; path = ../../../../src/nl/plug/words.c; sourceTree = "<group>"; };
+		03AC1B61181CC28F009E66D9 /* iplug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = iplug.c; path = ../../../../src/nl/iplug.c; sourceTree = "<group>"; };
+		03AC1B64181CC502009E66D9 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = ../../../../src/mem/alloc.c; sourceTree = "<group>"; };
+		03AC1B65181CC502009E66D9 /* alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = alloc.h; path = ../../../../src/mem/alloc.h; sourceTree = "<group>"; };
+		03AC1B68181CC73B009E66D9 /* nlip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = nlip.h; path = ../../../../includes/nlip.h; sourceTree = "<group>"; };
 		03BFAEE0181C9FA60023011F /* brain */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = brain; sourceTree = BUILT_PRODUCTS_DIR; };
 		03BFAEEF181CAAF50023011F /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../../../../src/dev/main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -39,6 +62,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03AC1B4F181CB423009E66D9 /* cont */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = cont;
+			sourceTree = "<group>";
+		};
+		03AC1B50181CB435009E66D9 /* util */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
+		03AC1B54181CBF92009E66D9 /* plug */ = {
+			isa = PBXGroup;
+			children = (
+				03AC1B56181CBFA0009E66D9 /* builtins.c */,
+				03AC1B55181CBFA0009E66D9 /* acronyms.c */,
+				03AC1B57181CBFA0009E66D9 /* emoticons.c */,
+				03AC1B58181CBFA0009E66D9 /* sentences.c */,
+				03AC1B5A181CBFA0009E66D9 /* words.c */,
+				03AC1B59181CBFA0009E66D9 /* wordizer.c */,
+			);
+			name = plug;
+			sourceTree = "<group>";
+		};
+		03AC1B63181CC4F6009E66D9 /* mem */ = {
+			isa = PBXGroup;
+			children = (
+				03AC1B64181CC502009E66D9 /* alloc.c */,
+				03AC1B65181CC502009E66D9 /* alloc.h */,
+			);
+			name = mem;
+			sourceTree = "<group>";
+		};
+		03AC1B67181CC733009E66D9 /* includes */ = {
+			isa = PBXGroup;
+			children = (
+				03AC1B68181CC73B009E66D9 /* nlip.h */,
+			);
+			name = includes;
+			sourceTree = "<group>";
+		};
 		03BFAED7181C9FA60023011F = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +125,7 @@
 		03BFAEE2181C9FA60023011F /* brain */ = {
 			isa = PBXGroup;
 			children = (
+				03AC1B67181CC733009E66D9 /* includes */,
 				03BFAEEC181CAAD90023011F /* src */,
 			);
 			path = brain;
@@ -66,6 +134,9 @@
 		03BFAEEC181CAAD90023011F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				03AC1B63181CC4F6009E66D9 /* mem */,
+				03AC1B50181CB435009E66D9 /* util */,
+				03AC1B4F181CB423009E66D9 /* cont */,
 				03BFAEED181CAAE20023011F /* dev */,
 				03BFAEEE181CAAE70023011F /* nl */,
 			);
@@ -84,6 +155,12 @@
 			isa = PBXGroup;
 			children = (
 				03AC1B4C181CAB1A009E66D9 /* nl.h */,
+				03AC1B52181CBCB9009E66D9 /* common.h */,
+				03AC1B53181CBF1E009E66D9 /* parts.h */,
+				03AC1B51181CBC57009E66D9 /* context.h */,
+				03AC1B4D181CAC04009E66D9 /* init.c */,
+				03AC1B61181CC28F009E66D9 /* iplug.c */,
+				03AC1B54181CBF92009E66D9 /* plug */,
 			);
 			name = nl;
 			sourceTree = "<group>";
@@ -139,7 +216,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03AC1B5E181CBFA0009E66D9 /* sentences.c in Sources */,
+				03AC1B62181CC28F009E66D9 /* iplug.c in Sources */,
 				03BFAEF0181CAAF50023011F /* main.c in Sources */,
+				03AC1B66181CC502009E66D9 /* alloc.c in Sources */,
+				03AC1B5C181CBFA0009E66D9 /* builtins.c in Sources */,
+				03AC1B5D181CBFA0009E66D9 /* emoticons.c in Sources */,
+				03AC1B5F181CBFA0009E66D9 /* wordizer.c in Sources */,
+				03AC1B5B181CBFA0009E66D9 /* acronyms.c in Sources */,
+				03AC1B4E181CAC04009E66D9 /* init.c in Sources */,
+				03AC1B60181CBFA0009E66D9 /* words.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,25 +20,36 @@
  
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "nl.h"
+#ifndef BRAIN_NL_CONTEXT_H
+#define BRAIN_NL_CONTEXT_H
 
 
-void fatal(char const *in_message)
+#include "common.h"
+#include "parts.h"
+
+
+
+
+
+typedef struct NLContext
 {
-    printf("fatal error: %s\n", in_message);
-    abort();
-}
+    NLTokenizer *tokenizers;
+    int tokenizer_count;
+    NLSplitter *word_splitter;
+    NLSplitter *sentence_splitter;
+    NLWordizer *wordizer;
+    
+} NLContext;
 
 
-int main(int argc, const char * argv[])
-{
-    if (nl_startup()) fatal("couldn't start NL");
-    
-    
-    
-    return 0;
-}
+extern NLContext g_nl_context;
 
+
+int nl_register_tokenizer(NLTokenizer *in_tokenizer);
+int nl_register_word_splitter(NLSplitter *in_splitter);
+int nl_register_sentence_splitter(NLSplitter *in_splitter);
+int nl_register_wordizer(NLWordizer *in_wordizer);
+
+
+
+#endif

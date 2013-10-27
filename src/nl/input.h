@@ -20,25 +20,21 @@
  
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "nl.h"
+#ifndef BRAIN_NL_INPUT_H
+#define BRAIN_NL_INPUT_H
 
 
-void fatal(char const *in_message)
-{
-    printf("fatal error: %s\n", in_message);
-    abort();
-}
+#include "common.h"
 
 
-int main(int argc, const char * argv[])
-{
-    if (nl_startup()) fatal("couldn't start NL");
-    
-    
-    
-    return 0;
-}
 
+void nl_tokenize(NLInput *in_input, NLTokenizer *in_tokenizer);
+void nl_split_sentences(NLInput *in_input, NLSplitter *in_splitter);
+void nl_split_words(NLInput *in_input, NLSplitter *in_splitter);
+void nl_wordize(NLInput *in_input, NLWordizer *in_wordizer);
+void nl_trim_empty_sentences(NLInput *in_input);
+NLInput* nl_input_parse(char const *in_utterance);
+
+
+
+#endif

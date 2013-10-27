@@ -20,25 +20,27 @@
  
  */
 
-#include <stdio.h>
+#ifndef BRAIN_NL_COMMON_H
+#define BRAIN_NL_COMMON_H
+
+
 #include <stdlib.h>
+#include <string.h>
+
+
+#include "alloc.h"
+
+
+#include "../cont/set.h"
+#include "../cont/array.h"
+#include "../cont/hashmap.h"
+
+
 
 #include "nl.h"
+#include "parts.h"
+#include "context.h"
 
 
-void fatal(char const *in_message)
-{
-    printf("fatal error: %s\n", in_message);
-    abort();
-}
 
-
-int main(int argc, const char * argv[])
-{
-    if (nl_startup()) fatal("couldn't start NL");
-    
-    
-    
-    return 0;
-}
-
+#endif

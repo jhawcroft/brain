@@ -19,26 +19,29 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* initalization and shutdown routines */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "nl.h"
+#include "common.h"
 
 
-void fatal(char const *in_message)
+NLContext g_nl_context;
+
+
+int nl_startup(void)
 {
-    printf("fatal error: %s\n", in_message);
-    abort();
+    memset(&g_nl_context, 0, sizeof(NLContext));
+    
+    void nli_load_bi_plugs_(void);
+    nli_load_bi_plugs_();
+    
+    return NL_OK;
 }
 
 
-int main(int argc, const char * argv[])
+int nl_shutdown(void)
 {
-    if (nl_startup()) fatal("couldn't start NL");
     
-    
-    
-    return 0;
+    return NL_OK;
 }
+
 
