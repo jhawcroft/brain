@@ -1,6 +1,6 @@
 /*
  Hashmap
- v. 1.0
+ v. 1.1
  Copyright 2013 Joshua Hawcroft <http://www.joshhawcroft.com>
  
  ----------------------------------------------------------------------
@@ -30,6 +30,8 @@ typedef struct Hashmap_ Hashmap;
 
 typedef long (*HashmapCBHash) (void *in_context, void *in_key);
 typedef int (*HashmapCBCompare) (void *in_context, void *in_left, void *in_right);
+typedef void (*HashmapCBDisposeKey) (void *in_context, void *in_key);
+typedef void (*HashmapCBDisposeValue) (void *in_context, void *in_key, void *in_value);
 
 
 /* Constants */
@@ -48,16 +50,19 @@ enum {
 
 /* API */
 
-Hashmap* hashmap_create(int in_buckets, void *in_context, HashmapCBHash in_hash_func, HashmapCBCompare in_compare_func);
+Hashmap* hashmap_create(int in_buckets, void *in_context,
+                        HashmapCBHash in_hash_func, HashmapCBCompare in_compare_func,
+                        HashmapCBDisposeKey in_dis_key, HashmapCBDisposeValue in_dis_value);
 void hashmap_dispose(Hashmap *in_hashmap);
 
 int hashmap_add(Hashmap *in_hashmap, void *in_key, void *in_item);
-int hashmap_remove(Hashmap *in_hashmap, void *in_key);
+int hashmap_remove(Hashmap *in_hashmap, void *in_key, void **out_key, void **out_value);
 void* hashmap_item(Hashmap *in_hashmap, void *in_key);
 void hashmap_clear(Hashmap *in_hashmap);
 int hashmap_contains(Hashmap *in_hashmap, void *in_key);
 unsigned long hashmap_count(Hashmap *in_hashmap);
-void hashmap_enumerate(Hashmap *in_hashmap, void (*in_enumerator) (void *in_context, void *in_key, void *in_item));
+void hashmap_enumerate(Hashmap *in_hashmap, void (*in_enumerator) (void *in_context,
+                                                                   void *in_key, void *in_item));
 
 
 /* Convenience Default Implementations */

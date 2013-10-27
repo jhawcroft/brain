@@ -19,28 +19,15 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* container glue for the BRAIN project */
 
-#ifndef BRAIN_NL_COMMON_H
-#define BRAIN_NL_COMMON_H
-
-
-#include <stdlib.h>
-#include <string.h>
+#ifndef BRAIN_CONT_GLUE_H
+#define BRAIN_CONT_GLUE_H
 
 
-#include "alloc.h"
-
-
-#include "../cont/glue.h"
-#include "../cont/ptrset.h"
-#include "../cont/array.h"
-#include "../cont/hashmap.h"
-
-
-
-#include "nl.h"
-#include "parts.h"
-#include "context.h"
+void cont_dispose_key_(void *in_context, void *in_key);
+void cont_dispose_key_value_(void *in_context, void *in_key, void *in_value);
+void cont_dispose_item_(void *in_context, void *in_item);
 
 
 

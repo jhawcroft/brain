@@ -20,28 +20,29 @@
  
  */
 
-#ifndef BRAIN_NL_COMMON_H
-#define BRAIN_NL_COMMON_H
-
-
-#include <stdlib.h>
-#include <string.h>
-
-
-#include "alloc.h"
-
-
-#include "../cont/glue.h"
-#include "../cont/ptrset.h"
-#include "../cont/array.h"
-#include "../cont/hashmap.h"
+#include "glue.h"
+#include "../mem/alloc.h"
 
 
 
-#include "nl.h"
-#include "parts.h"
-#include "context.h"
+void cont_dispose_key_(void *in_context, void *in_key)
+{
+    if (in_key)
+        brain_free_(in_key);
+}
 
 
+void cont_dispose_key_value_(void *in_context, void *in_key, void *in_value)
+{
+    if (in_value)
+        brain_free_(in_value);
+}
 
-#endif
+
+void cont_dispose_item_(void *in_context, void *in_item)
+{
+    if (in_item)
+        brain_free_(in_item);
+}
+
+

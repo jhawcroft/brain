@@ -1,6 +1,6 @@
 /*
  Hashmap
- v. 1.0
+ v. 1.1
  Copyright 2013 Joshua Hawcroft <http://www.joshhawcroft.com>
  
  ----------------------------------------------------------------------
@@ -23,8 +23,6 @@
 
 #include <stdlib.h>
 #include <string.h> /* strcmp used in default string comparator */
-
-#include "ifsai.h"
 
 #include "hashmap.h"
 
@@ -66,6 +64,8 @@ struct Hashmap_
     void *context;
     HashmapCBHash cb_hash;
     HashmapCBCompare cb_compare;
+    HashmapCBDisposeKey cb_dis_key;
+    HashmapCBDisposeValue cb_dis_value;
 };
 
 
@@ -74,7 +74,36 @@ struct Hashmap_
  Implementation
  */
 
-Hashmap* hashmap_create(int in_buckets, void *in_context, HashmapCBHash in_hash_func, HashmapCBCompare in_compare_func)
+
+#define IFSAI_INDEX_TYPE unsigned long
+static IFSAI_INDEX_TYPE ifsai(void *in_list, void *in_item,
+                       IFSAI_INDEX_TYPE (*in_func_count) (void *in_list),
+                       int (*in_func_compare) (void *in_list, void *in_left, void *in_right),
+                       void* (*in_func_get) (void *in_list, IFSAI_INDEX_TYPE in_index))
+{
+    IFSAI_INDEX_TYPE count = in_func_count(in_list);
+    if (count == 0) return 0;
+    IFSAI_INDEX_TYPE range_start = 0;
+    IFSAI_INDEX_TYPE range_end = count - 1;
+    while (range_end - range_start > 0)
+    {
+        IFSAI_INDEX_TYPE range_middle = (range_end - range_start) / 2 + range_start;
+        void *middle_item = in_func_get(in_list, range_middle);
+        int comp = in_func_compare(in_list, in_item, middle_item);
+        if (comp < 0) range_end = range_middle;
+        else if (comp == 0) return range_middle;
+        else range_start = range_middle + 1;
+    }
+    int comp = in_func_compare(in_list, in_func_get(in_list, range_start), in_item);
+    if (comp < 0) return range_start + 1;
+    else return range_start;
+}
+
+
+
+Hashmap* hashmap_create(int in_buckets, void *in_context,
+                        HashmapCBHash in_hash_func, HashmapCBCompare in_compare_func,
+                        HashmapCBDisposeKey in_dis_key, HashmapCBDisposeValue in_dis_value)
 {
     Hashmap *result = calloc(1, sizeof(Hashmap));
     if (!result) return NULL;
@@ -90,6 +119,8 @@ Hashmap* hashmap_create(int in_buckets, void *in_context, HashmapCBHash in_hash_
     result->context = in_context;
     result->cb_hash = in_hash_func;
     result->cb_compare = in_compare_func;
+    result->cb_dis_key = in_dis_key;
+    result->cb_dis_value = in_dis_value;
     
     return result;
 }
@@ -102,6 +133,10 @@ void hashmap_dispose(Hashmap *in_hashmap)
         Bucket *bucket = &(in_hashmap->buckets[b]);
         for (unsigned long p = 0; p < bucket->pair_count; p++)
         {
+            if (in_hashmap->cb_dis_value)
+                in_hashmap->cb_dis_value(in_hashmap->context, bucket->pairs[p]->key, bucket->pairs[p]->item);
+            if ((in_hashmap->cb_dis_key) && (bucket->pairs[p]->key))
+                in_hashmap->cb_dis_key(in_hashmap->context, bucket->pairs[p]->key);
             free(bucket->pairs[p]);
         }
     }
@@ -173,11 +208,27 @@ int hashmap_add(Hashmap *in_hashmap, void *in_key, void *in_item)
 }
 
 
-int hashmap_remove(Hashmap *in_hashmap, void *in_key)
+int hashmap_remove(Hashmap *in_hashmap, void *in_key, void **out_key, void **out_value)
 {
     Bucket *bucket;
     unsigned long pair_index = pair_index_(in_hashmap, in_key, &bucket);
     if (!PAIR_MATCHES) return HASHMAP_NOT_FOUND;
+    
+    if (out_value) *out_value = bucket->pairs[pair_index]->item;
+    if (out_key) *out_key = bucket->pairs[pair_index]->key;
+    
+    if (in_hashmap->cb_dis_value)
+    {
+        in_hashmap->cb_dis_value(in_hashmap->context, bucket->pairs[pair_index]->key,
+                                 bucket->pairs[pair_index]->item);
+        if (out_value) *out_value = NULL;
+    }
+    if ((in_hashmap->cb_dis_key) && (bucket->pairs[pair_index]->key))
+    {
+        in_hashmap->cb_dis_key(in_hashmap->context, bucket->pairs[pair_index]->key);
+        if (out_key) *out_key = NULL;
+    }
+    
     free(bucket->pairs[pair_index]);
     memmove(&(bucket->pairs[pair_index]), &(bucket->pairs[pair_index + 1]), sizeof(Pair*) * (bucket->pair_count - pair_index - 1));
     bucket->pair_count--;
@@ -202,6 +253,10 @@ void hashmap_clear(Hashmap *in_hashmap)
         Bucket *bucket = &(in_hashmap->buckets[b]);
         for (unsigned long p = 0; p < bucket->pair_count; p++)
         {
+            if (in_hashmap->cb_dis_value)
+                in_hashmap->cb_dis_value(in_hashmap->context, bucket->pairs[p]->key, bucket->pairs[p]->item);
+            if ((in_hashmap->cb_dis_key) && (bucket->pairs[p]->key))
+                in_hashmap->cb_dis_key(in_hashmap->context, bucket->pairs[p]->key);
             free(bucket->pairs[p]);
         }
         bucket->pair_count = 0;

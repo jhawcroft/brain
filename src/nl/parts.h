@@ -50,7 +50,7 @@ typedef struct NLToken
     int flags;
     char *characters;
     int length;
-    Set *concepts; /* NLConceptRef */
+    PtrSet *concepts; /* NLConceptRef */
     nlvalue_t value;
     
 } NLToken;
@@ -75,17 +75,19 @@ typedef struct NLInput
 
 
 NLSentence* nl_sentence_create(void);
-void nl_input_append_sentence(NLInput *in_input, NLSentence *in_sentence);
-NLSentence* nl_input_remove_sentence(NLInput *in_input, int in_index);
 void nl_sentence_dispose(NLSentence *in_sentence);
 
-NLToken* nl_token_create(char const *in_string, int in_length, int in_flags, NLConceptRef in_concept, char const *in_value);
-void nl_token_dispose(NLToken *in_token);
-void nl_sentence_insert_token(NLSentence *in_sentence, int in_at_index, NLToken *in_token);
-void nl_sentence_append_token(NLSentence *in_sentence, NLToken *in_token);
+NLToken* nl_sentence_insert_token(NLSentence *in_sentence, int in_at_index, NLToken *in_token);
+NLToken* nl_sentence_append_token(NLSentence *in_sentence, NLToken *in_token);
 NLToken* nl_sentence_remove_token(NLSentence *in_sentence, int in_index);
 
+NLSentence* nl_input_append_sentence(NLInput *in_input, NLSentence *in_sentence);
+NLSentence* nl_input_remove_sentence(NLInput *in_input, int in_index);
 
+
+NLToken* nl_token_create(char const *in_string, int in_length, int in_flags,
+                         NLConceptRef in_concept, char const *in_value);
+void nl_token_dispose(NLToken *in_token);
 
 
 

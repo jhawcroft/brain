@@ -16,7 +16,11 @@
 		03AC1B60181CBFA0009E66D9 /* words.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B5A181CBFA0009E66D9 /* words.c */; };
 		03AC1B62181CC28F009E66D9 /* iplug.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B61181CC28F009E66D9 /* iplug.c */; };
 		03AC1B66181CC502009E66D9 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B64181CC502009E66D9 /* alloc.c */; };
+		03AC1B6A181CCBC6009E66D9 /* parts.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B69181CCBC6009E66D9 /* parts.c */; };
+		03AC1B6D181CCEB8009E66D9 /* hashmap.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B6B181CCEB8009E66D9 /* hashmap.c */; };
+		03AC1B74181CD3BE009E66D9 /* glue.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B72181CD3BE009E66D9 /* glue.c */; };
 		03BFAEF0181CAAF50023011F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 03BFAEEF181CAAF50023011F /* main.c */; };
+		03D18C42181CDDDC00D7EFF1 /* ptrset.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C40181CDDDC00D7EFF1 /* ptrset.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,8 +51,15 @@
 		03AC1B64181CC502009E66D9 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alloc.c; path = ../../../../src/mem/alloc.c; sourceTree = "<group>"; };
 		03AC1B65181CC502009E66D9 /* alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = alloc.h; path = ../../../../src/mem/alloc.h; sourceTree = "<group>"; };
 		03AC1B68181CC73B009E66D9 /* nlip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = nlip.h; path = ../../../../includes/nlip.h; sourceTree = "<group>"; };
+		03AC1B69181CCBC6009E66D9 /* parts.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parts.c; path = ../../../../src/nl/parts.c; sourceTree = "<group>"; };
+		03AC1B6B181CCEB8009E66D9 /* hashmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hashmap.c; path = ../../../../src/cont/hashmap.c; sourceTree = "<group>"; };
+		03AC1B6C181CCEB8009E66D9 /* hashmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashmap.h; path = ../../../../src/cont/hashmap.h; sourceTree = "<group>"; };
+		03AC1B72181CD3BE009E66D9 /* glue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = glue.c; path = ../../../../src/cont/glue.c; sourceTree = "<group>"; };
+		03AC1B73181CD3BE009E66D9 /* glue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glue.h; path = ../../../../src/cont/glue.h; sourceTree = "<group>"; };
 		03BFAEE0181C9FA60023011F /* brain */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = brain; sourceTree = BUILT_PRODUCTS_DIR; };
 		03BFAEEF181CAAF50023011F /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../../../../src/dev/main.c; sourceTree = "<group>"; };
+		03D18C40181CDDDC00D7EFF1 /* ptrset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ptrset.c; path = ../../../../src/cont/ptrset.c; sourceTree = "<group>"; };
+		03D18C41181CDDDC00D7EFF1 /* ptrset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ptrset.h; path = ../../../../src/cont/ptrset.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +76,12 @@
 		03AC1B4F181CB423009E66D9 /* cont */ = {
 			isa = PBXGroup;
 			children = (
+				03AC1B72181CD3BE009E66D9 /* glue.c */,
+				03AC1B73181CD3BE009E66D9 /* glue.h */,
+				03AC1B6C181CCEB8009E66D9 /* hashmap.h */,
+				03AC1B6B181CCEB8009E66D9 /* hashmap.c */,
+				03D18C41181CDDDC00D7EFF1 /* ptrset.h */,
+				03D18C40181CDDDC00D7EFF1 /* ptrset.c */,
 			);
 			name = cont;
 			sourceTree = "<group>";
@@ -160,6 +177,7 @@
 				03AC1B51181CBC57009E66D9 /* context.h */,
 				03AC1B4D181CAC04009E66D9 /* init.c */,
 				03AC1B61181CC28F009E66D9 /* iplug.c */,
+				03AC1B69181CCBC6009E66D9 /* parts.c */,
 				03AC1B54181CBF92009E66D9 /* plug */,
 			);
 			name = nl;
@@ -216,13 +234,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03AC1B74181CD3BE009E66D9 /* glue.c in Sources */,
 				03AC1B5E181CBFA0009E66D9 /* sentences.c in Sources */,
 				03AC1B62181CC28F009E66D9 /* iplug.c in Sources */,
 				03BFAEF0181CAAF50023011F /* main.c in Sources */,
 				03AC1B66181CC502009E66D9 /* alloc.c in Sources */,
 				03AC1B5C181CBFA0009E66D9 /* builtins.c in Sources */,
+				03D18C42181CDDDC00D7EFF1 /* ptrset.c in Sources */,
 				03AC1B5D181CBFA0009E66D9 /* emoticons.c in Sources */,
+				03AC1B6A181CCBC6009E66D9 /* parts.c in Sources */,
 				03AC1B5F181CBFA0009E66D9 /* wordizer.c in Sources */,
+				03AC1B6D181CCEB8009E66D9 /* hashmap.c in Sources */,
 				03AC1B5B181CBFA0009E66D9 /* acronyms.c in Sources */,
 				03AC1B4E181CAC04009E66D9 /* init.c in Sources */,
 				03AC1B60181CBFA0009E66D9 /* words.c in Sources */,
