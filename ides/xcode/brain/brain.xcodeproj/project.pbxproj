@@ -6,6 +6,10 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		03BFAEF0181CAAF50023011F /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 03BFAEEF181CAAF50023011F /* main.c */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		03BFAEDE181C9FA60023011F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -19,7 +23,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03AC1B4C181CAB1A009E66D9 /* nl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nl.h; path = ../../../../src/nl/nl.h; sourceTree = "<group>"; };
 		03BFAEE0181C9FA60023011F /* brain */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = brain; sourceTree = BUILT_PRODUCTS_DIR; };
+		03BFAEEF181CAAF50023011F /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../../../../src/dev/main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +58,34 @@
 		03BFAEE2181C9FA60023011F /* brain */ = {
 			isa = PBXGroup;
 			children = (
+				03BFAEEC181CAAD90023011F /* src */,
 			);
 			path = brain;
+			sourceTree = "<group>";
+		};
+		03BFAEEC181CAAD90023011F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				03BFAEED181CAAE20023011F /* dev */,
+				03BFAEEE181CAAE70023011F /* nl */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		03BFAEED181CAAE20023011F /* dev */ = {
+			isa = PBXGroup;
+			children = (
+				03BFAEEF181CAAF50023011F /* main.c */,
+			);
+			name = dev;
+			sourceTree = "<group>";
+		};
+		03BFAEEE181CAAE70023011F /* nl */ = {
+			isa = PBXGroup;
+			children = (
+				03AC1B4C181CAB1A009E66D9 /* nl.h */,
+			);
+			name = nl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03BFAEF0181CAAF50023011F /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +247,7 @@
 				03BFAEEB181C9FA60023011F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
