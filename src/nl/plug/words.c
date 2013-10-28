@@ -43,13 +43,13 @@ static int plug_nl_words_get_next_end(void *in_context, char const *in_character
 {
     for (int i = 0; i < in_length; i++)
     {
-        if (!isalpha(in_characters[i]))
+        if (!isalnum(in_characters[i]))
         {
             /* found a word boundary; find end */
             int e = i;
             for (; e < in_length; e++)
             {
-                if (isalpha(in_characters[e])) break;
+                if (isalnum(in_characters[e])) break;
             }
             
             /* return word separation */

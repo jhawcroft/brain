@@ -27,6 +27,10 @@
 		03D18C4B181CEF8900D7EFF1 /* iwizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C4A181CEF8900D7EFF1 /* iwizer.c */; };
 		03D18C4E181CFA8600D7EFF1 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C4C181CFA8600D7EFF1 /* array.c */; };
 		03D18C50181D030700D7EFF1 /* debug.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C4F181D030700D7EFF1 /* debug.c */; };
+		03D18C52181E144A00D7EFF1 /* datetimes.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C51181E144A00D7EFF1 /* datetimes.c */; };
+		03D18C54181E145B00D7EFF1 /* numbers.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C53181E145B00D7EFF1 /* numbers.c */; };
+		03D18C57181E196900D7EFF1 /* nl-parse.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C56181E196900D7EFF1 /* nl-parse.c */; };
+		03D18C5A181E1C9700D7EFF1 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C58181E1C9700D7EFF1 /* util.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -74,6 +78,11 @@
 		03D18C4C181CFA8600D7EFF1 /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = array.c; path = ../../../../src/cont/array.c; sourceTree = "<group>"; };
 		03D18C4D181CFA8600D7EFF1 /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = array.h; path = ../../../../src/cont/array.h; sourceTree = "<group>"; };
 		03D18C4F181D030700D7EFF1 /* debug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = debug.c; path = ../../../../src/nl/debug.c; sourceTree = "<group>"; };
+		03D18C51181E144A00D7EFF1 /* datetimes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = datetimes.c; path = ../../../../src/nl/plug/datetimes.c; sourceTree = "<group>"; };
+		03D18C53181E145B00D7EFF1 /* numbers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = numbers.c; path = ../../../../src/nl/plug/numbers.c; sourceTree = "<group>"; };
+		03D18C56181E196900D7EFF1 /* nl-parse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "nl-parse.c"; path = "../../../../src/tests/nl-parse.c"; sourceTree = "<group>"; };
+		03D18C58181E1C9700D7EFF1 /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = util.c; path = ../../../../src/util/util.c; sourceTree = "<group>"; };
+		03D18C59181E1C9700D7EFF1 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = ../../../../src/util/util.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +114,8 @@
 		03AC1B50181CB435009E66D9 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				03D18C59181E1C9700D7EFF1 /* util.h */,
+				03D18C58181E1C9700D7EFF1 /* util.c */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -113,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				03AC1B56181CBFA0009E66D9 /* builtins.c */,
+				03D18C51181E144A00D7EFF1 /* datetimes.c */,
+				03D18C53181E145B00D7EFF1 /* numbers.c */,
 				03AC1B55181CBFA0009E66D9 /* acronyms.c */,
 				03AC1B57181CBFA0009E66D9 /* emoticons.c */,
 				03AC1B58181CBFA0009E66D9 /* sentences.c */,
@@ -172,6 +185,7 @@
 				03AC1B4F181CB423009E66D9 /* cont */,
 				03BFAEED181CAAE20023011F /* dev */,
 				03BFAEEE181CAAE70023011F /* nl */,
+				03D18C55181E192D00D7EFF1 /* tests */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -203,6 +217,14 @@
 				03D18C4F181D030700D7EFF1 /* debug.c */,
 			);
 			name = nl;
+			sourceTree = "<group>";
+		};
+		03D18C55181E192D00D7EFF1 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				03D18C56181E196900D7EFF1 /* nl-parse.c */,
+			);
+			name = tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +279,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				03AC1B74181CD3BE009E66D9 /* glue.c in Sources */,
+				03D18C52181E144A00D7EFF1 /* datetimes.c in Sources */,
+				03D18C54181E145B00D7EFF1 /* numbers.c in Sources */,
 				03D18C49181CEF8300D7EFF1 /* itok.c in Sources */,
 				03AC1B5E181CBFA0009E66D9 /* sentences.c in Sources */,
+				03D18C5A181E1C9700D7EFF1 /* util.c in Sources */,
 				03AC1B62181CC28F009E66D9 /* iplug.c in Sources */,
 				03BFAEF0181CAAF50023011F /* main.c in Sources */,
 				03D18C4E181CFA8600D7EFF1 /* array.c in Sources */,
@@ -267,6 +292,7 @@
 				03D18C42181CDDDC00D7EFF1 /* ptrset.c in Sources */,
 				03AC1B5D181CBFA0009E66D9 /* emoticons.c in Sources */,
 				03AC1B6A181CCBC6009E66D9 /* parts.c in Sources */,
+				03D18C57181E196900D7EFF1 /* nl-parse.c in Sources */,
 				03D18C50181D030700D7EFF1 /* debug.c in Sources */,
 				03AC1B5F181CBFA0009E66D9 /* wordizer.c in Sources */,
 				03AC1B6D181CCEB8009E66D9 /* hashmap.c in Sources */,
@@ -353,9 +379,11 @@
 		03BFAEEA181C9FA60023011F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = "";
 				"OTHER_CFLAGS[arch=*]" = (
 					"-pedantic",
 					"-Wunused-result",
+					"-DBRAIN_COMPILE_TESTS=1",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

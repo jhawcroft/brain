@@ -131,7 +131,7 @@ NLToken* nl_token_create(char const *in_string, int in_length, int in_flags,
     }
     
     token->value.type = NL_VAL_STRING;
-    token->value.data.string = strdup(in_value);
+    token->value.data.string = brain_strdup(in_value);
     if (!token->value.data.string) goto nl_token_create_error;
     
     token->flags = in_flags;
@@ -149,8 +149,7 @@ void nl_token_dispose(NLToken *in_token)
     if (in_token->characters) brain_free_(in_token->characters);
     if (in_token->concepts) ptrset_dispose(in_token->concepts);
     if (in_token->value.data.string) brain_free_(in_token->value.data.string);
-    if (in_token) brain_free_(in_token);
-    free(in_token);
+    brain_free_(in_token);
 }
 
 

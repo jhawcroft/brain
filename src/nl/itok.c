@@ -75,7 +75,7 @@ int nl_tokenize(NLInput *in_input, NLTokenizer *in_tokenizer)
             
             if (offset + length > token->length)
                 length = token->length - offset;
-            NLToken *new_token = nl_token_create(&(token->characters[offset]), length, NL_TOKFLG_TEXT,
+            NLToken *new_token = nl_token_create(&(token->characters[offset]), length, 0,
                                                  concept, value);
             if (!new_token)
             {

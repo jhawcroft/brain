@@ -69,6 +69,7 @@ int nl_input_parse(char const *in_utterance, NLInput **out_result)
      lookup the words */
     err = nl_split_words(input, g_nl_context.word_splitter);
     if (err) goto nl_input_parse_error;
+    
     err = nl_wordize(input, g_nl_context.wordizer);
     if (err) goto nl_input_parse_error;
     
@@ -80,6 +81,7 @@ int nl_input_parse(char const *in_utterance, NLInput **out_result)
     nl_input_debug(input);
 #endif
     
+    *out_result = input;
     return NL_OK;
     
 nl_input_parse_error:

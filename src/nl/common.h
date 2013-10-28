@@ -29,6 +29,7 @@
 
 
 #include "alloc.h"
+#include "util.h"
 
 
 #include "../cont/glue.h"

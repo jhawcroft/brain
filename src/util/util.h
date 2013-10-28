@@ -1,22 +1,33 @@
-//
-//  util.h
-//  PrototypeNLUnit
-//
-//  Created by Joshua Hawcroft on 13/10/13.
-//  Copyright (c) 2013 Joshua Hawcroft. All rights reserved.
-//
+/*
+ 
+ Brain Rarely Accepts Incoherent Nonsense (BRAIN)
+ Copyright 2012-2013 Joshua Hawcroft
+ 
+ This file is part of BRAIN.
+ 
+ BRAIN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ BRAIN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ */
+/* miscellaneous utilities */
 
-#ifndef PrototypeNLUnit_util_h
-#define PrototypeNLUnit_util_h
-
-char* jh_strdup(char const *in_string);
-char* strdup_to_upper(char const *in_string);
+#ifndef BRAIN_UTIL_H
+#define BRAIN_UTIL_H
 
 
-#define MAX_INT_PTR 1024
-extern char int_ptr_vals[MAX_INT_PTR + 1];
+char* brain_strdup(char const *in_string);
+char* brain_strdup_upper(char const *in_string);
 
-#define INT_TO_PTR(inInt) ( ((inInt < 0) || (inInt > MAX_INT_PTR)) ? NULL : int_ptr_vals + inInt )
-#define PTR_TO_INT(inPtr) ( (!inPtr) ? 0 : inPtr - int_ptr_vals )
+
 
 #endif

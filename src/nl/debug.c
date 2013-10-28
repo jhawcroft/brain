@@ -43,7 +43,7 @@ void nl_input_debug(NLInput *in_input)
         for (int t = 0; t < sentence->token_count; t++)
         {
             NLToken *token = sentence->tokens[t];
-            printf("Token %d: flags=%04X, chars=\"%s\" (%d)\n", (t+1), token->flags, token->characters, token->length);
+            printf("Token %d: flags=%04X, chars=\"%s\" (len=%d)\n", (t+1), token->flags, token->characters, token->length);
         }
     }
 }

@@ -32,11 +32,16 @@ void nli_bi_plug_wordizer_load(void);
 void nli_bi_plug_ss_load(void);
 void nli_bi_plug_ws_load(void);
 
+void nli_bi_plug_datetime_load(void);
+void nli_bi_plug_numbers_load(void);
+
 
 void nli_load_bi_plugs_(void)
 {
     nli_bi_plug_acronym_load();
     nli_bi_plug_emoticon_load();
+    nli_bi_plug_datetime_load();
+    nli_bi_plug_numbers_load();
     
     nli_bi_plug_wordizer_load();
     

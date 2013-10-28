@@ -19,43 +19,40 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* natrual language parser tests */
+
+#include "common.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-#include "util.h"
-#include "alloc.h"
 
 
-char* brain_strdup(char const *in_string)
+#if BRAIN_COMPILE_TESTS == 1
+
+
+static void fail_test(char const *in_msg)
 {
-    if (!in_string) in_string = "";
-    long length = strlen(in_string);
-    char *result = brain_alloc_(length + 1, 0);
-    if (!result) return NULL;
-    strcpy(result, in_string);
-    return result;
+    printf("failed test: %s\n", in_msg);
+    abort();
 }
 
 
-/* TODO: needs to be altered to use GNU libunistring / ICS */
-char* brain_strdup_upper(char const *in_string)
+void test_nli_parse(void)
 {
-    if (!in_string) in_string = "";
-    long length = strlen(in_string);
-    char *result = brain_alloc_(length + 1, 0);
-    if (!result) return NULL;
-    result[length] = 0;
-    for (int i = 0; i < length; i++)
-    {
-        result[i] = toupper(in_string[i]);
-    }
-    return result;
+    NLInput *input;
+    int err;
+    
+    /*err = nl_input_parse("Hi Josh, how are you today?", &input);
+    if (err != NL_OK) fail_test("nli_parse: 1");
+    nl_input_dispose(input);
+    */
+    err = nl_input_parse("what's the 3 square-root of 19?", &input);
+    if (err != NL_OK) fail_test("nli_parse: 1");
+    nl_input_dispose(input);
+    
 }
 
 
 
-
+#endif
 

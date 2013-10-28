@@ -38,7 +38,8 @@ int main(int argc, const char * argv[])
 {
     if (nl_startup()) fatal("couldn't start NL");
     
-    
+    void test_nli_parse(void);
+    test_nli_parse();
     
     return 0;
 }
