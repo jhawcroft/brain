@@ -54,9 +54,21 @@ size_t map_references_token_(knpattern_map_t *in_map, knpattern_token_t *in_patt
 }
 
 
+static knpattern_token_t* lookup_pattern_token_(knpattern_t *in_pattern, char const *in_token_name)
+{
+    for (knpattern_token_t *pattern_token = array_iterate(in_pattern->tokens);
+         (pattern_token = array_next(in_pattern->tokens)); )
+    {
+        if (strcmp(pattern_token->name, in_token_name) == 0) return pattern_token;
+    }
+    return NULL;
+}
+
+
 static nloutput_t* meaning_make_output_(nlmeaning_t *in_meaning)
 {
     nloutput_t *output;
+    knpattern_t *pattern;
     knpattern_map_t *map;
     
     PtrSet *maps = hashmap_item(g_all_meaning_maps, in_meaning->meaning);
@@ -69,6 +81,30 @@ static nloutput_t* meaning_make_output_(nlmeaning_t *in_meaning)
         
         /* check if we have same number of arguments */
         if (array_count(map->args) != in_meaning->argument_count) continue;
+        
+        pattern = map->owner;
+        
+        /* TODO: MUST check mandatory argument types here against those supplied in meaning;
+         if the argument isn't supplied (NULL) or the type isn't suitable, we skip
+         this meaning map */
+        
+        for (int ma = 0; ma < array_count(map->args); ma++)
+        {
+            knmap_arg_t *mapped_arg_desc = array_item(map->args, ma);
+            knconcept_t *supplied_arg = kn_concept_lookup(in_meaning->arguments[ma]);
+            if (mapped_arg_desc->type == NL_MAPARG_TOKEN)
+            {
+                knpattern_token_t *pattern_token = lookup_pattern_token_(pattern, mapped_arg_desc->params.name);
+                if (!pattern_token) goto skip_meaning_map;
+                if (!kn_query_isa(supplied_arg, pattern_token->concept)) goto skip_meaning_map;
+            }
+            else if (mapped_arg_desc->type == NL_MAPARG_CONCEPT)
+            {
+                if (!kn_query_isa(supplied_arg, kn_concept_lookup(mapped_arg_desc->params.name)))
+                    goto skip_meaning_map;
+            }
+        }
+        
         
         /* found a matching meaning map */
         goto matched_meaning_map;
@@ -87,7 +123,7 @@ matched_meaning_map:
     /* got pattern (NLPattern*) and meaning map (NLMeaningMap*) */
     
     output = brain_alloc_(sizeof(nloutput_t), 0);
-    knpattern_t *pattern = output->pattern = map->owner;
+    output->pattern = pattern;
     output->concept_seq = array_create(NULL, NULL);
 
     for (knpattern_token_t *pattern_token = array_iterate(pattern->tokens);
