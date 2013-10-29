@@ -45,6 +45,8 @@
 #include "input.h"
 #include "kn.h"
 
+#include "../kn/common.h"
+
 
 
 #endif

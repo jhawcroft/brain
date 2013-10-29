@@ -91,5 +91,4 @@ void kn_arg_add_concept(knpattern_map_t *in_map, knconcept_t *in_concept);
 
 
 
-
 #endif

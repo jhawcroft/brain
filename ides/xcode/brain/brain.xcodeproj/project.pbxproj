@@ -36,6 +36,7 @@
 		03D18C67181E49E500D7EFF1 /* concept.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C65181E49E500D7EFF1 /* concept.c */; };
 		03D18C68181E49E500D7EFF1 /* pattern.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C66181E49E500D7EFF1 /* pattern.c */; };
 		03D18C6A181E4B0F00D7EFF1 /* nl.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C69181E4B0F00D7EFF1 /* nl.c */; };
+		03D18C6D181F6D9E00D7EFF1 /* detmean.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C6B181F6D9E00D7EFF1 /* detmean.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -97,6 +98,8 @@
 		03D18C65181E49E500D7EFF1 /* concept.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = concept.c; path = ../../../../src/kn/concept.c; sourceTree = "<group>"; };
 		03D18C66181E49E500D7EFF1 /* pattern.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pattern.c; path = ../../../../src/kn/pattern.c; sourceTree = "<group>"; };
 		03D18C69181E4B0F00D7EFF1 /* nl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = nl.c; path = ../../../../src/kn/nl.c; sourceTree = "<group>"; };
+		03D18C6B181F6D9E00D7EFF1 /* detmean.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = detmean.c; path = ../../../../src/nl/detmean.c; sourceTree = "<group>"; };
+		03D18C6C181F6D9E00D7EFF1 /* genutt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = genutt.c; path = ../../../../src/nl/genutt.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +234,8 @@
 				03D18C4A181CEF8900D7EFF1 /* iwizer.c */,
 				03AC1B54181CBF92009E66D9 /* plug */,
 				03D18C4F181D030700D7EFF1 /* debug.c */,
+				03D18C6B181F6D9E00D7EFF1 /* detmean.c */,
+				03D18C6C181F6D9E00D7EFF1 /* genutt.c */,
 			);
 			name = nl;
 			sourceTree = "<group>";
@@ -321,6 +326,7 @@
 				03D18C67181E49E500D7EFF1 /* concept.c in Sources */,
 				03D18C64181E45E400D7EFF1 /* utf8.c in Sources */,
 				03AC1B74181CD3BE009E66D9 /* glue.c in Sources */,
+				03D18C6D181F6D9E00D7EFF1 /* detmean.c in Sources */,
 				03D18C52181E144A00D7EFF1 /* datetimes.c in Sources */,
 				03D18C68181E49E500D7EFF1 /* pattern.c in Sources */,
 				03D18C54181E145B00D7EFF1 /* numbers.c in Sources */,

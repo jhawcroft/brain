@@ -87,6 +87,9 @@ struct knpattern_map_struct
 };
 
 
+#define MAX_PATTERN_TOKENS 255
+
+
 typedef struct
 {
     char *name;

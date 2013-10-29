@@ -37,6 +37,11 @@ PtrSet* kn_text_to_concept_set(char const *in_text)
 }
 
 
+
+
+
+
+
 /*
 
 
@@ -59,7 +64,9 @@ Set* kb_token_text_to_pattern_set(char const *in_text)
     return pattern_set;
 }
 
-
+ 
+ 
+ Array* kn_maps_for_meaning(char const *in_meaning)
 
 Array* kb_meaning_maps_for_meaning(Concept *in_concept)
 {

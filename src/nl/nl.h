@@ -45,7 +45,7 @@ typedef struct nlmeaning_struct
 
 
 /* converts an utterance (1 or more sentences) into a meaning (0 or more meanings) */
-int nl_input_to_meanings(char const *in_utterance, nlmeaning_t **out_meanings, int *out_count);
+int nl_input_to_meanings(char const *in_utterance, nlmeaning_t **out_meanings[], int *out_count);
 
 /* serializes an array of nlmeaning_t to a human-readable string representation */
 char* nl_meanings_to_string(nlmeaning_t *in_meanings, int in_count, int in_options);
