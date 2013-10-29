@@ -23,6 +23,9 @@
 #include "common.h"
 
 
+
+/* used by wordizer currently */
+
 PtrSet* kn_text_to_concept_set(char const *in_text)
 {
     PtrSet *result = ptrset_create(NULL, NULL);

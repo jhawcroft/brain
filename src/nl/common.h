@@ -28,8 +28,9 @@
 #include <string.h>
 
 
-#include "alloc.h"
-#include "util.h"
+#include "../mem/alloc.h"
+#include "../util/util.h"
+#include "../util/sbuff.h"
 
 
 #include "../cont/glue.h"

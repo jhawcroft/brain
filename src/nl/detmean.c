@@ -87,6 +87,7 @@ matched_pattern:
     
     /* now consider optional pattern tokens */
     
+    /* TODO: consider and match optional tokens */
     
     return true;
 }

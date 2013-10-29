@@ -54,7 +54,7 @@ char* nl_meanings_to_string(nlmeaning_t *in_meanings, int in_count, int in_optio
 int nl_string_to_meanings(char const *in_string, nlmeaning_t **out_meanings, int *out_count, int in_hints);
 
 /* converts an array of nlmeaning_t to a natural language utterance (1 or more sentences) */
-int nl_meanings_to_output(nlmeaning_t *in_meanings, int in_count, char **out_output, int in_hints);
+int nl_meanings_to_output(nlmeaning_t *in_meanings[], int in_count, char **out_output, int in_hints);
 
 
 /* cleanup after yourself! */

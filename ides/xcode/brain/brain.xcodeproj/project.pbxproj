@@ -37,6 +37,8 @@
 		03D18C68181E49E500D7EFF1 /* pattern.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C66181E49E500D7EFF1 /* pattern.c */; };
 		03D18C6A181E4B0F00D7EFF1 /* nl.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C69181E4B0F00D7EFF1 /* nl.c */; };
 		03D18C6D181F6D9E00D7EFF1 /* detmean.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C6B181F6D9E00D7EFF1 /* detmean.c */; };
+		03D18C6F181F873E00D7EFF1 /* genutt.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C6C181F6D9E00D7EFF1 /* genutt.c */; };
+		03D18C72181F922500D7EFF1 /* sbuff.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C70181F922500D7EFF1 /* sbuff.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -100,6 +102,8 @@
 		03D18C69181E4B0F00D7EFF1 /* nl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = nl.c; path = ../../../../src/kn/nl.c; sourceTree = "<group>"; };
 		03D18C6B181F6D9E00D7EFF1 /* detmean.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = detmean.c; path = ../../../../src/nl/detmean.c; sourceTree = "<group>"; };
 		03D18C6C181F6D9E00D7EFF1 /* genutt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = genutt.c; path = ../../../../src/nl/genutt.c; sourceTree = "<group>"; };
+		03D18C70181F922500D7EFF1 /* sbuff.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sbuff.c; path = ../../../../src/util/sbuff.c; sourceTree = "<group>"; };
+		03D18C71181F922500D7EFF1 /* sbuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sbuff.h; path = ../../../../src/util/sbuff.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,8 @@
 			children = (
 				03D18C59181E1C9700D7EFF1 /* util.h */,
 				03D18C58181E1C9700D7EFF1 /* util.c */,
+				03D18C71181F922500D7EFF1 /* sbuff.h */,
+				03D18C70181F922500D7EFF1 /* sbuff.c */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03D18C6F181F873E00D7EFF1 /* genutt.c in Sources */,
 				03D18C6A181E4B0F00D7EFF1 /* nl.c in Sources */,
 				03D18C67181E49E500D7EFF1 /* concept.c in Sources */,
 				03D18C64181E45E400D7EFF1 /* utf8.c in Sources */,
@@ -335,6 +342,7 @@
 				03D18C5A181E1C9700D7EFF1 /* util.c in Sources */,
 				03AC1B62181CC28F009E66D9 /* iplug.c in Sources */,
 				03BFAEF0181CAAF50023011F /* main.c in Sources */,
+				03D18C72181F922500D7EFF1 /* sbuff.c in Sources */,
 				03D18C4E181CFA8600D7EFF1 /* array.c in Sources */,
 				03AC1B66181CC502009E66D9 /* alloc.c in Sources */,
 				03AC1B5C181CBFA0009E66D9 /* builtins.c in Sources */,

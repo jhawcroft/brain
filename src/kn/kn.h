@@ -83,6 +83,11 @@ enum
 knpattern_t* kn_pattern_define(int in_category, knconcept_t *in_lang);
 void kn_token_append(knpattern_t *in_pattern, char const *in_name, knconcept_t *in_concept, bool in_optional);
 
+/* TODO: the most complicated patterns have to end up first;
+ which implies that we will need to be able to create a pattern that isn't registered, 
+ in stages, and then register it/'activate it' once it's done */
+/* only inactive patterns would be modifyable */
+
 knpattern_map_t* kn_map_append(knpattern_t *in_pattern, char const *in_meaning);
 void kn_arg_add_token_val(knpattern_map_t *in_map, char const *in_token_name);
 void kn_arg_add_concept(knpattern_map_t *in_map, knconcept_t *in_concept);
