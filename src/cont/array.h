@@ -59,5 +59,7 @@ void* array_next(Array *in_array);
 void array_union(Array *in_dest, Array *in_src);
 void array_intersect(Array *in_dest, Array *in_src);
 
+size_t array_index_of(Array *in_array, void *in_item);
+
 
 #endif

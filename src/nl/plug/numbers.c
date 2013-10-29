@@ -57,7 +57,7 @@ static int plug_nl_numbers_get_next_token(void *in_context, char const *in_chara
             }
             *out_offset = i;
             *out_length = j - i;
-            *out_concept = 19; // some arbitrary number we came up with for testing - should relate to a knowledge base
+            *out_concept = nl_concept("number");
             return NL_OK;
         }
     }

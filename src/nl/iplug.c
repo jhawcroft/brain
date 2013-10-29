@@ -82,5 +82,11 @@ void nl_add_attribute(nlatts_t *in_atts, char const *in_att_name, char const *in
 }
 
 
+NLConceptRef nl_concept(char const *in_name)
+{
+    return kn_concept_lookup(in_name);
+}
+
+
 
 

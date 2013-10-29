@@ -89,4 +89,12 @@ enum
 void nl_add_attribute(nlatts_t *in_atts, char const *in_att_name, char const *in_att_value);
 
 
+
+NLConceptRef nl_concept(char const *in_name);
+
+
+
 #endif
+
+
+

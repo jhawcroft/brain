@@ -72,7 +72,7 @@ static int plug_nl_acronyms_get_next_token(void *in_context, char const *in_char
             /* return the match */
             *out_offset = i;
             *out_length = j - i;
-            *out_concept = 51; // some arbitrary number we came up with for testing - should relate to a knowledge base
+            *out_concept = nl_concept("acronym");
             return NL_OK;
         }
     }

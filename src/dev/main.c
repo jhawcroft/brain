@@ -25,6 +25,7 @@
 #include <stdlib.h>
 
 #include "nl.h"
+#include "kn.h"
 
 
 void fatal(char const *in_message)
@@ -37,6 +38,7 @@ void fatal(char const *in_message)
 int main(int argc, const char * argv[])
 {
     if (nl_startup()) fatal("couldn't start NL");
+    if (kn_startup()) fatal("couldn't start KN");
     
     void test_nli_parse(void);
     test_nli_parse();

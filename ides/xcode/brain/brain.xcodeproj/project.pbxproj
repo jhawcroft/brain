@@ -31,6 +31,11 @@
 		03D18C54181E145B00D7EFF1 /* numbers.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C53181E145B00D7EFF1 /* numbers.c */; };
 		03D18C57181E196900D7EFF1 /* nl-parse.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C56181E196900D7EFF1 /* nl-parse.c */; };
 		03D18C5A181E1C9700D7EFF1 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C58181E1C9700D7EFF1 /* util.c */; };
+		03D18C5E181E28C600D7EFF1 /* kn.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C5C181E28C600D7EFF1 /* kn.c */; };
+		03D18C64181E45E400D7EFF1 /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C62181E45E400D7EFF1 /* utf8.c */; };
+		03D18C67181E49E500D7EFF1 /* concept.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C65181E49E500D7EFF1 /* concept.c */; };
+		03D18C68181E49E500D7EFF1 /* pattern.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C66181E49E500D7EFF1 /* pattern.c */; };
+		03D18C6A181E4B0F00D7EFF1 /* nl.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C69181E4B0F00D7EFF1 /* nl.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -83,6 +88,15 @@
 		03D18C56181E196900D7EFF1 /* nl-parse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "nl-parse.c"; path = "../../../../src/tests/nl-parse.c"; sourceTree = "<group>"; };
 		03D18C58181E1C9700D7EFF1 /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = util.c; path = ../../../../src/util/util.c; sourceTree = "<group>"; };
 		03D18C59181E1C9700D7EFF1 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = ../../../../src/util/util.h; sourceTree = "<group>"; };
+		03D18C5C181E28C600D7EFF1 /* kn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kn.c; path = ../../../../src/kn/kn.c; sourceTree = "<group>"; };
+		03D18C5D181E28C600D7EFF1 /* kn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = kn.h; path = ../../../../src/kn/kn.h; sourceTree = "<group>"; };
+		03D18C5F181E292500D7EFF1 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = common.h; path = ../../../../src/kn/common.h; sourceTree = "<group>"; };
+		03D18C60181E296A00D7EFF1 /* structs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = structs.h; path = ../../../../src/kn/structs.h; sourceTree = "<group>"; };
+		03D18C62181E45E400D7EFF1 /* utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf8.c; path = ../../../../src/intl/utf8.c; sourceTree = "<group>"; };
+		03D18C63181E45E400D7EFF1 /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utf8.h; path = ../../../../src/intl/utf8.h; sourceTree = "<group>"; };
+		03D18C65181E49E500D7EFF1 /* concept.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = concept.c; path = ../../../../src/kn/concept.c; sourceTree = "<group>"; };
+		03D18C66181E49E500D7EFF1 /* pattern.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pattern.c; path = ../../../../src/kn/pattern.c; sourceTree = "<group>"; };
+		03D18C69181E4B0F00D7EFF1 /* nl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = nl.c; path = ../../../../src/kn/nl.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,11 +194,13 @@
 		03BFAEEC181CAAD90023011F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				03D18C61181E45CA00D7EFF1 /* intl */,
+				03D18C5B181E289D00D7EFF1 /* kn */,
+				03BFAEEE181CAAE70023011F /* nl */,
 				03AC1B63181CC4F6009E66D9 /* mem */,
 				03AC1B50181CB435009E66D9 /* util */,
 				03AC1B4F181CB423009E66D9 /* cont */,
 				03BFAEED181CAAE20023011F /* dev */,
-				03BFAEEE181CAAE70023011F /* nl */,
 				03D18C55181E192D00D7EFF1 /* tests */,
 			);
 			name = src;
@@ -225,6 +241,29 @@
 				03D18C56181E196900D7EFF1 /* nl-parse.c */,
 			);
 			name = tests;
+			sourceTree = "<group>";
+		};
+		03D18C5B181E289D00D7EFF1 /* kn */ = {
+			isa = PBXGroup;
+			children = (
+				03D18C5D181E28C600D7EFF1 /* kn.h */,
+				03D18C5F181E292500D7EFF1 /* common.h */,
+				03D18C60181E296A00D7EFF1 /* structs.h */,
+				03D18C5C181E28C600D7EFF1 /* kn.c */,
+				03D18C65181E49E500D7EFF1 /* concept.c */,
+				03D18C66181E49E500D7EFF1 /* pattern.c */,
+				03D18C69181E4B0F00D7EFF1 /* nl.c */,
+			);
+			name = kn;
+			sourceTree = "<group>";
+		};
+		03D18C61181E45CA00D7EFF1 /* intl */ = {
+			isa = PBXGroup;
+			children = (
+				03D18C63181E45E400D7EFF1 /* utf8.h */,
+				03D18C62181E45E400D7EFF1 /* utf8.c */,
+			);
+			name = intl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,8 +317,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03D18C6A181E4B0F00D7EFF1 /* nl.c in Sources */,
+				03D18C67181E49E500D7EFF1 /* concept.c in Sources */,
+				03D18C64181E45E400D7EFF1 /* utf8.c in Sources */,
 				03AC1B74181CD3BE009E66D9 /* glue.c in Sources */,
 				03D18C52181E144A00D7EFF1 /* datetimes.c in Sources */,
+				03D18C68181E49E500D7EFF1 /* pattern.c in Sources */,
 				03D18C54181E145B00D7EFF1 /* numbers.c in Sources */,
 				03D18C49181CEF8300D7EFF1 /* itok.c in Sources */,
 				03AC1B5E181CBFA0009E66D9 /* sentences.c in Sources */,
@@ -300,6 +343,7 @@
 				03D18C4B181CEF8900D7EFF1 /* iwizer.c in Sources */,
 				03D18C44181CEC8A00D7EFF1 /* iparse.c in Sources */,
 				03AC1B4E181CAC04009E66D9 /* init.c in Sources */,
+				03D18C5E181E28C600D7EFF1 /* kn.c in Sources */,
 				03D18C47181CEE7C00D7EFF1 /* isplit.c in Sources */,
 				03AC1B60181CBFA0009E66D9 /* words.c in Sources */,
 			);

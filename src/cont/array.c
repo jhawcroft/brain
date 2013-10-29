@@ -165,5 +165,14 @@ void* array_next(Array *in_array)
 }
 
 
+size_t array_index_of(Array *in_array, void *in_item)
+{
+    for (int i = 0; i < in_array->count; i++)
+    {
+        if (in_array->items[i] == in_item) return i;
+    }
+    return ARRAY_INVALID_INDEX;
+}
+
 
 

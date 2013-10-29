@@ -51,14 +51,14 @@ static int plug_nl_emoticons_get_next_token(void *in_context, char const *in_cha
             {
                 *out_offset = i;
                 *out_length = 2;
-                *out_concept = 10; // dummy number for :)
+                *out_concept = nl_concept("happy-emoticon");
                 return NL_OK;
             }
             else if (in_characters[i+1] == '(')
             {
                 *out_offset = i;
                 *out_length = 2;
-                *out_concept = 19; // dummy number for :(
+                *out_concept = nl_concept("sad-emoticon");
                 return NL_OK;
             }
         }

@@ -19,31 +19,14 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
-/* input nl word-concept lookup */
+/*
+ Utilities to work with UTF-8 strings
+ */
 
-#include "common.h"
+#ifndef PrototypeNLUnit_utf8_h
+#define PrototypeNLUnit_utf8_h
 
+int hashmap_utf8_compare_(void *in_context, void *in_left, void *in_right);
+long hashmap_utf8_hash_(void *in_context, void *in_key);
 
-/* TODO: supposed to be using plugin wordizer;
- decide if this is necessary and if it isn't, then get rid of that plugin interface */
-
-
-int nl_wordize(NLInput *in_input, NLWordizer *in_wordizer)
-{
-    for (int s = 0; s < array_count(in_input->sentences); s++)
-    {
-        NLSentence *sentence = array_item(in_input->sentences, s);
-        for (int t = 0; t < sentence->token_count; t++)
-        {
-            NLToken *token = sentence->tokens[t];
-            if (token->flags & NL_TOKFLG_TEXT)
-                token->concepts = kn_text_to_concept_set(token->characters);
-        }
-    }
-    return NL_OK;
-}
-
-
-
-
-
+#endif

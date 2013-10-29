@@ -19,31 +19,34 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
-/* input nl word-concept lookup */
+/*
+ Knowledge network common headers
+ */
 
-#include "common.h"
+#ifndef BRAIN_KN_COMMON_H
+#define BRAIN_KN_COMMON_H
 
 
-/* TODO: supposed to be using plugin wordizer;
- decide if this is necessary and if it isn't, then get rid of that plugin interface */
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 
-int nl_wordize(NLInput *in_input, NLWordizer *in_wordizer)
-{
-    for (int s = 0; s < array_count(in_input->sentences); s++)
-    {
-        NLSentence *sentence = array_item(in_input->sentences, s);
-        for (int t = 0; t < sentence->token_count; t++)
-        {
-            NLToken *token = sentence->tokens[t];
-            if (token->flags & NL_TOKFLG_TEXT)
-                token->concepts = kn_text_to_concept_set(token->characters);
-        }
-    }
-    return NL_OK;
-}
+#include "../mem/alloc.h"
+#include "../util/util.h"
+#include "../intl/utf8.h"
 
+
+#include "../cont/glue.h"
+#include "../cont/ptrset.h"
+#include "../cont/array.h"
+#include "../cont/hashmap.h"
 
 
 
+#include "kn.h"
+#include "structs.h"
 
+
+
+#endif

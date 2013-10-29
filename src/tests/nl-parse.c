@@ -21,7 +21,7 @@
  */
 /* natrual language parser tests */
 
-#include "common.h"
+#include "../nl/common.h"
 
 #include <stdio.h>
 #include <stdlib.h>

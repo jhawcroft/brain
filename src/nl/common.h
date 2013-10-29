@@ -43,6 +43,7 @@
 #include "parts.h"
 #include "context.h"
 #include "input.h"
+#include "kn.h"
 
 
 
