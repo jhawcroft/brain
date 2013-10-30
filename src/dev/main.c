@@ -73,6 +73,18 @@ int main(int argc, const char * argv[])
         printf("ERROR: %d\n", err);
     }
     
+    /* on language generation:
+     
+     when we come to generation, probably going to want something on specific representations
+     of a concept to indicate that those representations are not appropriate for output;
+     need to consider that somewhat - perhaps could be suggestions on the actual pattern tokens;
+     specific to output generation? 
+     
+     output generation is largely experimental on this mechanism anyway. 
+     
+     may need to run up a signficant number of patterns through training before a way to tweak this
+     particularly with respect to foriegn languages, becomes obvious */
+    
     return 0;
 }
 

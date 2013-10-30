@@ -36,6 +36,7 @@
 static bool match_sentence_to_patterns_(NLSentence *in_sentence, Array *in_patterns,
                                         knpattern_t **out_pattern, knconcept_t *out_matching_concepts[])
 {
+    int sentence_indicies[MAX_PATTERN_TOKENS];
     knpattern_t *pattern = NULL;
     int token_count = in_sentence->token_count;
     
@@ -56,6 +57,7 @@ static bool match_sentence_to_patterns_(NLSentence *in_sentence, Array *in_patte
             if (pattern_token->optional)
             {
                 out_matching_concepts[t] = NULL;
+                sentence_indicies[t] = 9999;
                 continue;
             }
             
@@ -68,6 +70,7 @@ static bool match_sentence_to_patterns_(NLSentence *in_sentence, Array *in_patte
                     if (kn_query_isa(ptrset_item(current_token->concepts, c), pattern_token->concept))
                     {
                         out_matching_concepts[t] = ptrset_item(current_token->concepts, c);
+                        sentence_indicies[t] = token_index-1;
                         goto matched_query;
                     }
                 }
@@ -89,9 +92,53 @@ static bool match_sentence_to_patterns_(NLSentence *in_sentence, Array *in_patte
 matched_pattern:
     *out_pattern = pattern;
     
-    /* now consider optional pattern tokens */
-    
-    /* TODO: consider and match optional tokens */
+    /* now consider optional pattern tokens;
+     currently implements a left->right search direction */
+    int last_match_index = 0;
+    int t_count = (int)array_count(pattern->tokens);
+    for (int t = 0; t < t_count; t++)
+    {
+        knpattern_token_t *pattern_token = array_item(pattern->tokens, t);
+        if (pattern_token->optional)
+        {
+            int sentence_from = sentence_indicies[last_match_index] + 1;
+            int sentence_to = in_sentence->token_count - 1;
+            for (int i = t + 1; i < t_count; i++)
+            {
+                knpattern_token_t *ahead_token = array_item(pattern->tokens, i);
+                if (!ahead_token->optional)
+                {
+                    sentence_to = sentence_indicies[i] - 1;
+                    break;
+                }
+            }
+            
+            if ((sentence_from <= sentence_to) && (sentence_from < in_sentence->token_count))
+            {
+                for (int i = sentence_from; i <= sentence_to; i++)
+                {
+                    NLToken *current_token = in_sentence->tokens[i];
+                    
+                    for (int c = 0; c < ptrset_count(current_token->concepts); c++)
+                    {
+                        if (kn_query_isa(ptrset_item(current_token->concepts, c), pattern_token->concept))
+                        {
+                            out_matching_concepts[t] = ptrset_item(current_token->concepts, c);
+                            sentence_indicies[t] = i;
+                            last_match_index = t;
+                            goto matched_optional;
+                        }
+                    }
+                }
+            }
+            
+        }
+        else
+            last_match_index = t;
+        
+    matched_optional:
+        continue;
+    }
     
     return true;
 }
@@ -147,6 +194,10 @@ Array* nl_sentence_to_meanings(NLSentence *in_sentence)
     knconcept_t *matched_concepts[MAX_PATTERN_TOKENS];
     knpattern_t *pattern;
     Array *result = array_create(NULL, NULL);
+    
+    /* TODO: may want to organise this to consider all patterns;
+     such that the longest match, ie. greatest number of required + matching optional concepts
+     is picked; the most complicated should be the most accurate */
     
     if (match_sentence_to_patterns_(in_sentence, g_patterns_general, &pattern, matched_concepts))
     {
