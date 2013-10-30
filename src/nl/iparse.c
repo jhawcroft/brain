@@ -78,7 +78,7 @@ int nl_input_parse(char const *in_utterance, NLInput **out_result)
     if (err) goto nl_input_parse_error;
     
 #if DEBUG == 1
-    nl_input_debug(input);
+    //nl_input_debug(input);
 #endif
     
     *out_result = input;

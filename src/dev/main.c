@@ -37,11 +37,41 @@ void fatal(char const *in_message)
 
 int main(int argc, const char * argv[])
 {
+    // need to prepare allocator here **TODO**
+    
+    
     if (nl_startup()) fatal("couldn't start NL");
     if (kn_startup()) fatal("couldn't start KN");
     
-    void test_nli_parse(void);
-    test_nli_parse();
+    //void test_nli_parse(void);
+    //test_nli_parse();
+    //int nl_input_to_meanings(char const *in_utterance, nlmeaning_t **out_meanings[], int *out_count)
+    
+    int err;
+    nlmeaning_t **meanings;
+    int meaning_count;
+    
+    err = nl_input_to_meanings("I really enjoy chicken!", &meanings, &meaning_count);
+    //err = nl_input_to_meanings("hi josh!", &meanings, &meaning_count);
+    if (err == NL_OK)
+    {
+        for (int m = 0; m < meaning_count; m++)
+        {
+            nlmeaning_t *meaning = meanings[m];
+            printf("meaning: %s ", meaning->meaning);
+            for (int a = 0; a < meaning->argument_count; a++)
+            {
+                printf("%s", meaning->arguments[a]);
+                if (a + 1 < meaning->argument_count)
+                    printf(", ");
+            }
+            printf("\n");
+        }
+    }
+    else
+    {
+        printf("ERROR: %d\n", err);
+    }
     
     return 0;
 }

@@ -46,9 +46,13 @@ void test_nli_parse(void)
     if (err != NL_OK) fail_test("nli_parse: 1");
     nl_input_dispose(input);
     */
-    err = nl_input_parse("what's the 3 square-root of 19?", &input);
+   /* err = nl_input_parse("what's the 3 square-root of 19?", &input);
     if (err != NL_OK) fail_test("nli_parse: 1");
-    nl_input_dispose(input);
+    nl_input_dispose(input);*/
+    
+    
+    
+    
     
 }
 

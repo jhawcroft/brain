@@ -63,11 +63,13 @@ static void concept_dispose_(knconcept_t *in_concept)
 
 knconcept_t* kn_concept_define(char const *in_name)
 {
-    /* check a concept with the same name doesn't already exist */
-    if (hashmap_contains(g_all_concepts, (void*)in_name))
-        return NULL;
+    knconcept_t *concept;
     
-    knconcept_t *concept = brain_alloc_(sizeof(knconcept_t), 0);
+    /* check a concept with the same name doesn't already exist */
+    concept = hashmap_item(g_all_concepts, (void*)in_name);
+    if (concept) return concept;
+    
+    concept = brain_alloc_(sizeof(knconcept_t), 0);
     memset(concept, 0, sizeof(knconcept_t));
     
     concept->name = brain_strdup(in_name);
@@ -139,6 +141,7 @@ void kn_relate_isa(knconcept_t *in_sub_concept, knconcept_t *in_super_concept)
 
 int kn_query_isa(knconcept_t *in_sub_concept, knconcept_t *in_super_concept)
 {
+    if (in_sub_concept == in_super_concept) return true;
     return (array_index_of(in_sub_concept->supers, in_super_concept) != ARRAY_INVALID_INDEX);
 }
 

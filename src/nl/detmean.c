@@ -53,7 +53,11 @@ static bool match_sentence_to_patterns_(NLSentence *in_sentence, Array *in_patte
             knpattern_token_t *pattern_token = array_item(pattern->tokens, t);
             
             /* consider only mandatory pattern tokens initially */
-            if (pattern_token->optional) continue;
+            if (pattern_token->optional)
+            {
+                out_matching_concepts[t] = NULL;
+                continue;
+            }
             
             for (;;)
             {
@@ -97,7 +101,8 @@ static size_t named_token_index(knpattern_t *in_pattern, char const *in_name)
 {
     for (int t = 0; t < array_count(in_pattern->tokens); t++)
     {
-        if (strcmp(array_item(in_pattern->tokens, t), in_name) == 0) return t;
+        knpattern_token_t *pattern_token = array_item(in_pattern->tokens, t);
+        if (strcmp(pattern_token->name, in_name) == 0) return t;
     }
     return ARRAY_INVALID_INDEX;
 }
@@ -120,7 +125,12 @@ static nlmeaning_t* map_tokens_(knpattern_t *in_pattern, knpattern_map_t *in_map
         {
             size_t token_index = named_token_index(in_pattern, map_arg->params.name);
             if (token_index != ARRAY_INVALID_INDEX)
-                result->arguments[a] = brain_strdup(in_matched_concepts[token_index]->name);
+            {
+                if (in_matched_concepts[token_index])
+                    result->arguments[a] = brain_strdup(in_matched_concepts[token_index]->name);
+                else
+                    result->arguments[a] = NULL;
+            }
         }
         else if (map_arg->type == NL_MAPARG_CONCEPT)
         {
@@ -146,6 +156,12 @@ Array* nl_sentence_to_meanings(NLSentence *in_sentence)
         }
     }
     
+    if (array_count(result) == 0)
+    {
+        array_dispose(result);
+        return NULL;
+    }
+    
     return result;
 }
 
@@ -154,6 +170,7 @@ nlmeaning_t* nl_cant_understand(NLSentence *in_sentence)
 {
     nlmeaning_t *result = brain_alloc_(sizeof(nlmeaning_t), 0);
     memset(result, 0, sizeof(nlmeaning_t));
+    result->meaning = brain_strdup("cant-understand");
     return result;
 }
 

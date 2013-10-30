@@ -39,6 +39,7 @@
 		03D18C6D181F6D9E00D7EFF1 /* detmean.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C6B181F6D9E00D7EFF1 /* detmean.c */; };
 		03D18C6F181F873E00D7EFF1 /* genutt.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C6C181F6D9E00D7EFF1 /* genutt.c */; };
 		03D18C72181F922500D7EFF1 /* sbuff.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C70181F922500D7EFF1 /* sbuff.c */; };
+		03D18C8B1820787300D7EFF1 /* bootstrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C8A1820787300D7EFF1 /* bootstrap.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -104,6 +105,7 @@
 		03D18C6C181F6D9E00D7EFF1 /* genutt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = genutt.c; path = ../../../../src/nl/genutt.c; sourceTree = "<group>"; };
 		03D18C70181F922500D7EFF1 /* sbuff.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sbuff.c; path = ../../../../src/util/sbuff.c; sourceTree = "<group>"; };
 		03D18C71181F922500D7EFF1 /* sbuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sbuff.h; path = ../../../../src/util/sbuff.h; sourceTree = "<group>"; };
+		03D18C8A1820787300D7EFF1 /* bootstrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bootstrap.c; path = ../../../../src/kn/bootstrap.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +266,7 @@
 				03D18C65181E49E500D7EFF1 /* concept.c */,
 				03D18C66181E49E500D7EFF1 /* pattern.c */,
 				03D18C69181E4B0F00D7EFF1 /* nl.c */,
+				03D18C8A1820787300D7EFF1 /* bootstrap.c */,
 			);
 			name = kn;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				03D18C6F181F873E00D7EFF1 /* genutt.c in Sources */,
 				03D18C6A181E4B0F00D7EFF1 /* nl.c in Sources */,
 				03D18C67181E49E500D7EFF1 /* concept.c in Sources */,
+				03D18C8B1820787300D7EFF1 /* bootstrap.c in Sources */,
 				03D18C64181E45E400D7EFF1 /* utf8.c in Sources */,
 				03AC1B74181CD3BE009E66D9 /* glue.c in Sources */,
 				03D18C6D181F6D9E00D7EFF1 /* detmean.c in Sources */,

@@ -53,6 +53,9 @@ int kn_startup(void)
     g_patterns_general = array_create(NULL, NULL); /* AS ABOVE / TODO */
     g_all_meaning_maps = hashmap_create(200, NULL, &hashmap_utf8_hash_, &hashmap_utf8_compare_, NULL, NULL); /* AS ABOVE / TODO */
     
+    void kn_bootstrap_(void);
+    kn_bootstrap_();
+    
     return KN_OK;
 }
 
