@@ -85,6 +85,7 @@ knconcept_t* kn_concept_define(char const *in_name)
 
 knconcept_t* kn_concept_lookup(char const *in_name)
 {
+    if (!in_name) return NULL;
     return hashmap_item(g_all_concepts, (void*)in_name);
 }
 

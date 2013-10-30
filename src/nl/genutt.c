@@ -84,10 +84,6 @@ static nloutput_t* meaning_make_output_(nlmeaning_t *in_meaning)
         
         pattern = map->owner;
         
-        /* TODO: MUST check mandatory argument types here against those supplied in meaning;
-         if the argument isn't supplied (NULL) or the type isn't suitable, we skip
-         this meaning map */
-        
         for (int ma = 0; ma < array_count(map->args); ma++)
         {
             knmap_arg_t *mapped_arg_desc = array_item(map->args, ma);
@@ -96,10 +92,19 @@ static nloutput_t* meaning_make_output_(nlmeaning_t *in_meaning)
             {
                 knpattern_token_t *pattern_token = lookup_pattern_token_(pattern, mapped_arg_desc->params.name);
                 if (!pattern_token) goto skip_meaning_map;
+                
+                if (supplied_arg == NULL)
+                {
+                    if (pattern_token->optional) continue;
+                    goto skip_meaning_map;
+                }
+                
                 if (!kn_query_isa(supplied_arg, pattern_token->concept)) goto skip_meaning_map;
             }
             else if (mapped_arg_desc->type == NL_MAPARG_CONCEPT)
             {
+                if (supplied_arg == NULL)
+                    continue; /* ? */
                 if (!kn_query_isa(supplied_arg, kn_concept_lookup(mapped_arg_desc->params.name)))
                     goto skip_meaning_map;
             }
@@ -133,7 +138,11 @@ matched_meaning_map:
         if (arg_index == ARRAY_INVALID_INDEX)
             array_append(output->concept_seq, pattern_token->concept);
         else
-            array_append(output->concept_seq, kn_concept_lookup(in_meaning->arguments[arg_index]));
+        {
+            knconcept_t *concept = kn_concept_lookup(in_meaning->arguments[arg_index]);
+            if (concept)
+                array_append(output->concept_seq, concept);
+        }
     }
     
     return output;
