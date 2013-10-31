@@ -41,6 +41,8 @@
 		03D18C72181F922500D7EFF1 /* sbuff.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C70181F922500D7EFF1 /* sbuff.c */; };
 		03D18C8B1820787300D7EFF1 /* bootstrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C8A1820787300D7EFF1 /* bootstrap.c */; };
 		03D18CDF18220CFB00D7EFF1 /* thought.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18CD018220CBD00D7EFF1 /* thought.c */; };
+		03D4D59418223017008F1FF5 /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D4D59218223017008F1FF5 /* confscan.c */; };
+		03D4D59518223017008F1FF5 /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D4D59218223017008F1FF5 /* confscan.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -119,6 +121,8 @@
 		03D18CCF18220CBD00D7EFF1 /* thought.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; name = thought.1; path = ../../../../src/thought/thought.1; sourceTree = "<group>"; };
 		03D18CD018220CBD00D7EFF1 /* thought.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = thought.c; path = ../../../../src/thought/thought.c; sourceTree = "<group>"; };
 		03D18CD618220CF300D7EFF1 /* thought */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = thought; sourceTree = BUILT_PRODUCTS_DIR; };
+		03D4D59218223017008F1FF5 /* confscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = confscan.c; path = ../../../../src/util/confscan.c; sourceTree = "<group>"; };
+		03D4D59318223017008F1FF5 /* confscan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = confscan.h; path = ../../../../src/util/confscan.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +161,8 @@
 		03AC1B50181CB435009E66D9 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				03D4D59218223017008F1FF5 /* confscan.c */,
+				03D4D59318223017008F1FF5 /* confscan.h */,
 				03D18C59181E1C9700D7EFF1 /* util.h */,
 				03D18C58181E1C9700D7EFF1 /* util.c */,
 				03D18C71181F922500D7EFF1 /* sbuff.h */,
@@ -386,6 +392,7 @@
 				03D18C8B1820787300D7EFF1 /* bootstrap.c in Sources */,
 				03D18C64181E45E400D7EFF1 /* utf8.c in Sources */,
 				03AC1B74181CD3BE009E66D9 /* glue.c in Sources */,
+				03D4D59418223017008F1FF5 /* confscan.c in Sources */,
 				03D18C6D181F6D9E00D7EFF1 /* detmean.c in Sources */,
 				03D18C52181E144A00D7EFF1 /* datetimes.c in Sources */,
 				03D18C68181E49E500D7EFF1 /* pattern.c in Sources */,
@@ -420,6 +427,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03D4D59518223017008F1FF5 /* confscan.c in Sources */,
 				03D18CDF18220CFB00D7EFF1 /* thought.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -561,6 +569,7 @@
 				03D18CDE18220CF300D7EFF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
