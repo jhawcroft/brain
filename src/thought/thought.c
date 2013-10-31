@@ -28,9 +28,11 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <libgen.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -39,12 +41,16 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#include "../config.h"
+#include "../util/confscan.h"
+#include "../util/util.h"
+
 extern char **environ;
 
 
 /* program defaults */
 #define DEFAULT_TIMEOUT_SECONDS     15
-#define LOG_FILE_LOCATION           "/var/log/thought/"
+#define LOG_FILE_LOCATION           "/var/log/brain/"
 #define LOG_FILE_NAME               "thought"
 
 
@@ -55,10 +61,17 @@ extern char **environ;
 #define MAX_THOUGHT_ID_LENGTH       50
 #define MIN_TIMEOUT_SECONDS         2
 
+#define LOG_PREFIX_FORMAT           "%s.%010ld"
+
 
 /* basic thought information */
 static char thought_id[MAX_THOUGHT_ID_LENGTH];
 static char *thought_name = NULL;
+
+/* configured file names/paths */
+static char *config_file_name = NULL;
+static char *g_script_dir = NULL;
+static char *g_log_dir = NULL;
 
 /* log file (if any) */
 static FILE *log_file = NULL;
@@ -76,12 +89,31 @@ static int g_print_version = 0;
 static int g_print_help = 0;
 
 
+#define CONFIG_ERROR 1
+#define CONFIG_OK 0
+
+
+static int scan_conf_line_(long in_line_number, char const *in_key, char const *in_value)
+{
+    if (strcmp(in_key, "thought-dir") == 0)
+        g_script_dir = strdup(in_value);
+    else if (strcmp(in_key, "log-dir") == 0)
+        g_log_dir = strdup(in_value);
+    else
+    {
+        fprintf(stderr, "Unknown configuration option \"%s\" on line %ld of brain.conf.\n", in_key, in_line_number);
+        return CONFIG_ERROR;
+    }
+    return CONFIG_OK;
+}
+
+
 static void log_begin(void)
 {
     if (g_debug)
         log_file = stdout;
     else
-        log_file = fopen(LOG_FILE_LOCATION LOG_FILE_NAME, "a");
+        log_file = fopen(make_name(g_log_dir, LOG_FILE_NAME), "a");
 }
 
 
@@ -108,7 +140,7 @@ static void thought_setup(void)
         pid_t pid = fork();
         if (pid < 0)
         {
-            if (log_file) fprintf(log_file, "%s.%ld: Couldn't create the thought process.\n",
+            if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Unable to go to background, aborting.\n",
                                   thought_id, time_elapsed());
             exit(EXIT_FAILURE);
         }
@@ -131,15 +163,16 @@ static void thought_setup(void)
     {
         /* create a new session ID for the child process */
         if (setsid() < 0) {
-            if (log_file) fprintf(log_file, "%s.%ld: Couldn't daemonize.\n", thought_id, time_elapsed());
+            if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Unable to obtain session ID, aborting.\n",
+                                  thought_id, time_elapsed());
             exit(EXIT_FAILURE);
         }
     }
     
     /* change the current working directory */
-    /* TODO: probably to the location of the script file */
-    if (chdir("/") < 0) {
-        if (log_file) fprintf(log_file, "%s.%ld: Couldn't access script directory.\n", thought_id, time_elapsed());
+    if (chdir(g_script_dir) < 0) {
+        if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Unable to access thought directory, aborting.\n",
+                              thought_id, time_elapsed());
         exit(EXIT_FAILURE);
     }
     
@@ -158,7 +191,7 @@ static void thought_exec(int argc, char const *argv[])
     /* log the thought */
     if (log_file)
     {
-        fprintf(log_file, "%s.%ld: Thinking %s: ", thought_id, time_elapsed(), thought_name);
+        fprintf(log_file, LOG_PREFIX_FORMAT ": Thinking %s: ", thought_id, time_elapsed(), thought_name);
         for (int a = 2; a < argc; a++)
         {
             fprintf(log_file, "%s", argv[a]);
@@ -173,7 +206,7 @@ static void thought_exec(int argc, char const *argv[])
     child_args = calloc(actual_argc, sizeof(char*));
     if (!child_args)
     {
-        if (log_file) fprintf(log_file, "%s.%ld: Not enough memory preparing arguments.\n",
+        if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Not enough memory preparing arguments.\n",
                               thought_id, time_elapsed());
         exit(EXIT_FAILURE);
     }
@@ -186,22 +219,25 @@ static void thought_exec(int argc, char const *argv[])
     int pipedes[2];
     if (pipe(pipedes))
     {
-        if (log_file) fprintf(log_file, "%s.%ld: Couldn't create a pipe to the thought process.\n",
+        if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Couldn't create a pipe to the thought process.\n",
                               thought_id, time_elapsed());
         exit(EXIT_FAILURE);
     }
     if (fcntl(pipedes[0], F_SETFL, O_NONBLOCK))
     {
-        if (log_file) fprintf(log_file, "%s.%ld: Couldn't configure pipe to the thought process.\n",
+        if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Couldn't configure pipe to the thought process.\n",
                               thought_id, time_elapsed());
         exit(EXIT_FAILURE);
     }
+    
+    /* flush buffer so the child doesn't end up flushing it too */
+    if (log_file) fflush(log_file);
     
     /* fork the thought process */
     g_script_pid = fork();
     if (g_script_pid < 0)
     {
-        if (log_file) fprintf(log_file, "%s.%ld: Couldn't create the thought process.\n",
+        if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Couldn't create the thought process.\n",
                               thought_id, time_elapsed());
         exit(EXIT_FAILURE);
     }
@@ -214,8 +250,13 @@ static void thought_exec(int argc, char const *argv[])
         return;
     }
     
-    /* execute the thought process */
+    /* connect the pipe to stdout */
     close(pipedes[0]);
+    dup2(pipedes[0], STDOUT_FILENO);
+    fclose(log_file);
+    log_file = NULL;
+    
+    /* execute the thought process */
     if (execve(child_args[0], child_args, environ))
     {
         switch (errno)
@@ -223,24 +264,19 @@ static void thought_exec(int argc, char const *argv[])
             case E2BIG:
             case ENAMETOOLONG:
             case ENOTDIR:
-                if (log_file) fprintf(log_file, "%s.%ld: Arguments of thought are too long for this system.\n",
-                                      thought_id, time_elapsed());
+                fprintf(stdout, "Arguments of thought are too long for this system.\n");
                 break;
             case EACCES:
-                if (log_file) fprintf(log_file, "%s.%ld: Insufficient priviledges to execute thought process.\n",
-                                      thought_id, time_elapsed());
+                fprintf(stdout, "Insufficient priviledges to execute thought process.\n");
                 break;
             case ENOENT:
-                if (log_file) fprintf(log_file, "%s.%ld: Thought process cannot be found.\n",
-                                      thought_id, time_elapsed());
+                fprintf(stdout, "Thought process cannot be found.\n");
                 break;
             case ENOMEM:
-                if (log_file) fprintf(log_file, "%s.%ld: Insufficient memory to execute thought.\n",
-                                      thought_id, time_elapsed());
+                fprintf(stdout, "Insufficient memory to execute thought.\n");
                 break;
             default:
-                if (log_file) fprintf(log_file, "%s.%ld: Thought execution failed because of an unknown %d error.\n",
-                                      thought_id, time_elapsed(), errno);
+                fprintf(stdout, "Thought execution failed because of an unknown %d error.\n", errno);
                 break;
         }
         exit(EXIT_FAILURE);
@@ -273,39 +309,82 @@ static int has_terminated(void)
 }
 
 
+static ssize_t line_size(char const *in_string, char const *in_limit)
+{
+    char const *ptr = in_string;
+    while ((ptr != in_limit) && (*ptr != '\n') && (*ptr != '\r')) ptr++;
+    if (ptr == in_limit) return 0;
+    else return ptr + 1 - in_string;
+}
+
+
+#undef OUTPUT_XFER_BUFFER_SIZE
+#define OUTPUT_XFER_BUFFER_SIZE 4096
+
 static void thought_monitor(void)
 {
     time_t start_time = time(NULL);
+    char buffer[OUTPUT_XFER_BUFFER_SIZE];
+    ssize_t buffer_size = 0;
     
     for (;;)
     {
-        if (has_output())
+        /* check if the thought process has terminated */
+        int terminate = has_terminated();
+        
+        /* check for output from the thought process;
+         copy it line-by-line to the log file or screen (if debugging) */
+        if (has_output() || (buffer_size > 0))
         {
-            char buffer[OUTPUT_XFER_BUFFER_SIZE];
             for (;;)
             {
-                ssize_t bytes_read = read(g_fd_output, buffer, OUTPUT_XFER_BUFFER_SIZE);
+                ssize_t bytes_read = read(g_fd_output, buffer + buffer_size, OUTPUT_XFER_BUFFER_SIZE);
                 if (bytes_read < 1) break;
-                if (log_file)
-                    fwrite(buffer, 1, bytes_read, log_file);
+                
+                buffer_size += bytes_read;
+                while (buffer_size > 0)
+                {
+                    ssize_t line_bytes = line_size(buffer, buffer + buffer_size);
+                    
+                    /* if we've filled the buffer, we have to output it,
+                     regardless of whether we've found an end of line marker */
+                    if ((line_bytes == 0) && (buffer_size == OUTPUT_XFER_BUFFER_SIZE))
+                        line_bytes = buffer_size;
+                    if ((terminate) && (line_bytes == 0))
+                        line_bytes = buffer_size;
+                    
+                    /* can't see end of line, come back later */
+                    if (line_bytes == 0) break;
+    
+                    /* output the log line with an appropriate prefix */
+                    if (log_file)
+                    {
+                        fprintf(log_file, LOG_PREFIX_FORMAT ": ", thought_id, time_elapsed());
+                        fwrite(buffer, 1, line_bytes, log_file);
+                    }
+                    
+                    /* adjust the buffer so we don't consider this line again */
+                    memmove(buffer, buffer + line_bytes, buffer_size - line_bytes);
+                    buffer_size -= line_bytes;
+                }
             }
         }
         
-        if (has_terminated()) break;
+        /* exit if the process has terminated */
+        if (terminate) break;
         
-        if (time(NULL) - start_time >= g_timeout_secs)
+        /* otherwise check if the process has been running too long */
+        else if (time(NULL) - start_time >= g_timeout_secs)
         {
             kill(g_script_pid, SIGKILL);
-            if (log_file) fprintf(log_file, "%s.%ld: Thought took too long and was aborted.\n",
+            if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Thought took too long and was aborted.\n",
                                   thought_id, time_elapsed());
             break;
         }
     
+        /* sleep for a while */
         usleep(500);
     }
-    
-    /*if (log_file) fprintf(log_file, "%s.%ld: Thought concluded.\n",
-                          thought_id, time_elapsed());*/
 }
 
 
@@ -395,7 +474,7 @@ static void process_options(int argc, char const *argv[])
             case 't':
                 use_specified_timeout();
                 break;
-                
+            
             case 'd':
                 g_debug = 1;
                 break;
@@ -430,9 +509,51 @@ finish_processing_options:
 }
 
 
+static void configure(void)
+{
+    int err;
+    if (!config_file_name)
+        config_file_name = brain_strdup(make_name(BRAIN_CONFIG_DIR, BRAIN_CONFIG_FILE));
+    if (!config_file_name)
+    {
+        fprintf(stderr, "Not enough memory to reference configuration file.\n");
+        exit(EXIT_FAILURE);
+    }
+    if ( ( err = confscan(config_file_name, &scan_conf_line_)) )
+    {
+        switch (err)
+        {
+            case ENOENT:
+                fprintf(stderr, "Configuration error: %s\nFile not found.\n", config_file_name);
+                break;
+            case EACCES:
+                fprintf(stderr, "Configuration error: %s\nCheck file permissions.\n", config_file_name);
+                break;
+            default:
+                fprintf(stderr, "Configuration error: %s\nUnknown system error %d.\n", config_file_name, err);
+                break;
+        }
+        
+        exit(EXIT_FAILURE);
+    }
+    
+    if (!g_log_dir) g_log_dir = LOG_FILE_LOCATION;
+    if (!g_script_dir)
+    {
+        fprintf(stderr, "Configuration error: %s\nUnspecified thought directory.\n", config_file_name);
+        exit(EXIT_FAILURE);
+    }
+}
+
+
 int main(int argc, const char * argv[])
 {
     process_options(argc, argv);
+    
+    thought_name = brain_strdup(argv[optind]);
+    basename(thought_name);
+    
+    configure();
     
     thought_setup();
     thought_exec(argc, argv);

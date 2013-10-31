@@ -79,9 +79,10 @@ void trim_line_end(char *in_line)
 }
 
 
-int confscan(char const *in_pathname, int (*in_line_handler)(char const *in_name, char const *in_value))
+int confscan(char const *in_pathname, int (*in_line_handler)(long in_line_number, char const *in_key, char const *in_value))
 {
     int err = 0;
+    long line_number = 0;
     
     FILE *fp = fopen(in_pathname, "r");
     if (!fp) return errno;
@@ -89,6 +90,7 @@ int confscan(char const *in_pathname, int (*in_line_handler)(char const *in_name
     static char line_buffer[MAX_CONFIG_LINE_SIZE];
     while ( fgets(line_buffer, MAX_CONFIG_LINE_SIZE, fp) )
     {
+        line_number++;
         mark_line_end(line_buffer);
         if (line_is_empty(line_buffer)) continue;
         
@@ -99,7 +101,7 @@ int confscan(char const *in_pathname, int (*in_line_handler)(char const *in_name
         char *value = skip_leading(name_end);
         *name_end = 0;
         
-        err = in_line_handler(name, value);
+        err = in_line_handler(line_number, name, value);
         if (err) break;
     }
     

@@ -29,6 +29,7 @@
 #include "alloc.h"
 
 
+
 char* brain_strdup(char const *in_string)
 {
     if (!in_string) in_string = "";
@@ -56,6 +57,19 @@ char* brain_strdup_upper(char const *in_string)
 }
 
 
+char const* make_name(char const *in_path, char const *in_name)
+{
+    static char *result = NULL;
+    if (result) free(result);
+    size_t path_len = strlen(in_path);
+    result = brain_alloc_(path_len + 1 + strlen(in_name) + 1, 0);
+    if (!result) return NULL;
+    if ((path_len == 0) || (in_path[path_len-1] == '/'))
+        sprintf(result, "%s%s", in_path, in_name);
+    else
+        sprintf(result, "%s/%s", in_path, in_name);
+    return result;
+}
 
 
 

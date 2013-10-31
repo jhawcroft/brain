@@ -29,5 +29,7 @@ char* brain_strdup(char const *in_string);
 char* brain_strdup_upper(char const *in_string);
 
 
+char const* make_name(char const *in_path, char const *in_name);
+
 
 #endif

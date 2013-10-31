@@ -24,7 +24,8 @@
 #define CONFREAD_H
 
 
-int confscan(char const *in_pathname, int (*in_line_handler)(char const *in_name, char const *in_value));
+int confscan(char const *in_pathname, int (*in_line_handler)(long in_line_number, char const *in_key, char const *in_value));
+
 
 
 #endif

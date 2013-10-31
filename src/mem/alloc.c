@@ -24,6 +24,9 @@
 
 #include "alloc.h"
 
+/* TODO: ensure that when we implement an optimized, managed allocator,
+ that utilities such as thought continue to operate with the basic allocator,
+ probably hint 0 */
 
 void* brain_alloc_(size_t in_size, int in_hint)
 {

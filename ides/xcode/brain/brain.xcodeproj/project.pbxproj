@@ -43,6 +43,8 @@
 		03D18CDF18220CFB00D7EFF1 /* thought.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18CD018220CBD00D7EFF1 /* thought.c */; };
 		03D4D59418223017008F1FF5 /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D4D59218223017008F1FF5 /* confscan.c */; };
 		03D4D59518223017008F1FF5 /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D4D59218223017008F1FF5 /* confscan.c */; };
+		03D4D59718223C6C008F1FF5 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C58181E1C9700D7EFF1 /* util.c */; };
+		03D4D59818223E49008F1FF5 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B64181CC502009E66D9 /* alloc.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -123,6 +125,7 @@
 		03D18CD618220CF300D7EFF1 /* thought */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = thought; sourceTree = BUILT_PRODUCTS_DIR; };
 		03D4D59218223017008F1FF5 /* confscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = confscan.c; path = ../../../../src/util/confscan.c; sourceTree = "<group>"; };
 		03D4D59318223017008F1FF5 /* confscan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = confscan.h; path = ../../../../src/util/confscan.h; sourceTree = "<group>"; };
+		03D4D5961822392A008F1FF5 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../../../src/config.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +235,7 @@
 		03BFAEEC181CAAD90023011F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				03D4D5961822392A008F1FF5 /* config.h */,
 				03D18CCE18220CAE00D7EFF1 /* thought */,
 				03D18C61181E45CA00D7EFF1 /* intl */,
 				03D18C5B181E289D00D7EFF1 /* kn */,
@@ -427,8 +431,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03D4D59818223E49008F1FF5 /* alloc.c in Sources */,
 				03D4D59518223017008F1FF5 /* confscan.c in Sources */,
 				03D18CDF18220CFB00D7EFF1 /* thought.c in Sources */,
+				03D4D59718223C6C008F1FF5 /* util.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
