@@ -40,10 +40,20 @@
 		03D18C6F181F873E00D7EFF1 /* genutt.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C6C181F6D9E00D7EFF1 /* genutt.c */; };
 		03D18C72181F922500D7EFF1 /* sbuff.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C70181F922500D7EFF1 /* sbuff.c */; };
 		03D18C8B1820787300D7EFF1 /* bootstrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C8A1820787300D7EFF1 /* bootstrap.c */; };
+		03D18CDF18220CFB00D7EFF1 /* thought.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18CD018220CBD00D7EFF1 /* thought.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		03BFAEDE181C9FA60023011F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		03D18CD418220CF300D7EFF1 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -106,10 +116,20 @@
 		03D18C70181F922500D7EFF1 /* sbuff.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sbuff.c; path = ../../../../src/util/sbuff.c; sourceTree = "<group>"; };
 		03D18C71181F922500D7EFF1 /* sbuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sbuff.h; path = ../../../../src/util/sbuff.h; sourceTree = "<group>"; };
 		03D18C8A1820787300D7EFF1 /* bootstrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bootstrap.c; path = ../../../../src/kn/bootstrap.c; sourceTree = "<group>"; };
+		03D18CCF18220CBD00D7EFF1 /* thought.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; name = thought.1; path = ../../../../src/thought/thought.1; sourceTree = "<group>"; };
+		03D18CD018220CBD00D7EFF1 /* thought.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = thought.c; path = ../../../../src/thought/thought.c; sourceTree = "<group>"; };
+		03D18CD618220CF300D7EFF1 /* thought */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = thought; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		03BFAEDD181C9FA60023011F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03D18CD318220CF300D7EFF1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -189,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				03BFAEE0181C9FA60023011F /* brain */,
+				03D18CD618220CF300D7EFF1 /* thought */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -205,6 +226,7 @@
 		03BFAEEC181CAAD90023011F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				03D18CCE18220CAE00D7EFF1 /* thought */,
 				03D18C61181E45CA00D7EFF1 /* intl */,
 				03D18C5B181E289D00D7EFF1 /* kn */,
 				03BFAEEE181CAAE70023011F /* nl */,
@@ -280,6 +302,15 @@
 			name = intl;
 			sourceTree = "<group>";
 		};
+		03D18CCE18220CAE00D7EFF1 /* thought */ = {
+			isa = PBXGroup;
+			children = (
+				03D18CCF18220CBD00D7EFF1 /* thought.1 */,
+				03D18CD018220CBD00D7EFF1 /* thought.c */,
+			);
+			name = thought;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -298,6 +329,23 @@
 			name = brain;
 			productName = brain;
 			productReference = 03BFAEE0181C9FA60023011F /* brain */;
+			productType = "com.apple.product-type.tool";
+		};
+		03D18CD518220CF300D7EFF1 /* thought */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03D18CDC18220CF300D7EFF1 /* Build configuration list for PBXNativeTarget "thought" */;
+			buildPhases = (
+				03D18CD218220CF300D7EFF1 /* Sources */,
+				03D18CD318220CF300D7EFF1 /* Frameworks */,
+				03D18CD418220CF300D7EFF1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = thought;
+			productName = thought;
+			productReference = 03D18CD618220CF300D7EFF1 /* thought */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -322,6 +370,7 @@
 			projectRoot = "";
 			targets = (
 				03BFAEDF181C9FA60023011F /* brain */,
+				03D18CD518220CF300D7EFF1 /* thought */,
 			);
 		};
 /* End PBXProject section */
@@ -364,6 +413,14 @@
 				03D18C5E181E28C600D7EFF1 /* kn.c in Sources */,
 				03D18C47181CEE7C00D7EFF1 /* isplit.c in Sources */,
 				03AC1B60181CBFA0009E66D9 /* words.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03D18CD218220CF300D7EFF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03D18CDF18220CFB00D7EFF1 /* thought.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +515,24 @@
 			};
 			name = Release;
 		};
+		03D18CDD18220CF300D7EFF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		03D18CDE18220CF300D7EFF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -478,6 +553,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		03D18CDC18220CF300D7EFF1 /* Build configuration list for PBXNativeTarget "thought" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03D18CDD18220CF300D7EFF1 /* Debug */,
+				03D18CDE18220CF300D7EFF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
