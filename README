@@ -1,0 +1,36 @@
+Brain Rarely Accepts Incoherent Nonsense (BRAIN)
+version 0.1d1
+
+BRAIN is an artificial intelligence system, featuring natural language conversation 
+ability and inference features.
+
+The system is extensible and uses whatever scripting language(s) you are most familiar to 
+implement additional behaviours.
+
+
+STATUS
+
+The project is actively being developed, however, it is only in a very developmental/
+prototype state and is not operational as yet.
+
+
+AUTHOR
+
+BRAIN is the work of Joshua Hawcroft <http://joshhawcroft.org/>
+
+
+
+LICENSE
+
+BRAIN is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+ 
+BRAIN is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+ 
+You should have received a copy of the GNU General Public License
+along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
