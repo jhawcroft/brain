@@ -29,4 +29,8 @@
 void load_config(void);
 
 
+extern char *g_braind_server_sock;
+
+
+
 #endif

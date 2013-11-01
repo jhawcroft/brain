@@ -28,6 +28,8 @@
 #define BRAIN_CONFIG_DIR "/etc/brain/"
 #define BRAIN_CONFIG_FILE "brain.conf"
 
+#define BRAIND_SERVER_SOCK "/var/run/braind.sock"
+
 
 
 #endif

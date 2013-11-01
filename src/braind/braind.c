@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <stdarg.h>
+#include <sys/stat.h>
 
 #include "conf.h"
 #include "../util/util.h"
@@ -52,14 +53,45 @@ void fatal(char const *in_message, ...)
 }
 
 
+static void daemonize(void)
+{
+    pid_t pid = fork();
+    if (pid < 0) fatal("unable to fork() to background");
+    if (pid > 0)
+    {
+        /* exit the parent process,
+         returning control to the waiting caller */
+        exit(EXIT_SUCCESS);
+    }
+    
+    /* set child process file creation mask;
+     rw- (file) r-x (directory) */
+    umask(0);
+    
+    /* create a new session ID for the child process */
+    if (setsid() < 0) fatal("unable to obtain session ID");
+    
+    /* change the current working directory */
+    if (chdir("/") < 0) fatal("unable to change to root directory");
+    
+    /* close out the standard file descriptors */
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+}
+
+
 static void start_daemon(void)
 {
-    /* initalize basic logging to screen/syslog 
+    /* initalize basic logging to screen/syslog
      until configuration loaded */
     log_init(NULL, SYSLOG_DAEMON);
     
     /* load the configuration file */
     load_config();
+    
+    /* daemonize (detatch from calling process) */
+    //daemonize();
     
     /* initalize the knowledge network
      and natural language processing engine */

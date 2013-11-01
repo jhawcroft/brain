@@ -47,7 +47,7 @@
 /* globals I need to patch in from configuration: */
 int g_max_connections = 50;
 int g_connection_queue = 5;
-char *g_server_sock_name = "braind.sock";
+
 int g_zombie_threshold_secs = 10;
 int g_conn_buffer_size = 4096; /* MUST be at least 2 x the size of the longest request
                                 our output to be generated */
@@ -287,13 +287,6 @@ static void handle_sigio2_(int in_signal)
 
 void brain_uds_start(void)
 {
-    /* don't use this - replace in the actual sources with a configurable path: */
-    if (chdir("/Users/josh/"))
-    {
-        printf("Failed to change directory.\n");
-        exit(EXIT_FAILURE);
-    }
-    
     /* create a pool of connection records */
     g_split_buff_size = g_conn_buffer_size / 2;
     g_connections = calloc(g_max_connections, sizeof(connection_t));
@@ -330,13 +323,13 @@ void brain_uds_start(void)
     /* bind to the local address */
     struct sockaddr_un local_addr;
     local_addr.sun_family = AF_UNIX;
-    if (strlen(g_server_sock_name) > sizeof(local_addr.sun_path)-1)
+    if (strlen(g_braind_server_sock) > sizeof(local_addr.sun_path)-1)
     {
         fprintf(stdout, "Listening socket name is too long.\n");
         exit(EXIT_FAILURE);
     }
-    strcpy(local_addr.sun_path, g_server_sock_name);
-    unlink(g_server_sock_name);
+    strcpy(local_addr.sun_path, g_braind_server_sock);
+    unlink(g_braind_server_sock);
     if (bind(g_unix_listener, (struct sockaddr*)&local_addr, sizeof(struct sockaddr_un)))
     {
         switch (errno)

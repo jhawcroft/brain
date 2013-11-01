@@ -40,6 +40,10 @@
 #define BRAIND_LOG_NAME "braind.log"
 
 
+char *g_braind_server_sock = BRAIND_SERVER_SOCK;
+
+
+
 static void use_log_file(char const *in_name)
 {
     /* reinit the logging */
@@ -51,16 +55,10 @@ static int scan_conf_line_(long in_line_number, char const *in_key, char const *
 {
     if (strcmp(in_key, "log-dir") == 0)
         use_log_file(in_value);
-    
-    /*if (strcmp(in_key, "thought-dir") == 0)
-        g_script_dir = strdup(in_value);
-    else if (strcmp(in_key, "log-dir") == 0)
-        g_log_dir = strdup(in_value);
-    else
-    {
-        fprintf(stderr, "Unknown configuration option \"%s\" on line %ld of brain.conf.\n", in_key, in_line_number);
-        return CONFIG_ERROR;
-    }*/
+    else if (strcmp(in_key, "local-socket") == 0)
+        g_braind_server_sock = brain_strdup(in_value);
+        
+  
     return CONFIG_OK;
 }
 
@@ -69,7 +67,11 @@ void load_config(void)
 {
     int err;
     char *config_file = brain_strdup(make_name(BRAIN_CONFIG_DIR, BRAIN_CONFIG_FILE));
-    lprintf(BRAIN_ERROR, "not enough memory to load configuration file");
+    if (!config_file)
+    {
+        lprintf(BRAIN_ERROR, "not enough memory to load configuration file");
+        exit(EXIT_FAILURE);
+    }
     if ( ( err = confscan(config_file, &scan_conf_line_)) )
     {
         switch (err)
