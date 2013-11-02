@@ -25,7 +25,11 @@
 #include "event.h"
 #include "ui.h"
 #include "error.h"
+#include "client.h"
 
+
+/* call void client_send_request(int in_req_type, void *in_data, int in_size)
+ for each request we want to make of the server */
 
 void brsh_handle_input(char const *in_input)
 {
@@ -34,12 +38,19 @@ void brsh_handle_input(char const *in_input)
         brsh_shutdown(EXIT_SUCCESS);
     }
     brsh_printf("%s\n", in_input);
+    client_send_request(4, (void*)in_input, (int) strlen(in_input) + 1);
+}
+
+
+void brsh_handle_reply(int in_reply_type, void *in_data, int in_size)
+{
+    brsh_printf("%s\n", in_data);
 }
 
 
 void brsh_handle_io(void)
 {
-    
+    client_poll();
 }
 
 

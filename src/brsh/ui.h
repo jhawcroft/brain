@@ -32,6 +32,7 @@ int brsh_ui_inited();
 void brsh_print(char const *in_output);
 void brsh_printf(char const *in_output, ...);
 void brsh_shutdown(int in_exit_status);
+void brsh_teardown(void);
 
 
 #endif

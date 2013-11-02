@@ -27,14 +27,20 @@
 #include "ui.h"
 
 
+static void vfatal(char const *in_message, va_list in_args)
+{
+    if (brsh_ui_inited()) brsh_teardown();
+    vprintf(in_message, in_args);
+    exit(EXIT_FAILURE);
+}
+
+
 void fatal(char const *in_message, ...)
 {
     va_list arg_list;
     va_start(arg_list, in_message);
-    vprintf(in_message, arg_list);
+    vfatal(in_message, arg_list);
     va_end(arg_list);
-    if (brsh_ui_inited()) brsh_shutdown(EXIT_FAILURE);
-    exit(EXIT_FAILURE);
 }
 
 

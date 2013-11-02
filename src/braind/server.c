@@ -50,7 +50,7 @@ int g_connection_queue = 5;
 
 int g_zombie_threshold_secs = 10;
 int g_conn_buffer_size = 4096; /* MUST be at least 2 x the size of the longest request
-                                our output to be generated */
+                                our output to be generated (should be configurable) */
 
 
 /* globals for this unit only: */

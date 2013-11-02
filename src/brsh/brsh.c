@@ -41,6 +41,11 @@
 
 char *g_braind_server_sock = BRAIND_SERVER_SOCK;
 
+int g_conn_buffer_size = 4096; /* MUST be at least 2 x the size of the longest request
+                                our output to be generated (should be configurable, see also server.c) */
+
+
+
 
 static int scan_conf_line_(long in_line_number, char const *in_key, char const *in_value)
 {

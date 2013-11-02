@@ -40,7 +40,7 @@
 
 
 /* compile-time configuration */
-#define BRSH_RUNLOOP_SLEEP_USEC 500
+#define BRSH_RUNLOOP_SLEEP_USEC 25000
 
 #define BRSH_NAME               "brsh"
 #define BRSH_VERSION            "1.0"
@@ -56,7 +56,7 @@ static FIELD *fld_input = NULL;
 
 
 static void brsh_init(void);
-static void brsh_teardown(void);
+
 
 
 int brsh_ui_inited()
@@ -180,7 +180,7 @@ static void brsh_clear_input(void)
 }
 
 
-static void brsh_teardown(void)
+void brsh_teardown(void)
 {
     if (frm_input)
     {
