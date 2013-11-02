@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0349AF1A18249905004A2021 /* client.c in Sources */ = {isa = PBXBuildFile; fileRef = 0349AF1818249905004A2021 /* client.c */; };
 		0353559C18247B730014B07A /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D4D59218223017008F1FF5 /* confscan.c */; };
 		0353559D18247B760014B07A /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C58181E1C9700D7EFF1 /* util.c */; };
 		0353559F18247B7E0014B07A /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B64181CC502009E66D9 /* alloc.c */; };
 		03A14F641824793A0022C901 /* brsh.c in Sources */ = {isa = PBXBuildFile; fileRef = 03A14F5B1824793A0022C901 /* brsh.c */; };
-		03A14F651824793A0022C901 /* client.c in Sources */ = {isa = PBXBuildFile; fileRef = 03A14F5C1824793A0022C901 /* client.c */; };
 		03A14F661824793A0022C901 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 03A14F5E1824793A0022C901 /* error.c */; };
 		03A14F671824793A0022C901 /* event.c in Sources */ = {isa = PBXBuildFile; fileRef = 03A14F601824793A0022C901 /* event.c */; };
 		03A14F681824793A0022C901 /* ui.c in Sources */ = {isa = PBXBuildFile; fileRef = 03A14F621824793A0022C901 /* ui.c */; };
@@ -91,9 +91,9 @@
 
 /* Begin PBXFileReference section */
 		0349AF1618249698004A2021 /* protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocol.h; path = ../../../../src/protocol.h; sourceTree = "<group>"; };
+		0349AF1818249905004A2021 /* client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = client.c; path = ../../../../src/client/client.c; sourceTree = "<group>"; };
+		0349AF1918249905004A2021 /* client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = client.h; path = ../../../../src/client/client.h; sourceTree = "<group>"; };
 		03A14F5B1824793A0022C901 /* brsh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = brsh.c; path = ../../../../src/brsh/brsh.c; sourceTree = "<group>"; };
-		03A14F5C1824793A0022C901 /* client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = client.c; path = ../../../../src/brsh/client.c; sourceTree = "<group>"; };
-		03A14F5D1824793A0022C901 /* client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = client.h; path = ../../../../src/brsh/client.h; sourceTree = "<group>"; };
 		03A14F5E1824793A0022C901 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = error.c; path = ../../../../src/brsh/error.c; sourceTree = "<group>"; };
 		03A14F5F1824793A0022C901 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error.h; path = ../../../../src/brsh/error.h; sourceTree = "<group>"; };
 		03A14F601824793A0022C901 /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = event.c; path = ../../../../src/brsh/event.c; sourceTree = "<group>"; };
@@ -196,6 +196,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0349AF17182498F9004A2021 /* client */ = {
+			isa = PBXGroup;
+			children = (
+				0349AF1818249905004A2021 /* client.c */,
+				0349AF1918249905004A2021 /* client.h */,
+			);
+			name = client;
+			sourceTree = "<group>";
+		};
 		03A14F6D182479710022C901 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +305,7 @@
 		03BFAEEC181CAAD90023011F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				0349AF17182498F9004A2021 /* client */,
 				03D4D5961822392A008F1FF5 /* config.h */,
 				0349AF1618249698004A2021 /* protocol.h */,
 				03D4D61E18236106008F1FF5 /* braind */,
@@ -403,8 +413,6 @@
 			isa = PBXGroup;
 			children = (
 				03A14F5B1824793A0022C901 /* brsh.c */,
-				03A14F5D1824793A0022C901 /* client.h */,
-				03A14F5C1824793A0022C901 /* client.c */,
 				03A14F631824793A0022C901 /* ui.h */,
 				03A14F621824793A0022C901 /* ui.c */,
 				03A14F611824793A0022C901 /* event.h */,
@@ -556,8 +564,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0349AF1A18249905004A2021 /* client.c in Sources */,
 				03A14F661824793A0022C901 /* error.c in Sources */,
-				03A14F651824793A0022C901 /* client.c in Sources */,
 				03A14F671824793A0022C901 /* event.c in Sources */,
 				03A14F641824793A0022C901 /* brsh.c in Sources */,
 				03A14F681824793A0022C901 /* ui.c in Sources */,
