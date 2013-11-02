@@ -72,7 +72,10 @@ static void handle_text(connection_t *in_conn, char const *in_text)
         for (int a = 0; a < meaning->argument_count; a++)
         {
             sbuff_append_cstring(invokation, " ", 1);
-            sbuff_append_cstring(invokation, meaning->arguments[a], SBUFF_AUTO_LENGTH);
+            if (meaning->arguments[a])
+                sbuff_append_cstring(invokation, meaning->arguments[a], SBUFF_AUTO_LENGTH);
+            else
+                sbuff_append_cstring(invokation, ".", SBUFF_AUTO_LENGTH);
         }
         printf("%s\n", sbuff_cstring(invokation));
         
