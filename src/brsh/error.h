@@ -19,23 +19,10 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
-/* brain shell; command-line interface to make requests of, and receive output
- from the BRAIN system */
 
-#include "ui.h"
-#include "client.h"
-#include "error.h"
+#ifndef BRSH_ERROR_H
+#define BRSH_ERROR_H
 
+void fatal(char const *in_message, ...);
 
-int main(int argc, const char * argv[])
-{
-    
-    /* need to handle command line args,
-     and read configuration file for brain, and for brsh here */
-    
-    client_connect("/Users/josh/brain/brain.sock");
-    brsh();
-    
-    return 0;
-}
-
+#endif
