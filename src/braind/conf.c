@@ -29,6 +29,7 @@
 #include "../config.h"
 #include "../util/util.h"
 #include "../util/confscan.h"
+#include "../mem/alloc.h"
 #include "conf.h"
 #include "log.h"
 #include "err.h"
@@ -41,6 +42,7 @@
 
 
 char *g_braind_server_sock = BRAIND_SERVER_SOCK;
+char *g_braind_thought_path = NULL;
 
 
 
@@ -57,8 +59,11 @@ static int scan_conf_line_(long in_line_number, char const *in_key, char const *
         use_log_file(in_value);
     else if (strcmp(in_key, "local-socket") == 0)
         g_braind_server_sock = brain_strdup(in_value);
-        
-  
+    else if (strcmp(in_key, "thought") == 0)
+    {
+        if (g_braind_thought_path) brain_free_(g_braind_thought_path);
+        g_braind_thought_path = brain_strdup(in_value);
+    }
     return CONFIG_OK;
 }
 
@@ -66,6 +71,11 @@ static int scan_conf_line_(long in_line_number, char const *in_key, char const *
 void load_config(void)
 {
     int err;
+    
+    /* configure some defaults */
+    g_braind_thought_path = brain_strdup(make_name(BRAIND_INSTALL_DIR, "thought"));
+    
+    /* load the actual configuration file */
     char *config_file = brain_strdup(make_name(BRAIN_CONFIG_DIR, BRAIN_CONFIG_FILE));
     if (!config_file)
     {

@@ -99,11 +99,11 @@ static int scan_conf_line_(long in_line_number, char const *in_key, char const *
         g_script_dir = strdup(in_value);
     else if (strcmp(in_key, "log-dir") == 0)
         g_log_dir = strdup(in_value);
-    else
+    /*else
     {
         fprintf(stderr, "Unknown configuration option \"%s\" on line %ld of brain.conf.\n", in_key, in_line_number);
         return CONFIG_ERROR;
-    }
+    }*/
     return CONFIG_OK;
 }
 

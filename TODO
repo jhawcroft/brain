@@ -1,0 +1,3 @@
+
+
+-	Fix NL to ignore case and use GNU libunistring as it did in earlier prototype

@@ -22,6 +22,7 @@
 
 #include <string.h>
 
+#include "../protocol.h"
 #include "event.h"
 #include "ui.h"
 #include "error.h"
@@ -37,14 +38,26 @@ void brsh_handle_input(char const *in_input)
     {
         brsh_shutdown(EXIT_SUCCESS);
     }
-    brsh_printf("%s\n", in_input);
-    client_send_request(4, (void*)in_input, (int) strlen(in_input) + 1);
+    brsh_printf("User: %s\n", in_input);
+    
+    client_send_request(BRAIN_COMM_TEXT, (void*)in_input, (int) strlen(in_input) + 1);
 }
 
 
 void brsh_handle_reply(int in_reply_type, void *in_data, int in_size)
 {
-    brsh_printf("%s\n", in_data);
+    if (in_reply_type == BRAIN_COMM_IDLE) return;
+    
+    switch (in_reply_type)
+    {
+        case BRAIN_COMM_TEXT:
+            brsh_printf("Brain: %s\n", in_data);
+            break;
+        case BRAIN_COMM_ERRR:
+            brsh_print("Brain encountered an error processing your request.\n");
+            break;
+    }
+    
 }
 
 

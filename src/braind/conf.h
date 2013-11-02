@@ -30,7 +30,7 @@ void load_config(void);
 
 
 extern char *g_braind_server_sock;
-
+extern char *g_braind_thought_path;
 
 
 #endif

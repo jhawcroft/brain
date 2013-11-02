@@ -29,6 +29,7 @@
 #include <getopt.h>
 #include <stdarg.h>
 #include <sys/stat.h>
+#include <libgen.h>
 
 #include "conf.h"
 #include "../util/util.h"
@@ -37,6 +38,9 @@
 
 #include "kn.h"
 #include "nl.h"
+
+
+
 
 
 void brain_uds_start(void);
@@ -104,7 +108,7 @@ static void start_daemon(void)
 
 
 int main(int argc, const char * argv[])
-{
+{    
     start_daemon(); /* only if the command line arguments request it */
     
     

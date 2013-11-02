@@ -38,6 +38,7 @@
 #include "err.h"
 #include "log.h"
 #include "conf.h"
+#include "server.h"
 
 #include "../protocol.h"
 
@@ -64,17 +65,7 @@ static int g_conn_count = 0;
 static bool g_got_wakeup = false;
 static int g_split_buff_size = 0;
 
-typedef struct connection_struct
-{
-    int sock;
-    time_t last_activity;
-    int z_count;
-    char *recv_buffer;
-    int recv_size;
-    char *writ_buffer;
-    int writ_size;
-    
-} connection_t;
+
 
 
 static connection_t *g_connections = NULL;
@@ -163,12 +154,7 @@ void server_respond(connection_t *in_conn, int in_type, void *in_data, int in_si
 }
 
 
-static void despatch_request(connection_t *in_conn, int in_type, void *in_data, int in_size)
-{
-    printf("REQ %d:\"%s\" (%d)\n", in_type, (char*)in_data, in_size);
-    if (in_type == 4)
-        server_respond(in_conn, 9, "IDLE!", 6);
-}
+
 
 
 static void server_awake(void)

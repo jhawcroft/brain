@@ -19,27 +19,29 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
-/* shared communications protocol constants */
 
-#ifndef BRAIN_COMMS_PROTOCOL_H
-#define BRAIN_COMMS_PROTOCOL_H
-
-
-#define BRAIN_COMM_CONN_TIMEOUT_SECS 15
-#define BRAIN_COMM_CONN_IDLE_SECS 10
+#ifndef BRAIND_SERVER_H
+#define BRAIND_SERVER_H
 
 
-enum
+#include <time.h>
+
+
+typedef struct connection_struct
 {
-    BRAIN_COMM_IDLE = 0,
-    BRAIN_COMM_HELO,
-    BRAIN_COMM_TEXT,
-    BRAIN_COMM_ERRR,
-};
+    int sock;
+    time_t last_activity;
+    int z_count;
+    char *recv_buffer;
+    int recv_size;
+    char *writ_buffer;
+    int writ_size;
+    
+} connection_t;
 
+
+void server_respond(connection_t *in_conn, int in_type, void *in_data, int in_size);
+void despatch_request(connection_t *in_conn, int in_type, void *in_data, int in_size);
 
 
 #endif
-
-
-

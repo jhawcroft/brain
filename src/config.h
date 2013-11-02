@@ -30,6 +30,7 @@
 
 #define BRAIND_SERVER_SOCK "/var/run/braind.sock"
 
+#define BRAIND_INSTALL_DIR "/usr/local/sbin/brain/"
 
 
 #endif
