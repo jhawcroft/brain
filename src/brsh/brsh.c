@@ -23,12 +23,14 @@
  from the BRAIN system */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <errno.h>
 #include <string.h>
 
 #include "../config.h"
 #include "../util/confscan.h"
 #include "../util/util.h"
+#include "../protocol.h"
 
 #include "ui.h"
 #include "client.h"
@@ -79,7 +81,31 @@ static void configure(void)
 }
 
 
-int main(int argc, const char * argv[])
+static void meaning2nl(int argc, char const *argv[])
+{
+    long len = 0;
+    for (int a = 0; a < argc; a++)
+    {
+        len += strlen(argv[a]) + 1;
+    }
+    char *data = malloc(len + 1);
+    if (!data) fatal("not enough memory");
+    len = 0;
+    for (int a = 0; a < argc; a++)
+    {
+        if (a + 1 < argc)
+            len += sprintf(data + len, "%s ", argv[a]);
+        else
+            len += sprintf(data + len, "%s", argv[a]);
+    }
+    /*printf("Sending: %s\n", data);*/
+    client_send_request(BRAIN_COMM_GENL, data, (int)strlen(data) + 1);
+    free(data);
+    client_wait_for_send();
+}
+
+
+int main(int argc, const char *argv[])
 {
     /* need to handle command line args */
     
@@ -87,6 +113,14 @@ int main(int argc, const char * argv[])
 
     
     client_connect();
+    
+    if (strstr(argv[0], "respond") != 0)
+    {
+        meaning2nl(argc - 1, argv + 1);
+        return 0;
+    }
+    
+    
     brsh();
     
     return 0;

@@ -93,6 +93,14 @@ static void handle_text(connection_t *in_conn, char const *in_text)
 }
 
 
+static void handle_gen(connection_t *in_conn, in_data)
+{
+    printf("Gen: %s\n", in_data);
+    
+    
+}
+
+
 
 void despatch_request(connection_t *in_conn, int in_type, void *in_data, int in_size)
 {
@@ -103,6 +111,9 @@ void despatch_request(connection_t *in_conn, int in_type, void *in_data, int in_
     {
         case BRAIN_COMM_TEXT:
             handle_text(in_conn, in_data);
+            break;
+        case BRAIN_COMM_GENL:
+            handle_gen(in_conn, in_data);
             break;
     }
     

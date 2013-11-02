@@ -56,6 +56,9 @@ void brsh_handle_reply(int in_reply_type, void *in_data, int in_size)
         case BRAIN_COMM_ERRR:
             brsh_print("Brain encountered an error processing your request.\n");
             break;
+        case BRAIN_COMM_HELO:
+            brsh_printf("%s\n", in_data);
+            break;
     }
     
 }

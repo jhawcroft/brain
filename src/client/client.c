@@ -38,6 +38,9 @@
 #include "../protocol.h"
 
 
+#define BRAIN_CLIENT_IDLE_USECS 50000
+
+
 extern char *g_braind_server_sock;
 extern int g_conn_buffer_size;
 
@@ -194,17 +197,14 @@ void client_send_request(int in_req_type, void *in_data, int in_size)
 }
 
 
+void client_wait_for_send(void)
+{
+    while (g_send_size > 0)
+    {
+        client_poll();
+        usleep(BRAIN_CLIENT_IDLE_USECS);
+    }
+    exit(EXIT_SUCCESS);
+}
 
-/*
- write(g_client_sock, "\xA\x0\x6Hello", 9);
- write(g_client_sock, "\xF\x0\x0", 3);
- write(g_client_sock, "\xF\x0\x0", 3);
- write(g_client_sock, "\x4\x0\x4" "Bye", 7);
- char buffer[100];
- printf("reading\n");
- long bytes = read(g_client_sock, buffer, 100);
- int req_type = buffer[0];
- int req_size = (buffer[1] << 8) + buffer[2];
- printf("RPY %d %s (%ld)\n", req_type, buffer + 3, req_size);
- */
 

@@ -26,5 +26,6 @@
 void client_connect(void);
 void client_poll(void);
 void client_send_request(int in_req_type, void *in_data, int in_size);
+void client_wait_for_send(void);
 
 #endif

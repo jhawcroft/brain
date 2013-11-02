@@ -35,6 +35,7 @@ enum
     BRAIN_COMM_HELO,
     BRAIN_COMM_TEXT,
     BRAIN_COMM_ERRR,
+    BRAIN_COMM_GENL,
 };
 
 

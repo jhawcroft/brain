@@ -1,3 +1,6 @@
 
 
 -	Fix NL to ignore case and use GNU libunistring as it did in earlier prototype
+
+
+NB.  Suggest we use environment on thought-side to relate NL responses back to the correct connection.
