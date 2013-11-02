@@ -263,8 +263,8 @@
 		03AC1B63181CC4F6009E66D9 /* mem */ = {
 			isa = PBXGroup;
 			children = (
-				03AC1B64181CC502009E66D9 /* alloc.c */,
 				03AC1B65181CC502009E66D9 /* alloc.h */,
+				03AC1B64181CC502009E66D9 /* alloc.c */,
 			);
 			name = mem;
 			sourceTree = "<group>";

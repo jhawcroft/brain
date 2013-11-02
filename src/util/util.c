@@ -41,6 +41,16 @@ char* brain_strdup(char const *in_string)
 }
 
 
+char* brain_strndup(char const *in_string, long in_size)
+{
+    if (!in_string) in_string = "";
+    char *result = brain_alloc_(in_size + 1, 0);
+    memcpy(result, in_string, in_size);
+    result[in_size] = 0;
+    return result;
+}
+
+
 /* TODO: needs to be altered to use GNU libunistring / ICS */
 char* brain_strdup_upper(char const *in_string)
 {

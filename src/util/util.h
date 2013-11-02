@@ -26,6 +26,7 @@
 
 
 char* brain_strdup(char const *in_string);
+char* brain_strndup(char const *in_string, long in_size);
 char* brain_strdup_upper(char const *in_string);
 
 

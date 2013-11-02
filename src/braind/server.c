@@ -154,6 +154,17 @@ void server_respond(connection_t *in_conn, int in_type, void *in_data, int in_si
 }
 
 
+void server_broadcast(int in_type, void *in_data, int in_size)
+{
+    for (int c = 0; c < g_max_connections; c++)
+    {
+        if (g_connections[c].sock != -1)
+        {
+            server_respond(g_connections + c, in_type, in_data, in_size);
+        }
+    }
+}
+
 
 
 

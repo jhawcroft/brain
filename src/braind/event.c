@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "server.h"
 #include "conf.h"
@@ -93,11 +94,103 @@ static void handle_text(connection_t *in_conn, char const *in_text)
 }
 
 
-static void handle_gen(connection_t *in_conn, in_data)
+static char const* find_space(char const *in_string)
+{
+    while (*in_string && (!isspace(*in_string))) in_string++;
+    return in_string;
+}
+
+
+static void handle_gen(connection_t *in_conn, char const *in_data)
 {
     printf("Gen: %s\n", in_data);
+    /* need to split data into words here;
+     first word is meaning name, each of the others is an argument */
+    
+    char const *end = find_space(in_data);
+    long len = end - in_data;
+    if (len == 0) return;
+    
+    nlmeaning_t *meaning = brain_alloc_(sizeof(nlmeaning_t), 0);
+    if (!meaning) fatal("out of memory");
+    memset(meaning, 0, sizeof(nlmeaning_t));
+    
+    meaning->meaning = brain_strndup(in_data, len);
+    if (!meaning->meaning) fatal("out of memory");
+    
+    in_data += len;
+    while (isspace(*in_data))
+    {
+        in_data++;
+        end = find_space(in_data);
+        len = end - in_data;
+        if (len == 0) break;
+        
+        char **new_args = brain_realloc_(meaning->arguments, sizeof(char*) * (meaning->argument_count + 1), 0);
+        if (!new_args) fatal("out of memory");
+        meaning->arguments = new_args;
+        
+        char *arg = meaning->arguments[meaning->argument_count++] = brain_strndup(in_data, len);
+        if (!arg) fatal("out of memory");
+        in_data += len;
+    }
+    
+    /*printf("meaning: %s(", meaning->meaning);
+    for (int a = 0; a < meaning->argument_count; a++)
+    {
+        printf("%s", meaning->arguments[a]);
+        if (a + 1 < meaning->argument_count)
+            printf(", ");
+    }
+    printf(")\n");*/
+    
+    char *the_output;
+    nlmeaning_t *gen_meanings[1];
+    gen_meanings[0] = meaning;
+    int err = nl_meanings_to_output(gen_meanings, 1, &the_output, 0);
+    if (err != NL_OK)
+    {
+        server_respond(in_conn, BRAIN_COMM_ERRR, NULL, 0);
+    }
+    else
+    {
+        printf("Output: %s\n", the_output);
+        server_broadcast(BRAIN_COMM_TEXT, the_output, (int)strlen(the_output) + 1);
+        if (the_output) brain_free_(the_output);
+    }
     
     
+    for (int a = 0; a < meaning->argument_count; a++)
+    {
+        if (meaning->arguments[a]) brain_free_(meaning->arguments[a]);
+    }
+    brain_free_(meaning);
+    
+    /*
+     nlmeaning_t *gen_meanings[1];
+     
+
+    gen_meanings[0] = calloc(1, sizeof(nlmeaning_t));
+    gen_meanings[0]->meaning = strdup("like-something");
+    gen_meanings[0]->argument_count = 4;
+    gen_meanings[0]->arguments = calloc(gen_meanings[0]->argument_count, sizeof(char*));
+    gen_meanings[0]->arguments[0] = strdup("to-like");
+    gen_meanings[0]->arguments[1] = NULL;
+    gen_meanings[0]->arguments[2] = strdup("agent-writer");
+    gen_meanings[0]->arguments[3] = strdup("beef");
+    
+    char *the_output;
+    
+    err = nl_meanings_to_output(gen_meanings, 1, &the_output, 0);
+    if (err == NL_OK)
+    {
+        printf("output: %s\n", the_output);
+    }
+    else
+    {
+        printf("ERROR: %d\n", err);
+    }
+    */
 }
 
 
