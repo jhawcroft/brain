@@ -33,7 +33,7 @@
 #include "../protocol.h"
 
 #include "ui.h"
-#include "client.h"
+#include "../client/client.h"
 #include "error.h"
 
 

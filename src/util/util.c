@@ -26,7 +26,7 @@
 #include <ctype.h>
 
 #include "util.h"
-#include "alloc.h"
+#include "../mem/alloc.h"
 
 
 

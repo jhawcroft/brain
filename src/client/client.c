@@ -31,8 +31,9 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <poll.h>
+#include <time.h>
 
-#include "error.h"
+#include "../brsh/error.h" /* needs to be fixed! */
 #include "client.h"
 
 #include "../protocol.h"
