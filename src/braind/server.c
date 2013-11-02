@@ -39,16 +39,21 @@
 #include "log.h"
 #include "conf.h"
 
+#include "../protocol.h"
+
 
 /* compile-time configuration */
 #define SERVER_SLEEP_SECONDS 2
+
+#define BRAIND_NAME         "braind"
+#define BRAIND_VERSION      "1.0"
 
 
 /* globals I need to patch in from configuration: */
 int g_max_connections = 50;
 int g_connection_queue = 5;
 
-int g_zombie_threshold_secs = 10;
+
 int g_conn_buffer_size = 4096; /* MUST be at least 2 x the size of the longest request
                                 our output to be generated (should be configurable) */
 
@@ -80,6 +85,9 @@ static connection_t *g_connections = NULL;
  a loop too often hopefully... */
 
 
+void server_respond(connection_t *in_conn, int in_type, void *in_data, int in_size);
+
+
 static void accept_new_connections(void)
 {
     /* check if there are too many connections */
@@ -109,6 +117,12 @@ static void accept_new_connections(void)
                     fprintf(stdout, "Couldn't make connection socket asyncronous.\n");
                     exit(EXIT_FAILURE);
                 }
+                
+                /* send a welcome banner */
+                server_respond(g_connections + i,
+                               BRAIN_COMM_HELO,
+                               BRAIND_NAME " " BRAIND_VERSION,
+                               sizeof(BRAIND_NAME " " BRAIND_VERSION));
                 
                 /* try and accept another connection */
                 conn_sock = -1;
@@ -171,7 +185,7 @@ static void server_awake(void)
         
         /* check for zombie */
         if ((conn->z_count > 0) ||
-            (now - conn->last_activity >= g_zombie_threshold_secs))
+            (now - conn->last_activity >= BRAIN_COMM_CONN_TIMEOUT_SECS))
             conn->z_count++;
         if (conn->z_count > 2) /* z_count ensures all connections have a chance to 
                                 handle incoming/outgoing data before being considered

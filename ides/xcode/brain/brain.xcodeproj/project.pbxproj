@@ -90,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0349AF1618249698004A2021 /* protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocol.h; path = ../../../../src/protocol.h; sourceTree = "<group>"; };
 		03A14F5B1824793A0022C901 /* brsh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = brsh.c; path = ../../../../src/brsh/brsh.c; sourceTree = "<group>"; };
 		03A14F5C1824793A0022C901 /* client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = client.c; path = ../../../../src/brsh/client.c; sourceTree = "<group>"; };
 		03A14F5D1824793A0022C901 /* client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = client.h; path = ../../../../src/brsh/client.h; sourceTree = "<group>"; };
@@ -296,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				03D4D5961822392A008F1FF5 /* config.h */,
+				0349AF1618249698004A2021 /* protocol.h */,
 				03D4D61E18236106008F1FF5 /* braind */,
 				03D18CCE18220CAE00D7EFF1 /* thought */,
 				03D4D67518237E38008F1FF5 /* brsh */,

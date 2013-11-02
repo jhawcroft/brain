@@ -33,17 +33,10 @@
 #include <poll.h>
 
 #include "error.h"
+#include "client.h"
 
-/*
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <sys/un.h>
-#include <errno.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <poll.h>
-*/
+#include "../protocol.h"
+
 
 extern char *g_braind_server_sock;
 extern int g_conn_buffer_size;
@@ -57,6 +50,7 @@ static int g_recv_size = 0;
 static char *g_send_buffer = NULL;
 static int g_send_size = 0;
 
+static time_t g_last_idle = 0;
 
 
 
@@ -76,7 +70,7 @@ void client_connect(void)
     g_split_buff_size = g_conn_buffer_size / 2;
     g_recv_buffer = malloc(g_split_buff_size);
     g_send_buffer = malloc(g_split_buff_size);
-    
+    g_last_idle = time(NULL);
     
     /* create a socket */
     g_client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -113,6 +107,14 @@ void client_connect(void)
  for each reply we get from the server */
 void client_poll(void)
 {
+    /* send IDLE to keep connection open */
+    time_t now = time(NULL);
+    if (now - g_last_idle > BRAIN_COMM_CONN_IDLE_SECS)
+    {
+        g_last_idle = now;
+        client_send_request(BRAIN_COMM_IDLE, NULL, 0);
+    }
+    
     /* check for closure, or data available/writable */
     struct pollfd poll_what;
     poll_what.fd = g_client_sock;
