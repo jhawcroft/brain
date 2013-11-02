@@ -20,8 +20,8 @@
  
  */
 
-#ifndef testingBrshUI_ui_h
-#define testingBrshUI_ui_h
+#ifndef BRSH_UI_H
+#define BRSH_UI_H
 
 #include <stdlib.h>
 

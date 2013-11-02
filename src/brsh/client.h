@@ -20,9 +20,9 @@
  
  */
 
-#ifndef domainSocketClientTest_client_h
-#define domainSocketClientTest_client_h
+#ifndef BRSH_CLIENT_H
+#define BRSH_CLIENT_H
 
-void client_connect(char const *in_server_name);
+void client_connect(void);
 
 #endif

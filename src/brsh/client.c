@@ -34,7 +34,7 @@
 #include "error.h"
 
 
-
+extern char *g_braind_server_sock;
 static int g_client_sock = 0;
 
 
@@ -46,7 +46,7 @@ void client_disconnect(void)
 }
 
 
-void client_connect(char const *in_server_name)
+void client_connect(void)
 {
     /* create a socket */
     g_client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -56,13 +56,22 @@ void client_connect(char const *in_server_name)
     /* prepare the server address */
     struct sockaddr_un server_addr;
     server_addr.sun_family = AF_UNIX;
-    if (strlen(in_server_name) > sizeof(server_addr.sun_path)-1)
+    if (strlen(g_braind_server_sock) > sizeof(server_addr.sun_path)-1)
         fatal("Server name is too long.\n");
-    strcpy(server_addr.sun_path, in_server_name);
+    strcpy(server_addr.sun_path, g_braind_server_sock);
     
     /* connect to the server */
     if (connect(g_client_sock, (struct sockaddr*)&server_addr, sizeof(struct sockaddr_un)))
-        fatal("Couldn't connect to BRAIN - unknown system error %d\n", errno);
+    {
+        switch (errno)
+        {
+            case ECONNREFUSED:
+                fatal("BRAIN daemon is not running.\n", errno);
+            default:
+                fatal("Couldn't connect to BRAIN - unknown system error %d\n", errno);
+                break;
+        }
+    }
 }
 
 

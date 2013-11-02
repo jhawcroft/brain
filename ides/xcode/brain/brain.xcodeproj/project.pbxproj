@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0353559C18247B730014B07A /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D4D59218223017008F1FF5 /* confscan.c */; };
+		0353559D18247B760014B07A /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 03D18C58181E1C9700D7EFF1 /* util.c */; };
+		0353559F18247B7E0014B07A /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AC1B64181CC502009E66D9 /* alloc.c */; };
 		03A14F641824793A0022C901 /* brsh.c in Sources */ = {isa = PBXBuildFile; fileRef = 03A14F5B1824793A0022C901 /* brsh.c */; };
 		03A14F651824793A0022C901 /* client.c in Sources */ = {isa = PBXBuildFile; fileRef = 03A14F5C1824793A0022C901 /* client.c */; };
 		03A14F661824793A0022C901 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 03A14F5E1824793A0022C901 /* error.c */; };
@@ -398,14 +401,14 @@
 			isa = PBXGroup;
 			children = (
 				03A14F5B1824793A0022C901 /* brsh.c */,
-				03A14F5C1824793A0022C901 /* client.c */,
 				03A14F5D1824793A0022C901 /* client.h */,
-				03A14F5E1824793A0022C901 /* error.c */,
-				03A14F5F1824793A0022C901 /* error.h */,
-				03A14F601824793A0022C901 /* event.c */,
-				03A14F611824793A0022C901 /* event.h */,
-				03A14F621824793A0022C901 /* ui.c */,
+				03A14F5C1824793A0022C901 /* client.c */,
 				03A14F631824793A0022C901 /* ui.h */,
+				03A14F621824793A0022C901 /* ui.c */,
+				03A14F611824793A0022C901 /* event.h */,
+				03A14F601824793A0022C901 /* event.c */,
+				03A14F5F1824793A0022C901 /* error.h */,
+				03A14F5E1824793A0022C901 /* error.c */,
 			);
 			name = brsh;
 			sourceTree = "<group>";
@@ -556,6 +559,9 @@
 				03A14F671824793A0022C901 /* event.c in Sources */,
 				03A14F641824793A0022C901 /* brsh.c in Sources */,
 				03A14F681824793A0022C901 /* ui.c in Sources */,
+				0353559C18247B730014B07A /* confscan.c in Sources */,
+				0353559D18247B760014B07A /* util.c in Sources */,
+				0353559F18247B7E0014B07A /* alloc.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
