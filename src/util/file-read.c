@@ -13,7 +13,7 @@
 #include "file-read.h"
 
 
-#define READ_BUFFER_BYTES 4096Suppofdgfdkljklgjvbvnbfnmnbvbvb
+#define READ_BUFFER_BYTES 4096
 
 
 char* file_read(char const *in_filepath)

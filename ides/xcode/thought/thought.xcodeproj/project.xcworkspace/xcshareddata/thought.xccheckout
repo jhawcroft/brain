@@ -5,16 +5,16 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>9C431660-F15C-4C5C-B5C2-D98CD7059AC5</string>
+	<string>529ADB99-3075-4542-8AF2-55E5115D96DF</string>
 	<key>IDESourceControlProjectName</key>
-	<string>brain</string>
+	<string>thought</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>7F6B7CF1-08F9-4F96-AD2A-E53D877908E9</key>
 		<string>https://github.com/jhawcroft/brain.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ides/xcode/brain/brain.xcodeproj/project.xcworkspace</string>
+	<string>ides/xcode/thought/thought.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>7F6B7CF1-08F9-4F96-AD2A-E53D877908E9</key>

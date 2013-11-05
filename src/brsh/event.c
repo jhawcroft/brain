@@ -23,10 +23,11 @@
 #include <string.h>
 
 #include "../protocol.h"
+#include "../client/client.h"
 #include "event.h"
 #include "ui.h"
 #include "error.h"
-#include "client.h"
+
 
 
 /* call void client_send_request(int in_req_type, void *in_data, int in_size)

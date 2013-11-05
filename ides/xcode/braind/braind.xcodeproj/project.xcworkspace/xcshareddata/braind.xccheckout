@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>07344061-FCE9-4C73-A791-5C8B05DFCF2F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>braind</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>7F6B7CF1-08F9-4F96-AD2A-E53D877908E9</key>
+		<string>https://github.com/jhawcroft/brain.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ides/xcode/braind/braind.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>7F6B7CF1-08F9-4F96-AD2A-E53D877908E9</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/jhawcroft/brain.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>7F6B7CF1-08F9-4F96-AD2A-E53D877908E9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7F6B7CF1-08F9-4F96-AD2A-E53D877908E9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>brain</string>
+		</dict>
+	</array>
+</dict>
+</plist>
