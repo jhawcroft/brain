@@ -1,0 +1,5 @@
+2013-11-06  Josh Hawcroft  <dev@joshhawcroft.org>
+
+        * created configure.ac, Makefile.am
+        * ported entire project to GNU build system
+        * first runnable early public release
