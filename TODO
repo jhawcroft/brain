@@ -5,3 +5,4 @@
 -	Suspect thought isn't dealing with stderr and should be - logging it, in the same 
 way it logs stdout - that may explain our issue in testing with the bash error
 
+-	Complete configuration of auto-tools to allow modification/generation of config.h & installation into the correct directories
