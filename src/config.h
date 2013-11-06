@@ -34,15 +34,16 @@
 #ifndef BRAIN_THOUGHTS_DIR
 #define BRAIN_THOUGHTS_DIR "/usr/local/brain/thoughts/"
 #endif
-
-
-
-/* can be overridden by the brain.conf */
+#ifndef BRAIN_SOCKET
 #define BRAIN_SOCKET "/var/run/braind.sock"
-#define BRAIN_BUFFER 16384
+#endif
+#ifndef BRAIN_LOG
+#define BRAIN_LOG "/var/log/brain.log"
+#endif
+
 
 /* can be overridden by the brain.conf */
-#define BRAIN_LOG "/var/log/brain/brain.log"
+#define BRAIN_BUFFER 16384
 
 
 

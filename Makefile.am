@@ -2,11 +2,15 @@
 
 AUTOMAKE_OPTIONS = subdir-objects
 
+
+thoughtdir = $(pkgdatadir)/thoughts/
+
+
 AM_CPPFLAGS = -DBRAIN_CONFIG='"$(sysconfdir)/brain.conf"' \
-	-DBRAIN_BIN_DIR='"$(bindir)/"' -DBRAIN_THOUGHTS_DIR='"${prefix}/brain/thoughts/"'
+	-DBRAIN_BIN_DIR='"$(bindir)/"' -DBRAIN_THOUGHTS_DIR='"$(thoughtdir)"' \
+	-DBRAIN_SOCKET='"$(localstatedir)/run/brain.sock"' \
+	-DBRAIN_LOG='"$(prefix)/var/brain.log"'
 	
-
-
 
 bin_PROGRAMS = 	brsh thought braind
 
@@ -118,4 +122,19 @@ braind_SOURCES = src/braind/braind.c \
 				src/nl/plug/wordizer.c
 braind_LDADD =	$(BRAIND_INTL_LIB)
 
+sysconf_DATA = data/brain.conf
+
+pkginclude_HEADERS = includes/client.h includes/nlip.h includes/protocol.h
+
+
+#thought_DATA = data/thoughts/hello
+thought_SCRIPTS = data/thoughts/hello
+
+
+install-exec-hook:
+	ln -s $(DESTDIR)$(bindir)/brsh \
+	$(DESTDIR)$(bindir)/respond
+
+uninstall-hook:
+	rm $(DESTDIR)$(bindir)/respond
 

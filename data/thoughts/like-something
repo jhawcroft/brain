@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "Cool. I like $4 too."
+respond like-something to-like . agent-writer $4
+# thought like-something to-like how-much-like agent-writer beef
