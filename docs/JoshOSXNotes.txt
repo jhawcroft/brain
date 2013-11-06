@@ -1,0 +1,8 @@
+Probably due to the software I've installed on my OS X machine at present (I don't think I have GCC, only LLVM clang) my configure doesn't seem to pickup GNU libunistring with no arguments.
+
+This is fixing it for now.
+
+CPPFLAGS="-I/usr/local/include/" LDFLAGS="-L/usr/local/lib/" ./configure
+
+
+Will need to investigate my configuration later when I have more time.
