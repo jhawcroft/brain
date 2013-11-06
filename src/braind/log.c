@@ -99,6 +99,9 @@ void lvprintf(int in_level, char const *in_message, va_list in_args)
             else
                 fprintf(g_log_file, "Fatal Error: ");
             break;
+#if DEBUG == 1
+        case BRAIN_DEBUG:
+#endif
         case BRAIN_NOTICE:
             if (g_log_file == NULL)
                 vsyslog(LOG_MAKEPRI(g_syslog_facility, LOG_NOTICE), in_message, in_args);

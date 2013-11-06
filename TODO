@@ -1,11 +1,8 @@
 
 
--	Fix NL to ignore case and use GNU libunistring as it did in earlier prototype
 
 -	Suspect thought isn't dealing with stderr and should be - logging it, in the same 
 way it logs stdout - that may explain our issue in testing with the bash error
 
 -	Complete configuration of auto-tools to allow modification/generation of config.h & installation into the correct directories
 
-
-- 	Must strip print to stderr/stdout statements from code in daemon - these are probably responsible for server crash once those are closed, and make sure they get closed at the bottom of daemonize() in braind.c

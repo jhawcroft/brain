@@ -31,6 +31,7 @@
 #include "../mem/alloc.h"
 #include "../util/util.h"
 #include "../util/sbuff.h"
+#include "../braind/log.h"
 
 
 #include "../cont/glue.h"

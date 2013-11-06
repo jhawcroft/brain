@@ -111,7 +111,7 @@ static void accept_new_connections(void)
                 /* make the connection socket non-blocking and asyncronous */
                 if (fcntl(conn_sock, F_SETFL, O_ASYNC | O_NONBLOCK))
                 {
-                    fprintf(stdout, "Couldn't make connection socket asyncronous.\n");
+                    lprintf(BRAIN_ERROR, "Couldn't make connection socket asyncronous.\n");
                     exit(EXIT_FAILURE);
                 }
                 
@@ -130,7 +130,7 @@ static void accept_new_connections(void)
         
         /* shouldn't get here;
          no connection was found */
-        fprintf(stdout, "Internal error - accepting connection but connection table is full.\n");
+        lprintf(BRAIN_ERROR, "Internal error - accepting connection but connection table is full.\n");
         return;
     }
 }
@@ -145,11 +145,11 @@ static void kill_conn(connection_t *in_conn)
 
 void server_respond(connection_t *in_conn, int in_type, void *in_data, int in_size)
 {
-    printf("RPY %d:\"%s\" (%d)\n", in_type, (char*)in_data, in_size);
+    lprintf(BRAIN_DEBUG, "RPY %d:\"%s\" (%d)\n", in_type, (char*)in_data, in_size);
     int actual_size = in_size + 3;
     if (g_split_buff_size - in_conn->writ_size < actual_size)
     {
-        fprintf(stderr, "Couldn't send response to user, buffer overflow.\n");
+        lprintf(BRAIN_ERROR, "Couldn't send response to user, buffer overflow.\n");
         return;
     }
     in_conn->writ_buffer[in_conn->writ_size] = in_type;
@@ -240,7 +240,7 @@ static void server_awake(void)
                         int req_size = (conn->recv_buffer[1] << 8) + conn->recv_buffer[2];
                         if ((req_size < 0) || (req_size > g_split_buff_size))
                         {
-                            fprintf(stderr, "Connection receive buffer overflow, closing connection.\n");
+                            lprintf(BRAIN_ERROR, "Connection receive buffer overflow, closing connection.\n");
                             kill_conn(conn);
                             break;
                         }
@@ -289,16 +289,6 @@ static void server_runloop(void)
 
 
 
-/* dummy SIGIO handler to ensure we awake from sleep()
- may be able to use SIGPIPE handler to get rid of buggered connections more quickly?
- */
-/*static void handle_sigio_(int in_signal, siginfo_t *in_info, void *in_context)
-{
-    printf("Got SIGIO\n");
-    return;
-}
-
-*/
 
 /* dummy SIGIO handler to ensure we awake from sleep() reliably */
 static void handle_sigio2_(int in_signal)
@@ -310,7 +300,7 @@ static void handle_sigio2_(int in_signal)
 
 static void handle_sigpipe_(int in_signal)
 {
-    printf("GOT SIGPIPE\n");
+    lprintf(BRAIN_DEBUG, "GOT SIGPIPE\n");
     return;
 }
 
@@ -322,7 +312,7 @@ void brain_uds_start(void)
     g_connections = calloc(g_max_connections, sizeof(connection_t));
     if (!g_connections)
     {
-        fprintf(stdout, "Not enough memory to start server.\n");
+        lprintf(BRAIN_ERROR, "Not enough memory to start server.\n");
         exit(EXIT_FAILURE);
     }
     for (int i = 0; i < g_max_connections; i++)
@@ -332,13 +322,13 @@ void brain_uds_start(void)
         g_connections[i].recv_buffer = malloc(g_split_buff_size);
         if (!g_connections[i].recv_buffer)
         {
-            fprintf(stdout, "Not enough memory to start server.\n");
+            lprintf(BRAIN_ERROR, "Not enough memory to start server.\n");
             exit(EXIT_FAILURE);
         }
         g_connections[i].writ_buffer = malloc(g_split_buff_size);
         if (!g_connections[i].writ_buffer)
         {
-            fprintf(stdout, "Not enough memory to start server.\n");
+            lprintf(BRAIN_ERROR, "Not enough memory to start server.\n");
             exit(EXIT_FAILURE);
         }
     }
@@ -347,7 +337,7 @@ void brain_uds_start(void)
     g_unix_listener = socket(AF_UNIX, SOCK_STREAM, 0);
     if (g_unix_listener < 0)
     {
-        fprintf(stdout, "Couldn't create listening socket.\n");
+        lprintf(BRAIN_ERROR, "Couldn't create listening socket.\n");
         exit(EXIT_FAILURE);
     }
     
@@ -356,7 +346,7 @@ void brain_uds_start(void)
     local_addr.sun_family = AF_UNIX;
     if (strlen(g_brain_socket_name) > sizeof(local_addr.sun_path)-1)
     {
-        fprintf(stdout, "Listening socket name is too long.\n");
+        lprintf(BRAIN_ERROR, "Listening socket name is too long.\n");
         exit(EXIT_FAILURE);
     }
     strcpy(local_addr.sun_path, g_brain_socket_name);
@@ -366,13 +356,13 @@ void brain_uds_start(void)
         switch (errno)
         {
             case EACCES:
-                fprintf(stdout, "Couldn't bind - insufficient privileges.\n");
+                lprintf(BRAIN_ERROR, "Couldn't bind - insufficient privileges.\n");
                 break;
             case EADDRINUSE:
-                fprintf(stdout, "Couldn't bind - the address is already in use.\n");
+                lprintf(BRAIN_ERROR, "Couldn't bind - the address is already in use.\n");
                 break;
             default:
-                fprintf(stdout, "Couldn't bind - unknown system error %d\n", errno);
+                lprintf(BRAIN_ERROR, "Couldn't bind - unknown system error %d\n", errno);
                 break;
         }
         exit(EXIT_FAILURE);
@@ -381,7 +371,7 @@ void brain_uds_start(void)
     /* listen for incoming connections */
     if (listen(g_unix_listener, g_connection_queue))
     {
-        fprintf(stdout, "Couldn't listen - unknown system error %d\n", errno);
+        lprintf(BRAIN_ERROR, "Couldn't listen - unknown system error %d\n", errno);
         exit(EXIT_FAILURE);
     }
     
@@ -389,30 +379,21 @@ void brain_uds_start(void)
      and make listener non-blocking */
     if (fcntl(g_unix_listener, F_SETFL, O_ASYNC | O_NONBLOCK))
     {
-        fprintf(stdout, "Couldn't make listening socket asyncronous.\n");
+        lprintf(BRAIN_ERROR, "Couldn't make listening socket asyncronous.\n");
         exit(EXIT_FAILURE);
     }
     if (fcntl(g_unix_listener, F_SETOWN, getpid()))
     {
-        fprintf(stdout, "Couldn't make listening socket signalling.\n");
+        lprintf(BRAIN_ERROR, "Couldn't make listening socket signalling.\n");
         exit(EXIT_FAILURE);
     }
     
     /* set the SIGIO handler */
     signal(SIGIO, &handle_sigio2_);
     signal(SIGPIPE, &handle_sigpipe_);
-    /*struct sigaction accept_action;
-    accept_action.sa_flags = 0;
-    accept_action.sa_mask = 0;
-    accept_action.sa_sigaction = &handle_sigio_;
-    if (sigaction(SIGIO, &accept_action, NULL))
-    {
-        fprintf(stdout, "Couldn't configure signalling.\n");
-        exit(EXIT_FAILURE);
-    }*/
     
     /* run the server event loop */
-    fprintf(stdout, "Started BRAIN server.\n");
+    lprintf(BRAIN_NOTICE, "Started BRAIN server.\n");
     server_runloop();
 }
 

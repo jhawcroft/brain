@@ -31,6 +31,7 @@ enum
     BRAIN_NOTICE = 0,
     BRAIN_WARNING,
     BRAIN_ERROR,
+    BRAIN_DEBUG,
 };
 
 

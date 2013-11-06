@@ -80,8 +80,8 @@ static void daemonize(void)
     
     /* close out the standard file descriptors */
     close(STDIN_FILENO);
-    //close(STDOUT_FILENO);
-    //close(STDERR_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
 }
 
 

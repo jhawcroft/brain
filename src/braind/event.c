@@ -47,7 +47,7 @@ static void handle_text(connection_t *in_conn, char const *in_text)
     nlmeaning_t **meanings;
     int meaning_count;
     
-    printf("User: %s\n", in_text);
+    lprintf(BRAIN_DEBUG, "User: %s\n", in_text);
     
     err = nl_input_to_meanings(in_text, &meanings, &meaning_count);
     if (err != NL_OK)
@@ -61,14 +61,14 @@ static void handle_text(connection_t *in_conn, char const *in_text)
         nlmeaning_t *meaning = meanings[m];
         Sbuff *invokation = sbuff_create(SBUFF_DEFAULT_CAPACITY);
         
-        printf("meaning: %s(", meaning->meaning);
+        lprintf(BRAIN_DEBUG, "meaning: %s(", meaning->meaning);
         for (int a = 0; a < meaning->argument_count; a++)
         {
-            printf("%s", meaning->arguments[a]);
+            lprintf(BRAIN_DEBUG, "%s", meaning->arguments[a]);
             if (a + 1 < meaning->argument_count)
-                printf(", ");
+                lprintf(BRAIN_DEBUG, ", ");
         }
-        printf(")\n");
+        lprintf(BRAIN_DEBUG, ")\n");
         
         /* invoke thought */
         sbuff_append_cstring(invokation, g_brain_bin_thought, SBUFF_AUTO_LENGTH);
@@ -87,7 +87,7 @@ static void handle_text(connection_t *in_conn, char const *in_text)
             else
                 sbuff_append_cstring(invokation, ".", SBUFF_AUTO_LENGTH);
         }
-        printf("%s\n", sbuff_cstring(invokation));
+        lprintf(BRAIN_DEBUG, "%s\n", sbuff_cstring(invokation));
         
         system(sbuff_cstring(invokation));
         sbuff_dispose(invokation);
@@ -112,7 +112,7 @@ static char const* find_space(char const *in_string)
 
 static void handle_gen(connection_t *in_conn, char const *in_data)
 {
-    printf("Gen: %s\n", in_data);
+    lprintf(BRAIN_DEBUG, "Gen: %s\n", in_data);
     /* need to split data into words here;
      first word is meaning name, each of the others is an argument */
     
@@ -156,7 +156,7 @@ static void handle_gen(connection_t *in_conn, char const *in_data)
     }
     else
     {
-        printf("Output: %s\n", the_output);
+        lprintf(BRAIN_DEBUG, "Output: %s\n", the_output);
         server_broadcast(in_conn->id_cookie, BRAIN_COMM_TEXT, the_output, (int)strlen(the_output) + 1);
         if (the_output) brain_free_(the_output);
     }
@@ -193,7 +193,7 @@ void despatch_request(connection_t *in_conn, int in_type, void *in_data, int in_
         case BRAIN_COMM_CKIE:
             if (in_size > 1)
             {
-                printf("Got cookie: %s\n", in_data);
+                lprintf(BRAIN_DEBUG, "Got cookie: %s\n", in_data);
                 if (in_conn->id_cookie) brain_free_(in_conn->id_cookie);
                 in_conn->id_cookie = brain_strdup(in_data);
             }

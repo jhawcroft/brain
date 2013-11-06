@@ -31,26 +31,26 @@
 
 void nl_input_debug(NLInput *in_input)
 {
-    printf("nl_input_debug():\n");
+    lprintf(BRAIN_DEBUG, "nl_input_debug():\n");
     
     /* enumerate all sentences */
     for (int i = 0; i < array_count(in_input->sentences); i++)
     {
         NLSentence *sentence = array_item(in_input->sentences, i);
-        printf("Sentence %d:\n", (i+1));
+        lprintf(BRAIN_DEBUG, "Sentence %d:\n", (i+1));
         
         /* enumerate tokens */
         for (int t = 0; t < sentence->token_count; t++)
         {
             NLToken *token = sentence->tokens[t];
-            printf("Token %d: flags=%04X, chars=\"%s\" (len=%d) \n", (t+1), token->flags,
+            lprintf(BRAIN_DEBUG, "Token %d: flags=%04X, chars=\"%s\" (len=%d) \n", (t+1), token->flags,
                    token->characters, token->length);
             
             PtrSet *concepts = token->concepts;
             for (int c = 0; c < ptrset_count(concepts); c++)
             {
                 knconcept_t *concept = ptrset_item(concepts, c);
-                printf("    concept: %s\n", kn_concept_name(concept));
+                lprintf(BRAIN_DEBUG, "    concept: %s\n", kn_concept_name(concept));
             }
         }
     }
