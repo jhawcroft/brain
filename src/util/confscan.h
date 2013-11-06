@@ -20,11 +20,12 @@
  
  */
 
-#ifndef CONFREAD_H
-#define CONFREAD_H
+#ifndef BRAIN_CONFSCAN_H
+#define BRAIN_CONFSCAN_H
 
 
-int confscan(char const *in_pathname, int (*in_line_handler)(long in_line_number, char const *in_key, char const *in_value));
+int brain_confscan_(char const *in_pathname,
+                    int (*in_line_handler)(long in_line_number, char const *in_key, char const *in_value));
 
 
 

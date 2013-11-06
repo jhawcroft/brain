@@ -19,18 +19,21 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* defines an interface for fatal errors;
+ (implementations vary depending on what part of brain is being compiled) */
 
-#ifndef BRAIND_CONFIG_H
-#define BRAIND_CONFIG_H
-
-#include "../config.h"
-
-
-void load_config(void);
+#ifndef BRAIN_FATAL_H
+#define BRAIN_FATAL_H
 
 
-extern char *g_braind_server_sock;
-extern char *g_braind_thought_path;
+#include <stdarg.h>
+
+void brain_vfatal_(char const *in_message, va_list in_args);
+void brain_fatal_(char const *in_message, ...);
+
 
 
 #endif
+
+
+

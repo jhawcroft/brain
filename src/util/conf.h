@@ -20,9 +20,20 @@
  
  */
 
-#ifndef BRSH_ERROR_H
-#define BRSH_ERROR_H
+#ifndef BRAIN_CONF_H
+#define BRAIN_CONF_H
 
-void fatal(char const *in_message, ...);
+
+int brain_configure_(char const *in_alternate_config_file);
+
+
+extern char const *const g_brain_thoughts;
+extern char const *const g_brain_bin;
+extern char const *const g_brain_socket_name;
+extern char const *const g_brain_log_name;
+
+extern int const g_brain_buffer;
+
+
 
 #endif

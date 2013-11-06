@@ -19,11 +19,19 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
+/* shared communications protocol constants */
 
-#ifndef BRAIND_ERR_H
-#define BRAIND_ERR_H
+#ifndef BRAIN_COMMS_PROTOCOL_INT_H
+#define BRAIN_COMMS_PROTOCOL_INT_H
 
-void fatal(char const *in_message, ...);
+
+#define BRAIN_COMM_CONN_TIMEOUT_SECS 15
+#define BRAIN_COMM_CONN_IDLE_SECS 10
+
+
 
 
 #endif
+
+
+

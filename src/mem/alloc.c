@@ -24,9 +24,11 @@
 
 #include "alloc.h"
 
-/* TODO: ensure that when we implement an optimized, managed allocator,
- that utilities such as thought continue to operate with the basic allocator,
- probably hint 0 */
+
+#if BRAIN_DAEMON == 1
+
+/* BRAIN daemon will use a custom allocator to ensure memory is always available
+ at critical times during processing and simplify error handling */
 
 void* brain_alloc_(size_t in_size, int in_hint)
 {
@@ -45,5 +47,29 @@ void brain_free_(void *in_mem)
     free(in_mem);
 }
 
+
+#else /* ! BRAIN_DAEMON */
+
+/* other BRAIN modules use a simple wrapper around malloc & free */
+
+
+void* brain_alloc_(size_t in_size, int in_hint)
+{
+    return malloc(in_size);
+}
+
+
+void* brain_realloc_(void *in_mem, size_t in_size, int in_hint)
+{
+    return realloc(in_mem, in_size);
+}
+
+
+void brain_free_(void *in_mem)
+{
+    free(in_mem);
+}
+
+#endif
 
 

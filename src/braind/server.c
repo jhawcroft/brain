@@ -40,7 +40,8 @@
 #include "conf.h"
 #include "server.h"
 
-#include "../protocol.h"
+#include "../../includes/protocol.h"
+#include "../protocol-int.h"
 
 
 /* compile-time configuration */
@@ -334,13 +335,13 @@ void brain_uds_start(void)
     /* bind to the local address */
     struct sockaddr_un local_addr;
     local_addr.sun_family = AF_UNIX;
-    if (strlen(g_braind_server_sock) > sizeof(local_addr.sun_path)-1)
+    if (strlen(g_brain_socket_name) > sizeof(local_addr.sun_path)-1)
     {
         fprintf(stdout, "Listening socket name is too long.\n");
         exit(EXIT_FAILURE);
     }
-    strcpy(local_addr.sun_path, g_braind_server_sock);
-    unlink(g_braind_server_sock);
+    strcpy(local_addr.sun_path, g_brain_socket_name);
+    unlink(g_brain_socket_name);
     if (bind(g_unix_listener, (struct sockaddr*)&local_addr, sizeof(struct sockaddr_un)))
     {
         switch (errno)

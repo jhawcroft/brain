@@ -27,15 +27,18 @@
 
 #include "server.h"
 #include "conf.h"
-#include "../protocol.h"
+#include "../../includes/protocol.h"
 #include "../util/util.h"
 #include "../mem/alloc.h"
 #include "../util/sbuff.h"
+#include "../fatal.h"
 #include "log.h"
-#include "err.h"
 
 #include "kn.h"
 #include "nl.h"
+
+
+extern char *g_brain_bin_thought;
 
 
 static void handle_text(connection_t *in_conn, char const *in_text)
@@ -67,7 +70,7 @@ static void handle_text(connection_t *in_conn, char const *in_text)
         }
         printf(")\n");
         
-        sbuff_append_cstring(invokation, g_braind_thought_path, SBUFF_AUTO_LENGTH);
+        sbuff_append_cstring(invokation, g_brain_bin_thought, SBUFF_AUTO_LENGTH);
         sbuff_append_cstring(invokation, " ", 1);
         sbuff_append_cstring(invokation, meaning->meaning, SBUFF_AUTO_LENGTH);
         for (int a = 0; a < meaning->argument_count; a++)
@@ -112,11 +115,11 @@ static void handle_gen(connection_t *in_conn, char const *in_data)
     if (len == 0) return;
     
     nlmeaning_t *meaning = brain_alloc_(sizeof(nlmeaning_t), 0);
-    if (!meaning) fatal("out of memory");
+    if (!meaning) brain_fatal_("out of memory");
     memset(meaning, 0, sizeof(nlmeaning_t));
     
     meaning->meaning = brain_strndup(in_data, len);
-    if (!meaning->meaning) fatal("out of memory");
+    if (!meaning->meaning) brain_fatal_("out of memory");
     
     in_data += len;
     while (isspace(*in_data))
@@ -127,11 +130,11 @@ static void handle_gen(connection_t *in_conn, char const *in_data)
         if (len == 0) break;
         
         char **new_args = brain_realloc_(meaning->arguments, sizeof(char*) * (meaning->argument_count + 1), 0);
-        if (!new_args) fatal("out of memory");
+        if (!new_args) brain_fatal_("out of memory");
         meaning->arguments = new_args;
         
         char *arg = meaning->arguments[meaning->argument_count++] = brain_strndup(in_data, len);
-        if (!arg) fatal("out of memory");
+        if (!arg) brain_fatal_("out of memory");
         in_data += len;
     }
     

@@ -11,6 +11,7 @@
 		033E455D1829A95A002EAB3A /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E45531829A95A002EAB3A /* confscan.c */; };
 		033E45611829A95A002EAB3A /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E455B1829A95A002EAB3A /* util.c */; };
 		033E45651829A960002EAB3A /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E45631829A960002EAB3A /* alloc.c */; };
+		03485E191829DF77003C6B40 /* conf.c in Sources */ = {isa = PBXBuildFile; fileRef = 03485E171829DF77003C6B40 /* conf.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +37,8 @@
 		033E455C1829A95A002EAB3A /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		033E45631829A960002EAB3A /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alloc.c; sourceTree = "<group>"; };
 		033E45641829A960002EAB3A /* alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alloc.h; sourceTree = "<group>"; };
+		03485E171829DF77003C6B40 /* conf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = conf.c; sourceTree = "<group>"; };
+		03485E181829DF77003C6B40 /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,8 @@
 		033E45521829A95A002EAB3A /* util */ = {
 			isa = PBXGroup;
 			children = (
+				03485E171829DF77003C6B40 /* conf.c */,
+				03485E181829DF77003C6B40 /* conf.h */,
 				033E45531829A95A002EAB3A /* confscan.c */,
 				033E45541829A95A002EAB3A /* confscan.h */,
 				033E455B1829A95A002EAB3A /* util.c */,
@@ -151,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03485E191829DF77003C6B40 /* conf.c in Sources */,
 				033E45651829A960002EAB3A /* alloc.c in Sources */,
 				033E455D1829A95A002EAB3A /* confscan.c in Sources */,
 				033E45511829A949002EAB3A /* thought.c in Sources */,
@@ -262,6 +268,7 @@
 				033E454C1829A92E002EAB3A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -22,11 +22,14 @@
 
 #include <string.h>
 
-#include "../protocol.h"
-#include "../client/client.h"
+
+#include "../../includes/client.h"
 #include "event.h"
 #include "ui.h"
-#include "error.h"
+#include "../fatal.h"
+
+
+extern brain_client_t *g_client;
 
 
 
@@ -41,7 +44,7 @@ void brsh_handle_input(char const *in_input)
     }
     brsh_printf("User: %s\n", in_input);
     
-    client_send_request(BRAIN_COMM_TEXT, (void*)in_input, (int) strlen(in_input) + 1);
+    brain_client_send_request(g_client, BRAIN_COMM_TEXT, (void*)in_input, (int) strlen(in_input) + 1);
 }
 
 
@@ -67,7 +70,7 @@ void brsh_handle_reply(int in_reply_type, void *in_data, int in_size)
 
 void brsh_handle_io(void)
 {
-    client_poll();
+    brain_client_poll_(g_client);
 }
 
 

@@ -42,7 +42,7 @@
 #include <signal.h>
 
 #include "../config.h"
-#include "../util/confscan.h"
+#include "../util/conf.h"
 #include "../util/util.h"
 
 extern char **environ;
@@ -69,9 +69,7 @@ static char thought_id[MAX_THOUGHT_ID_LENGTH];
 static char *thought_name = NULL;
 
 /* configured file names/paths */
-static char *config_file_name = NULL;
-static char *g_script_dir = NULL;
-static char *g_log_dir = NULL;
+//static char *g_log_dir = NULL;
 
 /* log file (if any) */
 static FILE *log_file = NULL;
@@ -89,31 +87,28 @@ static int g_print_version = 0;
 static int g_print_help = 0;
 
 
-#define CONFIG_ERROR 1
-#define CONFIG_OK 0
 
 
+/*
+ #define CONFIG_ERROR 1
+ #define CONFIG_OK 0
 static int scan_conf_line_(long in_line_number, char const *in_key, char const *in_value)
 {
     if (strcmp(in_key, "thought-dir") == 0)
         g_script_dir = strdup(in_value);
     else if (strcmp(in_key, "log-dir") == 0)
         g_log_dir = strdup(in_value);
-    /*else
-    {
-        fprintf(stderr, "Unknown configuration option \"%s\" on line %ld of brain.conf.\n", in_key, in_line_number);
-        return CONFIG_ERROR;
-    }*/
+    
     return CONFIG_OK;
 }
-
+*/
 
 static void log_begin(void)
 {
     if (g_debug)
         log_file = stdout;
     else
-        log_file = fopen(make_name(g_log_dir, LOG_FILE_NAME), "a");
+        log_file = fopen(g_brain_log_name, "a");
 }
 
 
@@ -170,7 +165,7 @@ static void thought_setup(void)
     }
     
     /* change the current working directory */
-    if (chdir(g_script_dir) < 0) {
+    if (chdir(g_brain_thoughts) < 0) {
         if (log_file) fprintf(log_file, LOG_PREFIX_FORMAT ": Unable to access thought directory, aborting.\n",
                               thought_id, time_elapsed());
         exit(EXIT_FAILURE);
@@ -508,7 +503,7 @@ finish_processing_options:
     }
 }
 
-
+/*
 static void configure(void)
 {
     int err;
@@ -544,7 +539,7 @@ static void configure(void)
         exit(EXIT_FAILURE);
     }
 }
-
+*/
 
 int main(int argc, const char * argv[])
 {
@@ -553,7 +548,11 @@ int main(int argc, const char * argv[])
     thought_name = brain_strdup(argv[optind]);
     basename(thought_name);
     
-    configure();
+    if (brain_configure_(NULL))
+    {
+        fprintf(stderr, "Couldn't read brain.conf\n");
+        exit(EXIT_FAILURE);
+    }
     
     thought_setup();
     thought_exec(argc, argv);

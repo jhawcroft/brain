@@ -17,6 +17,8 @@
 		033E44A91829A837002EAB3A /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E449F1829A837002EAB3A /* confscan.c */; };
 		033E44AD1829A837002EAB3A /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E44A71829A837002EAB3A /* util.c */; };
 		033E44B11829A843002EAB3A /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E44AF1829A843002EAB3A /* alloc.c */; };
+		033E45671829C00C002EAB3A /* setup.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E45661829C00C002EAB3A /* setup.c */; };
+		033E456F1829C586002EAB3A /* conf.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E456D1829C586002EAB3A /* conf.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,13 +39,11 @@
 		033E448C1829A81D002EAB3A /* libform.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libform.dylib; path = usr/lib/libform.dylib; sourceTree = SDKROOT; };
 		033E448F1829A82B002EAB3A /* brsh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = brsh.c; sourceTree = "<group>"; };
 		033E44901829A82B002EAB3A /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
-		033E44911829A82B002EAB3A /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		033E44921829A82B002EAB3A /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = event.c; sourceTree = "<group>"; };
 		033E44931829A82B002EAB3A /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
 		033E44941829A82B002EAB3A /* ui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ui.c; sourceTree = "<group>"; };
 		033E44951829A82B002EAB3A /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
 		033E449B1829A831002EAB3A /* client.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = client.c; sourceTree = "<group>"; };
-		033E449C1829A831002EAB3A /* client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = client.h; sourceTree = "<group>"; };
 		033E449F1829A837002EAB3A /* confscan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = confscan.c; sourceTree = "<group>"; };
 		033E44A01829A837002EAB3A /* confscan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = confscan.h; sourceTree = "<group>"; };
 		033E44A71829A837002EAB3A /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
@@ -51,7 +51,13 @@
 		033E44AF1829A843002EAB3A /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alloc.c; sourceTree = "<group>"; };
 		033E44B01829A843002EAB3A /* alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alloc.h; sourceTree = "<group>"; };
 		033E45361829A919002EAB3A /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../../src/config.h; sourceTree = "<group>"; };
-		033E45371829A91D002EAB3A /* protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocol.h; path = ../../../src/protocol.h; sourceTree = "<group>"; };
+		033E45661829C00C002EAB3A /* setup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = setup.c; sourceTree = "<group>"; };
+		033E456A1829C075002EAB3A /* client.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = client.h; sourceTree = "<group>"; };
+		033E456C1829C127002EAB3A /* client-int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "client-int.h"; sourceTree = "<group>"; };
+		033E456D1829C586002EAB3A /* conf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = conf.c; sourceTree = "<group>"; };
+		033E456E1829C586002EAB3A /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
+		033E45701829C6D7002EAB3A /* fatal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fatal.h; path = ../../../src/fatal.h; sourceTree = "<group>"; };
+		03485E101829D637003C6B40 /* protocol-int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "protocol-int.h"; path = "../../../src/protocol-int.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +79,9 @@
 				033E448C1829A81D002EAB3A /* libform.dylib */,
 				033E448A1829A814002EAB3A /* libcurses.dylib */,
 				033E45361829A919002EAB3A /* config.h */,
-				033E45371829A91D002EAB3A /* protocol.h */,
+				033E45701829C6D7002EAB3A /* fatal.h */,
+				03485E101829D637003C6B40 /* protocol-int.h */,
+				033E45691829C075002EAB3A /* includes */,
 				033E448E1829A82B002EAB3A /* brsh */,
 				033E449A1829A831002EAB3A /* client */,
 				033E449E1829A837002EAB3A /* util */,
@@ -95,7 +103,6 @@
 			children = (
 				033E448F1829A82B002EAB3A /* brsh.c */,
 				033E44901829A82B002EAB3A /* error.c */,
-				033E44911829A82B002EAB3A /* error.h */,
 				033E44921829A82B002EAB3A /* event.c */,
 				033E44931829A82B002EAB3A /* event.h */,
 				033E44941829A82B002EAB3A /* ui.c */,
@@ -108,8 +115,9 @@
 		033E449A1829A831002EAB3A /* client */ = {
 			isa = PBXGroup;
 			children = (
+				033E456C1829C127002EAB3A /* client-int.h */,
 				033E449B1829A831002EAB3A /* client.c */,
-				033E449C1829A831002EAB3A /* client.h */,
+				033E45661829C00C002EAB3A /* setup.c */,
 			);
 			name = client;
 			path = ../../../src/client;
@@ -118,10 +126,12 @@
 		033E449E1829A837002EAB3A /* util */ = {
 			isa = PBXGroup;
 			children = (
-				033E449F1829A837002EAB3A /* confscan.c */,
+				033E456E1829C586002EAB3A /* conf.h */,
+				033E456D1829C586002EAB3A /* conf.c */,
 				033E44A01829A837002EAB3A /* confscan.h */,
-				033E44A71829A837002EAB3A /* util.c */,
+				033E449F1829A837002EAB3A /* confscan.c */,
 				033E44A81829A837002EAB3A /* util.h */,
+				033E44A71829A837002EAB3A /* util.c */,
 			);
 			name = util;
 			path = ../../../src/util;
@@ -135,6 +145,15 @@
 			);
 			name = mem;
 			path = ../../../src/mem;
+			sourceTree = "<group>";
+		};
+		033E45691829C075002EAB3A /* includes */ = {
+			isa = PBXGroup;
+			children = (
+				033E456A1829C075002EAB3A /* client.h */,
+			);
+			name = includes;
+			path = ../../../includes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,7 +210,9 @@
 				033E44A91829A837002EAB3A /* confscan.c in Sources */,
 				033E44981829A82B002EAB3A /* event.c in Sources */,
 				033E44971829A82B002EAB3A /* error.c in Sources */,
+				033E45671829C00C002EAB3A /* setup.c in Sources */,
 				033E44AD1829A837002EAB3A /* util.c in Sources */,
+				033E456F1829C586002EAB3A /* conf.c in Sources */,
 				033E44961829A82B002EAB3A /* brsh.c in Sources */,
 				033E449D1829A831002EAB3A /* client.c in Sources */,
 				033E44991829A82B002EAB3A /* ui.c in Sources */,

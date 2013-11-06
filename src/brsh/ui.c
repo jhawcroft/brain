@@ -36,7 +36,8 @@
 
 #include "event.h"
 #include "ui.h"
-#include "error.h"
+#include "../fatal.h"
+#include "../../includes/client.h"
 
 
 /* compile-time configuration */
@@ -44,6 +45,9 @@
 
 #define BRSH_NAME               "brsh"
 #define BRSH_VERSION            "1.0"
+
+
+extern brain_client_t *g_client;
 
 
 static int g_brsh_input_display_lines = 3;
@@ -156,7 +160,7 @@ static char const* brsh_get_input(void)
     long size = strlen(fld_buffer);
     input_buffer = malloc(size + 1);
     if (!input_buffer)
-        fatal("Not enough memory\n");
+        brain_fatal_("Not enough memory\n");
     strcpy(input_buffer, fld_buffer);
     
     /* trim the right-hand side */

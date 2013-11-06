@@ -27,7 +27,7 @@
 #include "ui.h"
 
 
-static void vfatal(char const *in_message, va_list in_args)
+static void brain_vfatal_(char const *in_message, va_list in_args)
 {
     if (brsh_ui_inited()) brsh_teardown();
     vprintf(in_message, in_args);
@@ -35,11 +35,11 @@ static void vfatal(char const *in_message, va_list in_args)
 }
 
 
-void fatal(char const *in_message, ...)
+void brain_fatal_(char const *in_message, ...)
 {
     va_list arg_list;
     va_start(arg_list, in_message);
-    vfatal(in_message, arg_list);
+    brain_vfatal_(in_message, arg_list);
     va_end(arg_list);
 }
 

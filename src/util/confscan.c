@@ -30,7 +30,7 @@
 #define MAX_CONFIG_LINE_SIZE 4096
 
 
-void mark_line_end(char *in_line)
+static void mark_line_end(char *in_line)
 {
     while (*in_line)
     {
@@ -44,7 +44,7 @@ void mark_line_end(char *in_line)
 }
 
 
-bool line_is_empty(char const *in_line)
+static bool line_is_empty(char const *in_line)
 {
     while (*in_line)
     {
@@ -55,21 +55,21 @@ bool line_is_empty(char const *in_line)
 }
 
 
-char* skip_leading(char *in_line)
+static char* skip_leading(char *in_line)
 {
     while (in_line[0] && isspace(in_line[0])) in_line++;
     return in_line;
 }
 
 
-char* skip_chars(char *in_line)
+static char* skip_chars(char *in_line)
 {
     while (in_line[0] && (!isspace(in_line[0]))) in_line++;
     return in_line;
 }
 
 
-void trim_line_end(char *in_line)
+static void trim_line_end(char *in_line)
 {
     char *line_end = in_line;
     while (*line_end) line_end++;
@@ -79,7 +79,8 @@ void trim_line_end(char *in_line)
 }
 
 
-int confscan(char const *in_pathname, int (*in_line_handler)(long in_line_number, char const *in_key, char const *in_value))
+int brain_confscan_(char const *in_pathname,
+                    int (*in_line_handler)(long in_line_number, char const *in_key, char const *in_value))
 {
     int err = 0;
     long line_number = 0;

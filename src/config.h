@@ -19,12 +19,25 @@
  along with BRAIN.  If not, see <http://www.gnu.org/licenses/>.
  
  */
-/* configuration */
-
 #ifndef BRAIN_CONFIG_H
 #define BRAIN_CONFIG_H
 
 
+/* default configuration */
+
+#define BRAIN_CONFIG "/etc/brain/brain.conf"
+
+#define BRAIN_BIN_DIR "/usr/local/brain/bin/"
+#define BRAIN_THOUGHTS_DIR "/usr/local/brain/thoughts/"
+
+#define BRAIN_SOCKET "/var/run/braind.sock"
+#define BRAIN_BUFFER 16384
+
+#define BRAIN_LOG "/var/log/brain/brain.log"
+
+
+
+/* deprecated */
 #define BRAIN_CONFIG_DIR "/etc/brain/"
 #define BRAIN_CONFIG_FILE "brain.conf"
 

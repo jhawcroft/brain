@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		033E44D11829A8A6002EAB3A /* braind.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E44C81829A8A6002EAB3A /* braind.c */; };
-		033E44D21829A8A6002EAB3A /* conf.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E44C91829A8A6002EAB3A /* conf.c */; };
 		033E44D31829A8A6002EAB3A /* event.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E44CC1829A8A6002EAB3A /* event.c */; };
 		033E44D41829A8A6002EAB3A /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E44CD1829A8A6002EAB3A /* log.c */; };
 		033E44D51829A8A6002EAB3A /* server.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E44CF1829A8A6002EAB3A /* server.c */; };
@@ -46,6 +45,7 @@
 		033E45331829A8DE002EAB3A /* ifsai.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E452B1829A8DE002EAB3A /* ifsai.c */; };
 		033E45341829A8DE002EAB3A /* sbuff.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E452D1829A8DE002EAB3A /* sbuff.c */; };
 		033E45351829A8DE002EAB3A /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E452F1829A8DE002EAB3A /* util.c */; };
+		03485E161829DC3A003C6B40 /* conf.c in Sources */ = {isa = PBXBuildFile; fileRef = 03485E141829DC3A003C6B40 /* conf.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,16 +63,12 @@
 /* Begin PBXFileReference section */
 		033E44BB1829A878002EAB3A /* braind */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = braind; sourceTree = BUILT_PRODUCTS_DIR; };
 		033E44C81829A8A6002EAB3A /* braind.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = braind.c; sourceTree = "<group>"; };
-		033E44C91829A8A6002EAB3A /* conf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = conf.c; sourceTree = "<group>"; };
-		033E44CA1829A8A6002EAB3A /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
-		033E44CB1829A8A6002EAB3A /* err.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = err.h; sourceTree = "<group>"; };
 		033E44CC1829A8A6002EAB3A /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = event.c; sourceTree = "<group>"; };
 		033E44CD1829A8A6002EAB3A /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
 		033E44CE1829A8A6002EAB3A /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
 		033E44CF1829A8A6002EAB3A /* server.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = server.c; sourceTree = "<group>"; };
 		033E44D01829A8A6002EAB3A /* server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = server.h; sourceTree = "<group>"; };
 		033E44D61829A8B2002EAB3A /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../../src/config.h; sourceTree = "<group>"; };
-		033E44D71829A8B7002EAB3A /* protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocol.h; path = ../../../src/protocol.h; sourceTree = "<group>"; };
 		033E44D91829A8C0002EAB3A /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = array.c; sourceTree = "<group>"; };
 		033E44DA1829A8C0002EAB3A /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = array.h; sourceTree = "<group>"; };
 		033E44DB1829A8C0002EAB3A /* glue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glue.c; sourceTree = "<group>"; };
@@ -126,6 +122,11 @@
 		033E452E1829A8DE002EAB3A /* sbuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sbuff.h; sourceTree = "<group>"; };
 		033E452F1829A8DE002EAB3A /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
 		033E45301829A8DE002EAB3A /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		03485E111829DC1A003C6B40 /* fatal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fatal.h; path = ../../../src/fatal.h; sourceTree = "<group>"; };
+		03485E121829DC21003C6B40 /* protocol-int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "protocol-int.h"; path = "../../../src/protocol-int.h"; sourceTree = "<group>"; };
+		03485E131829DC2C003C6B40 /* protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocol.h; path = ../../../includes/protocol.h; sourceTree = "<group>"; };
+		03485E141829DC3A003C6B40 /* conf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = conf.c; sourceTree = "<group>"; };
+		03485E151829DC3A003C6B40 /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +144,9 @@
 			isa = PBXGroup;
 			children = (
 				033E44D61829A8B2002EAB3A /* config.h */,
-				033E44D71829A8B7002EAB3A /* protocol.h */,
+				03485E111829DC1A003C6B40 /* fatal.h */,
+				03485E121829DC21003C6B40 /* protocol-int.h */,
+				03485E131829DC2C003C6B40 /* protocol.h */,
 				033E44C71829A8A6002EAB3A /* braind */,
 				033E44D81829A8C0002EAB3A /* cont */,
 				033E44E51829A8C9002EAB3A /* intl */,
@@ -167,9 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				033E44C81829A8A6002EAB3A /* braind.c */,
-				033E44C91829A8A6002EAB3A /* conf.c */,
-				033E44CA1829A8A6002EAB3A /* conf.h */,
-				033E44CB1829A8A6002EAB3A /* err.h */,
 				033E44CC1829A8A6002EAB3A /* event.c */,
 				033E44CD1829A8A6002EAB3A /* log.c */,
 				033E44CE1829A8A6002EAB3A /* log.h */,
@@ -274,6 +274,8 @@
 		033E45261829A8DE002EAB3A /* util */ = {
 			isa = PBXGroup;
 			children = (
+				03485E141829DC3A003C6B40 /* conf.c */,
+				03485E151829DC3A003C6B40 /* conf.h */,
 				033E45271829A8DE002EAB3A /* confscan.c */,
 				033E45281829A8DE002EAB3A /* confscan.h */,
 				033E45291829A8DE002EAB3A /* file-read.c */,
@@ -345,6 +347,7 @@
 				033E45111829A8D3002EAB3A /* detmean.c in Sources */,
 				033E44E81829A8C9002EAB3A /* utf8.c in Sources */,
 				033E451A1829A8D3002EAB3A /* acronyms.c in Sources */,
+				03485E161829DC3A003C6B40 /* conf.c in Sources */,
 				033E44D41829A8A6002EAB3A /* log.c in Sources */,
 				033E45171829A8D3002EAB3A /* itok.c in Sources */,
 				033E451F1829A8D3002EAB3A /* sentences.c in Sources */,
@@ -375,7 +378,6 @@
 				033E45181829A8D3002EAB3A /* iwizer.c in Sources */,
 				033E45191829A8D3002EAB3A /* parts.c in Sources */,
 				033E44D51829A8A6002EAB3A /* server.c in Sources */,
-				033E44D21829A8A6002EAB3A /* conf.c in Sources */,
 				033E44F61829A8CE002EAB3A /* pattern.c in Sources */,
 				033E45101829A8D3002EAB3A /* debug.c in Sources */,
 				033E45251829A8D7002EAB3A /* alloc.c in Sources */,

@@ -1,0 +1,28 @@
+INTERIM DEVELOPMENT DOCUMENTATION
+===
+
+BRAIN Configuration File Options
+---
+
+thoughts		Directory path for the 'thought' scripts
+				Defaults to: 	/usr/local/brain/thoughts/
+				config.h: 		BRAIN_THOUGHTS_DIR
+				globals:  		g_brain_thoughts
+				
+socket			Path to the local socket file
+				Defaults to: 	/var/run/braind.sock
+				config.h:		BRAIN_SOCKET
+				globals:		g_brain_socket_name
+
+buffer			Size of the communications buffer used by each socket connection
+				Defaults to:	16384
+				config.h:		BRAIN_BUFFER
+				globals:		g_brain_buffer
+
+bin				Path to the installed binaries
+				Defaults to: 	/usr/local/brain/bin/
+				config.h:		BRAIN_BIN_DIR
+				globals: 		g_brain_bin
+
+
+				

@@ -31,23 +31,23 @@
 #include <sys/stat.h>
 #include <libgen.h>
 
-#include "conf.h"
+#include "../util/conf.h"
 #include "../util/util.h"
+#include "../fatal.h"
 #include "log.h"
-#include "err.h"
 
 #include "kn.h"
 #include "nl.h"
 
 
-
+char *g_brain_bin_thought = NULL;
 
 
 void brain_uds_start(void);
 
 
 /* handle fatal errors */
-void fatal(char const *in_message, ...)
+void brain_fatal_(char const *in_message, ...)
 {
     va_list args;
     va_start(args, in_message);
@@ -60,7 +60,7 @@ void fatal(char const *in_message, ...)
 static void daemonize(void)
 {
     pid_t pid = fork();
-    if (pid < 0) fatal("unable to fork() to background");
+    if (pid < 0) brain_fatal_("unable to fork() to background");
     if (pid > 0)
     {
         /* exit the parent process,
@@ -73,10 +73,10 @@ static void daemonize(void)
     umask(0);
     
     /* create a new session ID for the child process */
-    if (setsid() < 0) fatal("unable to obtain session ID");
+    if (setsid() < 0) brain_fatal_("unable to obtain session ID");
     
     /* change the current working directory */
-    if (chdir("/") < 0) fatal("unable to change to root directory");
+    if (chdir("/") < 0) brain_fatal_("unable to change to root directory");
     
     /* close out the standard file descriptors */
     close(STDIN_FILENO);
@@ -92,15 +92,20 @@ static void start_daemon(void)
     log_init(NULL, SYSLOG_DAEMON);
     
     /* load the configuration file */
-    load_config();
+    if (brain_configure_(NULL))
+        brain_fatal_("Couldn't load brain.conf.\n");
+    
+    g_brain_bin_thought = brain_strdup(make_name(g_brain_bin, "thought"));
+    if (!g_brain_bin_thought)
+        brain_fatal_("Not enough memory.\n");
     
     /* daemonize (detatch from calling process) */
     //daemonize();
     
     /* initalize the knowledge network
      and natural language processing engine */
-    if (kn_startup()) fatal("couldn't initalize knowledge network");
-    if (nl_startup()) fatal("couldn't initalize natural language engine");
+    if (kn_startup()) brain_fatal_("couldn't initalize knowledge network");
+    if (nl_startup()) brain_fatal_("couldn't initalize natural language engine");
     
     /* start the request handling service */
     brain_uds_start();
