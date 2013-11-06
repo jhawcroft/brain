@@ -29,6 +29,9 @@
 
 #else
 #include <ctype.h>
+#include <strings.h>
+#include "../util/util.h"
+#include "../mem/alloc.h"
 #endif
 
 #include "../cont/hashmap.h"
@@ -74,13 +77,19 @@ long hashmap_utf8_hash_(void *in_context, void *in_key)
 
 int hashmap_utf8_compare_(void *in_context, void *in_left, void *in_right)
 {
-    return strcmp(in_left, in_right);
+    return strcasecmp(in_left, in_right);
 }
 
 
 long hashmap_utf8_hash_(void *in_context, void *in_key)
 {
-    return hashmap_hash_cstring(in_context, in_key);
+    char *buffer = brain_strdup(in_key);
+    long length = strlen(buffer);
+    for (long i = 0; i < length; i++)
+        buffer[i] = tolower(buffer[i]);
+    long hash = hashmap_hash_cstring(in_context, buffer);
+    brain_free_(buffer);
+    return hash;
 }
 
 

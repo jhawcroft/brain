@@ -29,6 +29,8 @@
 #include "../mem/alloc.h"
 
 
+/* TODO: it's important that these functions don't fail with out of memory problems
+ during normal operations, ie. must never return NULL  */
 
 char* brain_strdup(char const *in_string)
 {
