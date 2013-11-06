@@ -292,6 +292,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = subdir-objects
+AM_CPPFLAGS = -DBRAIN_CONFIG='"$(sysconfdir)/brain.conf"' \
+	-DBRAIN_BIN_DIR='"$(bindir)/"' -DBRAIN_THOUGHTS_DIR='"${prefix}/brain/thoughts/"'
+
 brsh_SOURCES = src/brsh/brsh.c \
 				src/brsh/error.c \
 				src/brsh/event.c \

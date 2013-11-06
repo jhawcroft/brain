@@ -3,6 +3,10 @@
 AC_PREREQ(2.59)
 AC_INIT([BRAIN], [0.1], [dev@joshhawcroft.org])
 
+#AC_CONFIG_HEADERS([compile.h])
+
+#AC_CONFIG_AUX_DIR([build-aux])
+
 # check source directory is correct
 AC_CONFIG_SRCDIR([src/config.h])
 

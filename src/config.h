@@ -23,16 +23,25 @@
 #define BRAIN_CONFIG_H
 
 
-/* default configuration */
-
+/* default configuration;
+ (ordinarily these will be set by make) */
+#ifndef BRAIN_CONFIG
 #define BRAIN_CONFIG "/etc/brain/brain.conf"
-
+#endif
+#ifndef BRAIN_BIN_DIR
 #define BRAIN_BIN_DIR "/usr/local/brain/bin/"
+#endif
+#ifndef BRAIN_THOUGHTS_DIR
 #define BRAIN_THOUGHTS_DIR "/usr/local/brain/thoughts/"
+#endif
 
+
+
+/* can be overridden by the brain.conf */
 #define BRAIN_SOCKET "/var/run/braind.sock"
 #define BRAIN_BUFFER 16384
 
+/* can be overridden by the brain.conf */
 #define BRAIN_LOG "/var/log/brain/brain.log"
 
 

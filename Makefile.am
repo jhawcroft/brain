@@ -2,6 +2,12 @@
 
 AUTOMAKE_OPTIONS = subdir-objects
 
+AM_CPPFLAGS = -DBRAIN_CONFIG='"$(sysconfdir)/brain.conf"' \
+	-DBRAIN_BIN_DIR='"$(bindir)/"' -DBRAIN_THOUGHTS_DIR='"${prefix}/brain/thoughts/"'
+	
+
+
+
 bin_PROGRAMS = 	brsh thought braind
 
 brsh_SOURCES = 	src/brsh/brsh.c \
