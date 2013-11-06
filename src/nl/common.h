@@ -44,7 +44,7 @@
 #include "parts.h"
 #include "context.h"
 #include "input.h"
-#include "kn.h"
+#include "../kn/kn.h"
 
 #include "../kn/common.h"
 

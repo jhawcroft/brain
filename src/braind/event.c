@@ -26,7 +26,7 @@
 #include <ctype.h>
 
 #include "server.h"
-#include "conf.h"
+#include "../util/conf.h"
 #include "../../includes/protocol.h"
 #include "../util/util.h"
 #include "../mem/alloc.h"
@@ -34,8 +34,8 @@
 #include "../fatal.h"
 #include "log.h"
 
-#include "kn.h"
-#include "nl.h"
+#include "../kn/kn.h"
+#include "../nl/nl.h"
 
 
 extern char *g_brain_bin_thought;

@@ -36,8 +36,8 @@
 #include "../fatal.h"
 #include "log.h"
 
-#include "kn.h"
-#include "nl.h"
+#include "../kn/kn.h"
+#include "../nl/nl.h"
 
 
 char *g_brain_bin_thought = NULL;

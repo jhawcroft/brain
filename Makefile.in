@@ -78,7 +78,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = brsh$(EXEEXT)
+bin_PROGRAMS = brsh$(EXEEXT) thought$(EXEEXT) braind$(EXEEXT)
 subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -96,6 +96,29 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
+am_braind_OBJECTS = src/braind/braind.$(OBJEXT) \
+	src/braind/event.$(OBJEXT) src/braind/log.$(OBJEXT) \
+	src/braind/server.$(OBJEXT) src/cont/array.$(OBJEXT) \
+	src/cont/glue.$(OBJEXT) src/cont/hashmap.$(OBJEXT) \
+	src/cont/ptrset.$(OBJEXT) src/intl/utf8.$(OBJEXT) \
+	src/kn/bootstrap.$(OBJEXT) src/kn/concept.$(OBJEXT) \
+	src/kn/kn.$(OBJEXT) src/kn/nl.$(OBJEXT) \
+	src/kn/pattern.$(OBJEXT) src/mem/alloc.$(OBJEXT) \
+	src/nl/debug.$(OBJEXT) src/nl/detmean.$(OBJEXT) \
+	src/nl/genutt.$(OBJEXT) src/nl/init.$(OBJEXT) \
+	src/nl/iparse.$(OBJEXT) src/nl/iplug.$(OBJEXT) \
+	src/nl/isplit.$(OBJEXT) src/nl/itok.$(OBJEXT) \
+	src/nl/iwizer.$(OBJEXT) src/nl/parts.$(OBJEXT) \
+	src/util/conf.$(OBJEXT) src/util/confscan.$(OBJEXT) \
+	src/util/file-read.$(OBJEXT) src/util/ifsai.$(OBJEXT) \
+	src/util/sbuff.$(OBJEXT) src/util/util.$(OBJEXT) \
+	src/nl/plug/builtins.$(OBJEXT) src/nl/plug/acronyms.$(OBJEXT) \
+	src/nl/plug/datetimes.$(OBJEXT) \
+	src/nl/plug/emoticons.$(OBJEXT) src/nl/plug/numbers.$(OBJEXT) \
+	src/nl/plug/sentences.$(OBJEXT) src/nl/plug/words.$(OBJEXT) \
+	src/nl/plug/wordizer.$(OBJEXT)
+braind_OBJECTS = $(am_braind_OBJECTS)
+braind_LDADD = $(LDADD)
 am_brsh_OBJECTS = src/brsh/brsh.$(OBJEXT) src/brsh/error.$(OBJEXT) \
 	src/brsh/event.$(OBJEXT) src/brsh/ui.$(OBJEXT) \
 	src/client/client.$(OBJEXT) src/client/setup.$(OBJEXT) \
@@ -103,6 +126,11 @@ am_brsh_OBJECTS = src/brsh/brsh.$(OBJEXT) src/brsh/error.$(OBJEXT) \
 	src/util/util.$(OBJEXT) src/mem/alloc.$(OBJEXT)
 brsh_OBJECTS = $(am_brsh_OBJECTS)
 brsh_LDADD = $(LDADD)
+am_thought_OBJECTS = src/thought/thought.$(OBJEXT) \
+	src/util/conf.$(OBJEXT) src/util/confscan.$(OBJEXT) \
+	src/util/util.$(OBJEXT) src/mem/alloc.$(OBJEXT)
+thought_OBJECTS = $(am_thought_OBJECTS)
+thought_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -131,8 +159,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(brsh_SOURCES)
-DIST_SOURCES = $(brsh_SOURCES)
+SOURCES = $(braind_SOURCES) $(brsh_SOURCES) $(thought_SOURCES)
+DIST_SOURCES = $(braind_SOURCES) $(brsh_SOURCES) $(thought_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -277,6 +305,8 @@ brsh_SOURCES = src/brsh/brsh.c \
 				\
 				src/config.h \
 				src/fatal.h \
+				includes/protocol.h \
+				includes/client.h \
 				src/protocol-int.h \
 				src/brsh/event.h \
 				src/brsh/ui.h \
@@ -285,6 +315,89 @@ brsh_SOURCES = src/brsh/brsh.c \
 				src/util/confscan.h \
 				src/util/util.h \
 				src/mem/alloc.h
+
+thought_SOURCES = src/thought/thought.c \
+				src/util/conf.c \
+				src/util/confscan.c \
+				src/util/util.c \
+				src/mem/alloc.c \
+				\
+				src/config.h \
+				src/fatal.h \
+				src/util/conf.h \
+				src/util/confscan.h \
+				src/util/util.h \
+				src/mem/alloc.h
+
+braind_SOURCES = src/braind/braind.c \
+				src/braind/event.c \
+				src/braind/log.c \
+				src/braind/server.c \
+				src/cont/array.c \
+				src/cont/glue.c \
+				src/cont/hashmap.c \
+				src/cont/ptrset.c \
+				src/intl/utf8.c \
+				src/kn/bootstrap.c \
+				src/kn/concept.c \
+				src/kn/kn.c \
+				src/kn/nl.c \
+				src/kn/pattern.c \
+				src/mem/alloc.c \
+				src/nl/debug.c \
+				src/nl/detmean.c \
+				src/nl/genutt.c \
+				src/nl/init.c \
+				src/nl/iparse.c \
+				src/nl/iplug.c \
+				src/nl/isplit.c \
+				src/nl/itok.c \
+				src/nl/iwizer.c \
+				src/nl/parts.c \
+				src/util/conf.c \
+				src/util/confscan.c \
+				src/util/file-read.c \
+				src/util/ifsai.c \
+				src/util/sbuff.c \
+				src/util/util.c \
+				\
+				src/config.h \
+				src/fatal.h \
+				src/protocol-int.h \
+				includes/nlip.h \
+				includes/protocol.h \
+				\
+				src/braind/log.h \
+				src/braind/server.h \
+				src/cont/array.h \
+				src/cont/glue.h \
+				src/cont/hashmap.h \
+				src/cont/ptrset.h \
+				src/intl/utf8.h \
+				src/kn/common.h \
+				src/kn/kn.h \
+				src/kn/structs.h \
+				src/mem/alloc.h \
+				src/nl/common.h \
+				src/nl/context.h \
+				src/nl/input.h \
+				src/nl/nl.h \
+				src/nl/parts.h \
+				src/util/conf.h \
+				src/util/confscan.h \
+				src/util/file-read.h \
+				src/util/ifsai.h \
+				src/util/sbuff.h \
+				src/util/util.h \
+				\
+				src/nl/plug/builtins.c \
+				src/nl/plug/acronyms.c \
+				src/nl/plug/datetimes.c \
+				src/nl/plug/emoticons.c \
+				src/nl/plug/numbers.c \
+				src/nl/plug/sentences.c \
+				src/nl/plug/words.c \
+				src/nl/plug/wordizer.c
 
 all: all-am
 
@@ -366,6 +479,136 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+src/braind/$(am__dirstamp):
+	@$(MKDIR_P) src/braind
+	@: > src/braind/$(am__dirstamp)
+src/braind/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/braind/$(DEPDIR)
+	@: > src/braind/$(DEPDIR)/$(am__dirstamp)
+src/braind/braind.$(OBJEXT): src/braind/$(am__dirstamp) \
+	src/braind/$(DEPDIR)/$(am__dirstamp)
+src/braind/event.$(OBJEXT): src/braind/$(am__dirstamp) \
+	src/braind/$(DEPDIR)/$(am__dirstamp)
+src/braind/log.$(OBJEXT): src/braind/$(am__dirstamp) \
+	src/braind/$(DEPDIR)/$(am__dirstamp)
+src/braind/server.$(OBJEXT): src/braind/$(am__dirstamp) \
+	src/braind/$(DEPDIR)/$(am__dirstamp)
+src/cont/$(am__dirstamp):
+	@$(MKDIR_P) src/cont
+	@: > src/cont/$(am__dirstamp)
+src/cont/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/cont/$(DEPDIR)
+	@: > src/cont/$(DEPDIR)/$(am__dirstamp)
+src/cont/array.$(OBJEXT): src/cont/$(am__dirstamp) \
+	src/cont/$(DEPDIR)/$(am__dirstamp)
+src/cont/glue.$(OBJEXT): src/cont/$(am__dirstamp) \
+	src/cont/$(DEPDIR)/$(am__dirstamp)
+src/cont/hashmap.$(OBJEXT): src/cont/$(am__dirstamp) \
+	src/cont/$(DEPDIR)/$(am__dirstamp)
+src/cont/ptrset.$(OBJEXT): src/cont/$(am__dirstamp) \
+	src/cont/$(DEPDIR)/$(am__dirstamp)
+src/intl/$(am__dirstamp):
+	@$(MKDIR_P) src/intl
+	@: > src/intl/$(am__dirstamp)
+src/intl/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/intl/$(DEPDIR)
+	@: > src/intl/$(DEPDIR)/$(am__dirstamp)
+src/intl/utf8.$(OBJEXT): src/intl/$(am__dirstamp) \
+	src/intl/$(DEPDIR)/$(am__dirstamp)
+src/kn/$(am__dirstamp):
+	@$(MKDIR_P) src/kn
+	@: > src/kn/$(am__dirstamp)
+src/kn/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/kn/$(DEPDIR)
+	@: > src/kn/$(DEPDIR)/$(am__dirstamp)
+src/kn/bootstrap.$(OBJEXT): src/kn/$(am__dirstamp) \
+	src/kn/$(DEPDIR)/$(am__dirstamp)
+src/kn/concept.$(OBJEXT): src/kn/$(am__dirstamp) \
+	src/kn/$(DEPDIR)/$(am__dirstamp)
+src/kn/kn.$(OBJEXT): src/kn/$(am__dirstamp) \
+	src/kn/$(DEPDIR)/$(am__dirstamp)
+src/kn/nl.$(OBJEXT): src/kn/$(am__dirstamp) \
+	src/kn/$(DEPDIR)/$(am__dirstamp)
+src/kn/pattern.$(OBJEXT): src/kn/$(am__dirstamp) \
+	src/kn/$(DEPDIR)/$(am__dirstamp)
+src/mem/$(am__dirstamp):
+	@$(MKDIR_P) src/mem
+	@: > src/mem/$(am__dirstamp)
+src/mem/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/mem/$(DEPDIR)
+	@: > src/mem/$(DEPDIR)/$(am__dirstamp)
+src/mem/alloc.$(OBJEXT): src/mem/$(am__dirstamp) \
+	src/mem/$(DEPDIR)/$(am__dirstamp)
+src/nl/$(am__dirstamp):
+	@$(MKDIR_P) src/nl
+	@: > src/nl/$(am__dirstamp)
+src/nl/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/nl/$(DEPDIR)
+	@: > src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/debug.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/detmean.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/genutt.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/init.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/iparse.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/iplug.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/isplit.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/itok.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/iwizer.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/nl/parts.$(OBJEXT): src/nl/$(am__dirstamp) \
+	src/nl/$(DEPDIR)/$(am__dirstamp)
+src/util/$(am__dirstamp):
+	@$(MKDIR_P) src/util
+	@: > src/util/$(am__dirstamp)
+src/util/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/util/$(DEPDIR)
+	@: > src/util/$(DEPDIR)/$(am__dirstamp)
+src/util/conf.$(OBJEXT): src/util/$(am__dirstamp) \
+	src/util/$(DEPDIR)/$(am__dirstamp)
+src/util/confscan.$(OBJEXT): src/util/$(am__dirstamp) \
+	src/util/$(DEPDIR)/$(am__dirstamp)
+src/util/file-read.$(OBJEXT): src/util/$(am__dirstamp) \
+	src/util/$(DEPDIR)/$(am__dirstamp)
+src/util/ifsai.$(OBJEXT): src/util/$(am__dirstamp) \
+	src/util/$(DEPDIR)/$(am__dirstamp)
+src/util/sbuff.$(OBJEXT): src/util/$(am__dirstamp) \
+	src/util/$(DEPDIR)/$(am__dirstamp)
+src/util/util.$(OBJEXT): src/util/$(am__dirstamp) \
+	src/util/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/$(am__dirstamp):
+	@$(MKDIR_P) src/nl/plug
+	@: > src/nl/plug/$(am__dirstamp)
+src/nl/plug/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/nl/plug/$(DEPDIR)
+	@: > src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/builtins.$(OBJEXT): src/nl/plug/$(am__dirstamp) \
+	src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/acronyms.$(OBJEXT): src/nl/plug/$(am__dirstamp) \
+	src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/datetimes.$(OBJEXT): src/nl/plug/$(am__dirstamp) \
+	src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/emoticons.$(OBJEXT): src/nl/plug/$(am__dirstamp) \
+	src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/numbers.$(OBJEXT): src/nl/plug/$(am__dirstamp) \
+	src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/sentences.$(OBJEXT): src/nl/plug/$(am__dirstamp) \
+	src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/words.$(OBJEXT): src/nl/plug/$(am__dirstamp) \
+	src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+src/nl/plug/wordizer.$(OBJEXT): src/nl/plug/$(am__dirstamp) \
+	src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+
+braind$(EXEEXT): $(braind_OBJECTS) $(braind_DEPENDENCIES) $(EXTRA_braind_DEPENDENCIES) 
+	@rm -f braind$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(braind_OBJECTS) $(braind_LDADD) $(LIBS)
 src/brsh/$(am__dirstamp):
 	@$(MKDIR_P) src/brsh
 	@: > src/brsh/$(am__dirstamp)
@@ -390,50 +633,85 @@ src/client/client.$(OBJEXT): src/client/$(am__dirstamp) \
 	src/client/$(DEPDIR)/$(am__dirstamp)
 src/client/setup.$(OBJEXT): src/client/$(am__dirstamp) \
 	src/client/$(DEPDIR)/$(am__dirstamp)
-src/util/$(am__dirstamp):
-	@$(MKDIR_P) src/util
-	@: > src/util/$(am__dirstamp)
-src/util/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) src/util/$(DEPDIR)
-	@: > src/util/$(DEPDIR)/$(am__dirstamp)
-src/util/conf.$(OBJEXT): src/util/$(am__dirstamp) \
-	src/util/$(DEPDIR)/$(am__dirstamp)
-src/util/confscan.$(OBJEXT): src/util/$(am__dirstamp) \
-	src/util/$(DEPDIR)/$(am__dirstamp)
-src/util/util.$(OBJEXT): src/util/$(am__dirstamp) \
-	src/util/$(DEPDIR)/$(am__dirstamp)
-src/mem/$(am__dirstamp):
-	@$(MKDIR_P) src/mem
-	@: > src/mem/$(am__dirstamp)
-src/mem/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) src/mem/$(DEPDIR)
-	@: > src/mem/$(DEPDIR)/$(am__dirstamp)
-src/mem/alloc.$(OBJEXT): src/mem/$(am__dirstamp) \
-	src/mem/$(DEPDIR)/$(am__dirstamp)
 
 brsh$(EXEEXT): $(brsh_OBJECTS) $(brsh_DEPENDENCIES) $(EXTRA_brsh_DEPENDENCIES) 
 	@rm -f brsh$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(brsh_OBJECTS) $(brsh_LDADD) $(LIBS)
+src/thought/$(am__dirstamp):
+	@$(MKDIR_P) src/thought
+	@: > src/thought/$(am__dirstamp)
+src/thought/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/thought/$(DEPDIR)
+	@: > src/thought/$(DEPDIR)/$(am__dirstamp)
+src/thought/thought.$(OBJEXT): src/thought/$(am__dirstamp) \
+	src/thought/$(DEPDIR)/$(am__dirstamp)
+
+thought$(EXEEXT): $(thought_OBJECTS) $(thought_DEPENDENCIES) $(EXTRA_thought_DEPENDENCIES) 
+	@rm -f thought$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(thought_OBJECTS) $(thought_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f src/braind/*.$(OBJEXT)
 	-rm -f src/brsh/*.$(OBJEXT)
 	-rm -f src/client/*.$(OBJEXT)
+	-rm -f src/cont/*.$(OBJEXT)
+	-rm -f src/intl/*.$(OBJEXT)
+	-rm -f src/kn/*.$(OBJEXT)
 	-rm -f src/mem/*.$(OBJEXT)
+	-rm -f src/nl/*.$(OBJEXT)
+	-rm -f src/nl/plug/*.$(OBJEXT)
+	-rm -f src/thought/*.$(OBJEXT)
 	-rm -f src/util/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@src/braind/$(DEPDIR)/braind.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/braind/$(DEPDIR)/event.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/braind/$(DEPDIR)/log.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/braind/$(DEPDIR)/server.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/brsh/$(DEPDIR)/brsh.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/brsh/$(DEPDIR)/error.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/brsh/$(DEPDIR)/event.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/brsh/$(DEPDIR)/ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/client/$(DEPDIR)/client.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/client/$(DEPDIR)/setup.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/cont/$(DEPDIR)/array.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/cont/$(DEPDIR)/glue.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/cont/$(DEPDIR)/hashmap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/cont/$(DEPDIR)/ptrset.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/intl/$(DEPDIR)/utf8.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/kn/$(DEPDIR)/bootstrap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/kn/$(DEPDIR)/concept.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/kn/$(DEPDIR)/kn.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/kn/$(DEPDIR)/nl.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/kn/$(DEPDIR)/pattern.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/mem/$(DEPDIR)/alloc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/debug.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/detmean.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/genutt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/init.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/iparse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/iplug.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/isplit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/itok.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/iwizer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/$(DEPDIR)/parts.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/plug/$(DEPDIR)/acronyms.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/plug/$(DEPDIR)/builtins.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/plug/$(DEPDIR)/datetimes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/plug/$(DEPDIR)/emoticons.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/plug/$(DEPDIR)/numbers.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/plug/$(DEPDIR)/sentences.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/plug/$(DEPDIR)/wordizer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/nl/plug/$(DEPDIR)/words.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/thought/$(DEPDIR)/thought.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/util/$(DEPDIR)/conf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/util/$(DEPDIR)/confscan.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/util/$(DEPDIR)/file-read.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/util/$(DEPDIR)/ifsai.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/util/$(DEPDIR)/sbuff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/util/$(DEPDIR)/util.Po@am__quote@
 
 .c.o:
@@ -706,12 +984,26 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f src/braind/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/braind/$(am__dirstamp)
 	-rm -f src/brsh/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/brsh/$(am__dirstamp)
 	-rm -f src/client/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/client/$(am__dirstamp)
+	-rm -f src/cont/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/cont/$(am__dirstamp)
+	-rm -f src/intl/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/intl/$(am__dirstamp)
+	-rm -f src/kn/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/kn/$(am__dirstamp)
 	-rm -f src/mem/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/mem/$(am__dirstamp)
+	-rm -f src/nl/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/nl/$(am__dirstamp)
+	-rm -f src/nl/plug/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/nl/plug/$(am__dirstamp)
+	-rm -f src/thought/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/thought/$(am__dirstamp)
 	-rm -f src/util/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/util/$(am__dirstamp)
 
@@ -724,7 +1016,7 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf src/brsh/$(DEPDIR) src/client/$(DEPDIR) src/mem/$(DEPDIR) src/util/$(DEPDIR)
+	-rm -rf src/braind/$(DEPDIR) src/brsh/$(DEPDIR) src/client/$(DEPDIR) src/cont/$(DEPDIR) src/intl/$(DEPDIR) src/kn/$(DEPDIR) src/mem/$(DEPDIR) src/nl/$(DEPDIR) src/nl/plug/$(DEPDIR) src/thought/$(DEPDIR) src/util/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -772,7 +1064,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf src/brsh/$(DEPDIR) src/client/$(DEPDIR) src/mem/$(DEPDIR) src/util/$(DEPDIR)
+	-rm -rf src/braind/$(DEPDIR) src/brsh/$(DEPDIR) src/client/$(DEPDIR) src/cont/$(DEPDIR) src/intl/$(DEPDIR) src/kn/$(DEPDIR) src/mem/$(DEPDIR) src/nl/$(DEPDIR) src/nl/plug/$(DEPDIR) src/thought/$(DEPDIR) src/util/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

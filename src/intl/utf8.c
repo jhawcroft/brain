@@ -31,7 +31,7 @@
 #include <ctype.h>
 #endif
 
-#include "hashmap.h"
+#include "../cont/hashmap.h"
 
 
 #if USE_GNU_LIBUNISTRING == 1

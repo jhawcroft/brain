@@ -35,9 +35,9 @@
 #include <signal.h>
 #include <poll.h>
 
-#include "err.h"
+#include "../fatal.h"
 #include "log.h"
-#include "conf.h"
+#include "../util/conf.h"
 #include "server.h"
 
 #include "../mem/alloc.h"
