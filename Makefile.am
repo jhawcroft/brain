@@ -110,6 +110,6 @@ braind_SOURCES = src/braind/braind.c \
 				src/nl/plug/sentences.c \
 				src/nl/plug/words.c \
 				src/nl/plug/wordizer.c
-
+braind_LDADD =	$(BRAIND_INTL_LIB)
 
 

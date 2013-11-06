@@ -2806,6 +2806,13 @@ END
   fi
 fi
 
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
 
 # check for programs
 ac_ext=c
@@ -3968,8 +3975,6 @@ else
 fi
 
 
-
-# check for system header files
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -4367,6 +4372,63 @@ fi
 done
 
 
+ac_fn_c_check_header_mongrel "$LINENO" "unistr.h" "ac_cv_header_unistr_h" "$ac_includes_default"
+if test "x$ac_cv_header_unistr_h" = xyes; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for u8_strcoll in -lunistring" >&5
+$as_echo_n "checking for u8_strcoll in -lunistring... " >&6; }
+if ${ac_cv_lib_unistring_u8_strcoll+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lunistring  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char u8_strcoll ();
+int
+main ()
+{
+return u8_strcoll ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_unistring_u8_strcoll=yes
+else
+  ac_cv_lib_unistring_u8_strcoll=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_unistring_u8_strcoll" >&5
+$as_echo "$ac_cv_lib_unistring_u8_strcoll" >&6; }
+if test "x$ac_cv_lib_unistring_u8_strcoll" = xyes; then :
+  have_unistring=yes
+else
+  have_unistring=no
+fi
+
+fi
+
+
+    if test "x$have_unistring" = "xyes"; then
+
+$as_echo "#define HAVE_UNISTRING 1" >>confdefs.h
+
+        BRAIND_INTL_LIB="-lunistring"
+        LIBS+=" -lunistring"
+    fi
+
+
+# check for system header files
 for ac_header in fcntl.h locale.h stdlib.h string.h sys/socket.h syslog.h unistd.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`

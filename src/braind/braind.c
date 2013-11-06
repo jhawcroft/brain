@@ -113,7 +113,12 @@ static void start_daemon(void)
 
 
 int main(int argc, const char * argv[])
-{    
+{
+#if HAVE_UNISTRING == 1
+    /* TODO: want to print this out somewhere, maybe in log and/or at end of version;
+     so we can check what libraries it was compiled with... */
+    printf("have unistring==1\n");
+#endif
     start_daemon(); /* only if the command line arguments request it */
     
     

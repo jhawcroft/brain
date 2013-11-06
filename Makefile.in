@@ -118,7 +118,7 @@ am_braind_OBJECTS = src/braind/braind.$(OBJEXT) \
 	src/nl/plug/sentences.$(OBJEXT) src/nl/plug/words.$(OBJEXT) \
 	src/nl/plug/wordizer.$(OBJEXT)
 braind_OBJECTS = $(am_braind_OBJECTS)
-braind_LDADD = $(LDADD)
+braind_DEPENDENCIES =
 am_brsh_OBJECTS = src/brsh/brsh.$(OBJEXT) src/brsh/error.$(OBJEXT) \
 	src/brsh/event.$(OBJEXT) src/brsh/ui.$(OBJEXT) \
 	src/client/client.$(OBJEXT) src/client/setup.$(OBJEXT) \
@@ -399,6 +399,7 @@ braind_SOURCES = src/braind/braind.c \
 				src/nl/plug/words.c \
 				src/nl/plug/wordizer.c
 
+braind_LDADD = $(BRAIND_INTL_LIB)
 all: all-am
 
 .SUFFIXES:

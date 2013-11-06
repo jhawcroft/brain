@@ -21,20 +21,20 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
-#if USE_GNU_LIBUNISTRING == 1
+#if HAVE_UNISTRING == 1
 #include <uninorm.h>
 #include <unicase.h>
 
 #else
-#include <string.h>
 #include <ctype.h>
 #endif
 
 #include "../cont/hashmap.h"
 
 
-#if USE_GNU_LIBUNISTRING == 1
+#if HAVE_UNISTRING == 1
 
 int hashmap_utf8_compare_(void *in_context, void *in_left, void *in_right)
 {

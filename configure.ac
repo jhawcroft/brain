@@ -8,6 +8,8 @@ AC_CONFIG_SRCDIR([src/config.h])
 
 AM_INIT_AUTOMAKE
 
+AC_LANG([C])
+
 
 # check for programs
 AC_PROG_CC
@@ -16,6 +18,16 @@ AC_PROG_CC
 # check for libraries
 AC_SEARCH_LIBS( [initscr], [ncurses], [], [AC_ERROR([ncurses cannot be found])] )
 AC_SEARCH_LIBS( [new_field], [form], [], [AC_ERROR([ncurses forms cannot be found])] )
+
+AC_CHECK_HEADER([unistr.h],
+                    AC_CHECK_LIB([unistring],
+                                 [u8_strcoll],
+                                 [have_unistring=yes],[have_unistring=no]))
+    if test "x$have_unistring" = "xyes"; then
+        AC_DEFINE([HAVE_UNISTRING],[1],[Use libunistring for collation])
+        BRAIND_INTL_LIB="-lunistring"
+        LIBS+=" -lunistring"
+    fi
 
 
 # check for system header files
