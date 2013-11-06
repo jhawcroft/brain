@@ -33,6 +33,7 @@ enum
     BRAIN_COMM_ERRR,
     BRAIN_COMM_GENL,
     BRAIN_COMM_CKIE,
+    BRAIN_COMM_NOUT,
 };
 
 

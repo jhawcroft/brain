@@ -100,7 +100,7 @@ static void start_daemon(void)
         brain_fatal_("Not enough memory.\n");
     
     /* daemonize (detatch from calling process) */
-    //daemonize();
+    daemonize();
     
     /* initalize the knowledge network
      and natural language processing engine */

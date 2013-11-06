@@ -40,6 +40,8 @@
 #include "conf.h"
 #include "server.h"
 
+#include "../mem/alloc.h"
+
 #include "../../includes/protocol.h"
 #include "../protocol-int.h"
 
@@ -102,6 +104,7 @@ static void accept_new_connections(void)
                 g_connections[i].recv_size = 0;
                 g_connections[i].writ_size = 0;
                 g_connections[i].z_count = 0;
+                g_connections[i].no_output = 0;
                 if (g_connections[i].id_cookie) brain_free_(g_connections[i].id_cookie);
                 g_connections[i].id_cookie = NULL;
                 
@@ -157,13 +160,19 @@ void server_respond(connection_t *in_conn, int in_type, void *in_data, int in_si
 }
 
 
-void server_broadcast(int in_type, void *in_data, int in_size)
+void server_broadcast(char const *in_id_cookie, int in_type, void *in_data, int in_size)
 {
     for (int c = 0; c < g_max_connections; c++)
     {
         if (g_connections[c].sock != -1)
         {
-            server_respond(g_connections + c, in_type, in_data, in_size);
+            if ( (in_id_cookie == NULL) ||
+                (g_connections[c].id_cookie &&
+                 (strcmp(g_connections[c].id_cookie, in_id_cookie) == 0) &&
+                 (g_connections[c].no_output == 0)) )
+            {
+                server_respond(g_connections + c, in_type, in_data, in_size);
+            }
         }
     }
 }
@@ -299,6 +308,13 @@ static void handle_sigio2_(int in_signal)
 }
 
 
+static void handle_sigpipe_(int in_signal)
+{
+    printf("GOT SIGPIPE\n");
+    return;
+}
+
+
 void brain_uds_start(void)
 {
     /* create a pool of connection records */
@@ -384,6 +400,7 @@ void brain_uds_start(void)
     
     /* set the SIGIO handler */
     signal(SIGIO, &handle_sigio2_);
+    signal(SIGPIPE, &handle_sigpipe_);
     /*struct sigaction accept_action;
     accept_action.sa_flags = 0;
     accept_action.sa_mask = 0;

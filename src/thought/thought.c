@@ -74,6 +74,8 @@ static char *thought_name = NULL;
 /* log file (if any) */
 static FILE *log_file = NULL;
 
+static char *g_id_cookie = NULL;
+
 /* child process and communication pipe */
 static pid_t g_script_pid;
 static int g_fd_output;
@@ -402,6 +404,8 @@ static void do_help(void)
     printf("  -t, --timeout         Causes the thought to be aborted if it \n");
     printf("                        takes longer than the specified number of\n");
     printf("                        seconds.\n");
+    printf("  -C, --cookie          Supply an identification token to the\n");
+    printf("                        service to identify this session.\n");
     printf("  -v, --version         Print version of thought and exit.\n");
     printf("  -h, --help            Prints this help text and exits.\n");
     printf("\n");
@@ -417,12 +421,13 @@ static struct option long_options[] =
     {"help",    no_argument,       &g_print_help,       1},
 
     {"timeout", required_argument, 0,                   't'},
+    {"cookie",  required_argument, 0,                   'C'},
     
     {0, 0, 0, 0}
 };
 
 
-static char* short_options = "dvht:";
+static char* short_options = "dvhtC:";
 
 
 static void use_specified_timeout(void)
@@ -432,6 +437,12 @@ static void use_specified_timeout(void)
         timeout = MIN_TIMEOUT_SECONDS;
     else
         g_timeout_secs = timeout;
+}
+
+
+static void use_specified_cookie(void)
+{
+    if (optarg) g_id_cookie = strdup(optarg);
 }
 
 
@@ -461,6 +472,9 @@ static void process_options(int argc, char const *argv[])
                     case 't':
                         use_specified_timeout();
                         break;
+                    case 'C':
+                        use_specified_cookie();
+                        break;
                 }
                 break;
             }
@@ -479,7 +493,9 @@ static void process_options(int argc, char const *argv[])
             case 'v':
                 g_print_version = 1;
                 goto finish_processing_options;
-                
+            case 'C':
+                use_specified_cookie();
+                break;
             case '?':
                 /* getopt_long already printed an error message. */
                 do_help();
@@ -503,43 +519,7 @@ finish_processing_options:
     }
 }
 
-/*
-static void configure(void)
-{
-    int err;
-    if (!config_file_name)
-        config_file_name = brain_strdup(make_name(BRAIN_CONFIG_DIR, BRAIN_CONFIG_FILE));
-    if (!config_file_name)
-    {
-        fprintf(stderr, "Not enough memory to reference configuration file.\n");
-        exit(EXIT_FAILURE);
-    }
-    if ( ( err = confscan(config_file_name, &scan_conf_line_)) )
-    {
-        switch (err)
-        {
-            case ENOENT:
-                fprintf(stderr, "Configuration error: %s\nFile not found.\n", config_file_name);
-                break;
-            case EACCES:
-                fprintf(stderr, "Configuration error: %s\nCheck file permissions.\n", config_file_name);
-                break;
-            default:
-                fprintf(stderr, "Configuration error: %s\nUnknown system error %d.\n", config_file_name, err);
-                break;
-        }
-        
-        exit(EXIT_FAILURE);
-    }
-    
-    if (!g_log_dir) g_log_dir = LOG_FILE_LOCATION;
-    if (!g_script_dir)
-    {
-        fprintf(stderr, "Configuration error: %s\nUnspecified thought directory.\n", config_file_name);
-        exit(EXIT_FAILURE);
-    }
-}
-*/
+
 
 int main(int argc, const char * argv[])
 {
@@ -553,6 +533,9 @@ int main(int argc, const char * argv[])
         fprintf(stderr, "Couldn't read brain.conf\n");
         exit(EXIT_FAILURE);
     }
+    
+    if (g_id_cookie)
+        setenv("BRAIN_COOKIE", g_id_cookie, 1);
     
     thought_setup();
     thought_exec(argc, argv);

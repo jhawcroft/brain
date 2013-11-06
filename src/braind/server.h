@@ -37,6 +37,7 @@ typedef struct connection_struct
     char *writ_buffer;
     int writ_size;
     char *id_cookie;
+    int no_output;
     
 } connection_t;
 
@@ -44,7 +45,7 @@ typedef struct connection_struct
 void server_respond(connection_t *in_conn, int in_type, void *in_data, int in_size);
 void despatch_request(connection_t *in_conn, int in_type, void *in_data, int in_size);
 
-void server_broadcast(int in_type, void *in_data, int in_size);
+void server_broadcast(char const *in_id_cookie, int in_type, void *in_data, int in_size);
 
 
 #endif

@@ -48,7 +48,7 @@ void brsh_handle_input(char const *in_input)
 }
 
 
-void brsh_handle_reply(int in_reply_type, void *in_data, int in_size)
+void brsh_handle_reply(void *in_context, int in_reply_type, void *in_data, int in_size)
 {
     if (in_reply_type == BRAIN_COMM_IDLE) return;
     

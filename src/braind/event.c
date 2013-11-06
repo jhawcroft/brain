@@ -70,7 +70,13 @@ static void handle_text(connection_t *in_conn, char const *in_text)
         }
         printf(")\n");
         
+        /* invoke thought */
         sbuff_append_cstring(invokation, g_brain_bin_thought, SBUFF_AUTO_LENGTH);
+        if (in_conn->id_cookie)
+        {
+            sbuff_append_cstring(invokation, " -C ", 3);
+            sbuff_append_cstring(invokation, in_conn->id_cookie, strlen(in_conn->id_cookie));
+        }
         sbuff_append_cstring(invokation, " ", 1);
         sbuff_append_cstring(invokation, meaning->meaning, SBUFF_AUTO_LENGTH);
         for (int a = 0; a < meaning->argument_count; a++)
@@ -138,14 +144,7 @@ static void handle_gen(connection_t *in_conn, char const *in_data)
         in_data += len;
     }
     
-    /*printf("meaning: %s(", meaning->meaning);
-    for (int a = 0; a < meaning->argument_count; a++)
-    {
-        printf("%s", meaning->arguments[a]);
-        if (a + 1 < meaning->argument_count)
-            printf(", ");
-    }
-    printf(")\n");*/
+
     
     char *the_output;
     nlmeaning_t *gen_meanings[1];
@@ -158,7 +157,7 @@ static void handle_gen(connection_t *in_conn, char const *in_data)
     else
     {
         printf("Output: %s\n", the_output);
-        server_broadcast(BRAIN_COMM_TEXT, the_output, (int)strlen(the_output) + 1);
+        server_broadcast(in_conn->id_cookie, BRAIN_COMM_TEXT, the_output, (int)strlen(the_output) + 1);
         if (the_output) brain_free_(the_output);
     }
     
@@ -169,31 +168,7 @@ static void handle_gen(connection_t *in_conn, char const *in_data)
     }
     brain_free_(meaning);
     
-    /*
-     nlmeaning_t *gen_meanings[1];
-     
-
-    gen_meanings[0] = calloc(1, sizeof(nlmeaning_t));
-    gen_meanings[0]->meaning = strdup("like-something");
-    gen_meanings[0]->argument_count = 4;
-    gen_meanings[0]->arguments = calloc(gen_meanings[0]->argument_count, sizeof(char*));
-    gen_meanings[0]->arguments[0] = strdup("to-like");
-    gen_meanings[0]->arguments[1] = NULL;
-    gen_meanings[0]->arguments[2] = strdup("agent-writer");
-    gen_meanings[0]->arguments[3] = strdup("beef");
-    
-    char *the_output;
-    
-    err = nl_meanings_to_output(gen_meanings, 1, &the_output, 0);
-    if (err == NL_OK)
-    {
-        printf("output: %s\n", the_output);
-    }
-    else
-    {
-        printf("ERROR: %d\n", err);
-    }
-    */
+   
 }
 
 
@@ -210,6 +185,10 @@ void despatch_request(connection_t *in_conn, int in_type, void *in_data, int in_
             break;
         case BRAIN_COMM_GENL:
             handle_gen(in_conn, in_data);
+            break;
+        case BRAIN_COMM_NOUT:
+            /* don't send output to this connection */
+            in_conn->no_output = 1;
             break;
         case BRAIN_COMM_CKIE:
             if (in_size > 1)

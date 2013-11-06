@@ -90,6 +90,9 @@ static void meaning2nl(int argc, char const *argv[])
         else
             len += sprintf(data + len, "%s", argv[a]);
     }
+    
+    /* tell the server not to bother sending output to this connection */
+    brain_client_send_request(g_client, BRAIN_COMM_NOUT, NULL, 0);
 
     brain_client_send_request(g_client, BRAIN_COMM_GENL, data, (int)strlen(data) + 1);
     free(data);
@@ -226,6 +229,7 @@ finish_processing_options:
 }
 
 
+void brsh_handle_reply(void *in_context, int in_reply_type, void *in_data, int in_size);
 
 int main(int argc, const char *argv[])
 {
@@ -245,7 +249,7 @@ int main(int argc, const char *argv[])
         brain_fatal_("Couldn't read brain.conf.\n");
 
     /* connect to daemon */
-    g_client = brain_client_create(NULL, NULL);
+    g_client = brain_client_create(NULL, &brsh_handle_reply);
     if (!g_client) brain_fatal_("Not enough memory.\n");
     
     int err;
