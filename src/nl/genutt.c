@@ -23,7 +23,7 @@
  Natural Language Meaning => Sentence Generation
  */
 
-#include "common.h"
+#include "../nl/common.h"
 
 
 typedef struct nloutput_struct
@@ -168,6 +168,12 @@ int nl_meanings_to_output(nlmeaning_t *in_meanings[], int in_count, char **out_o
     {
         nlmeaning_t *meaning = in_meanings[m];
         nloutput_t *output = meaning_make_output_(meaning);
+        
+        if (!output)
+        {
+            lprintf(BRAIN_WARNING, "No meaning for %s in NL generation.\n", meaning->meaning);
+            continue;
+        }
         
         size_t concept_count = array_count(output->concept_seq);
         for (size_t c = 0; c < concept_count; c++)

@@ -39,7 +39,7 @@
 #include "../cont/hashmap.h"
 
 
-
+#include "../braind/log.h"
 #include "nl.h"
 #include "parts.h"
 #include "context.h"
