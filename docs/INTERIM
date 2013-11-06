@@ -24,5 +24,7 @@ bin				Path to the installed binaries
 				config.h:		BRAIN_BIN_DIR
 				globals: 		g_brain_bin
 
-
-				
+log				Name of the custom log file (if any).
+				Defaults to: 	/var/log/brain/brain.log
+				config.h:		BRAIN_LOG
+				globals:		g_brain_log_name
