@@ -70,7 +70,10 @@ void brsh_handle_reply(void *in_context, int in_reply_type, void *in_data, int i
 
 void brsh_handle_io(void)
 {
-    brain_client_poll_(g_client);
+    if (brain_client_poll_(g_client))
+    {
+        brain_fatal_("Connection closed by service.\n");
+    }
 }
 
 
