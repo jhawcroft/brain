@@ -36,6 +36,7 @@ typedef struct connection_struct
     int recv_size;
     char *writ_buffer;
     int writ_size;
+    char *id_cookie;
     
 } connection_t;
 

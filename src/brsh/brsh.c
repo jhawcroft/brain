@@ -56,6 +56,10 @@ char *g_invoked_name = NULL;
 /* current execution timeout */
 static long g_timeout_secs = DEFAULT_TIMEOUT_SECONDS;
 
+/* identification cookie */
+static char *g_id_cookie = NULL;
+
+
 /* command-line switches */
 static int g_print_version = 0;
 static int g_print_help = 0;
@@ -108,6 +112,8 @@ static void do_help(void)
 {
     printf("Usage: %s [options] [thought ...]\n", g_invoked_name);
     printf("Options:\n");
+    printf("  -C, --cookie          Supply an identification token to the\n");
+    printf("                        service to identify this session.\n");
     printf("  -t, --timeout         Terminate if the connection remains idle\n");
     printf("                        for the specified seconds.\n");
     printf("  -v, --version         Print version of thought and exit.\n");
@@ -124,12 +130,13 @@ static struct option long_options[] =
     {"help",    no_argument,       &g_print_help,       1},
     
     {"timeout", required_argument, 0,                   't'},
+    {"cookie",  required_argument, 0,                   'C'},
     
     {0, 0, 0, 0}
 };
 
 
-static char* short_options = "dvht:";
+static char* short_options = "vhtC:";
 
 
 static void use_specified_timeout(void)
@@ -139,6 +146,12 @@ static void use_specified_timeout(void)
         timeout = MIN_TIMEOUT_SECONDS;
     else
         g_timeout_secs = timeout;
+}
+
+
+static void use_specified_cookie(void)
+{
+    if (optarg) g_id_cookie = strdup(optarg);
 }
 
 
@@ -168,6 +181,9 @@ static void process_options(int argc, char const *argv[])
                     case 't':
                         use_specified_timeout();
                         break;
+                    case 'C':
+                        use_specified_cookie();
+                        break;
                 }
                 break;
             }
@@ -176,7 +192,9 @@ static void process_options(int argc, char const *argv[])
             case 't':
                 use_specified_timeout();
                 break;
-                
+            case 'C':
+                use_specified_cookie();
+                break;
             case 'h':
                 g_print_help = 1;
                 goto finish_processing_options;
@@ -195,7 +213,7 @@ static void process_options(int argc, char const *argv[])
     }
     
 finish_processing_options:
-    if ((g_print_help) || (argc == 1))
+    if (g_print_help)
     {
         do_help();
         exit(EXIT_SUCCESS);
@@ -214,6 +232,10 @@ int main(int argc, const char *argv[])
     /* get the name we were invoked with */
     g_invoked_name = strdup(argv[0]);
     g_invoked_name = basename(g_invoked_name);
+    
+    /* check for identification cookie in environment variables */
+    if (getenv("BRAIN_COOKIE"))
+        g_id_cookie = strdup(getenv("BRAIN_COOKIE"));
     
     /* process command line arguments */
     process_options(argc, argv);
@@ -243,6 +265,10 @@ int main(int argc, const char *argv[])
                 brain_fatal_("An unexpected internal error occurred.\n");
         }
     }
+    
+    /* if there's an identification cookie, send it now */
+    if (g_id_cookie)
+        brain_client_send_request(g_client, BRAIN_COMM_CKIE, g_id_cookie, (int)strlen(g_id_cookie) + 1);
     
     /* if we're invoked in an automatic mode,
      interpret the commands given and exit */

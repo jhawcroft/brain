@@ -32,6 +32,7 @@ enum
     BRAIN_COMM_TEXT,
     BRAIN_COMM_ERRR,
     BRAIN_COMM_GENL,
+    BRAIN_COMM_CKIE,
 };
 
 

@@ -211,6 +211,14 @@ void despatch_request(connection_t *in_conn, int in_type, void *in_data, int in_
         case BRAIN_COMM_GENL:
             handle_gen(in_conn, in_data);
             break;
+        case BRAIN_COMM_CKIE:
+            if (in_size > 1)
+            {
+                printf("Got cookie: %s\n", in_data);
+                if (in_conn->id_cookie) brain_free_(in_conn->id_cookie);
+                in_conn->id_cookie = brain_strdup(in_data);
+            }
+            break;
     }
     
     

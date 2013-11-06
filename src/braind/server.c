@@ -102,6 +102,8 @@ static void accept_new_connections(void)
                 g_connections[i].recv_size = 0;
                 g_connections[i].writ_size = 0;
                 g_connections[i].z_count = 0;
+                if (g_connections[i].id_cookie) brain_free_(g_connections[i].id_cookie);
+                g_connections[i].id_cookie = NULL;
                 
                 /* make the connection socket non-blocking and asyncronous */
                 if (fcntl(conn_sock, F_SETFL, O_ASYNC | O_NONBLOCK))
@@ -309,6 +311,7 @@ void brain_uds_start(void)
     }
     for (int i = 0; i < g_max_connections; i++)
     {
+        g_connections[i].id_cookie = NULL;
         g_connections[i].sock = -1;
         g_connections[i].recv_buffer = malloc(g_split_buff_size);
         if (!g_connections[i].recv_buffer)

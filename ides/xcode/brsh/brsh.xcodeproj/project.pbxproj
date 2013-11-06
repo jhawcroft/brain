@@ -58,6 +58,7 @@
 		033E456E1829C586002EAB3A /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
 		033E45701829C6D7002EAB3A /* fatal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fatal.h; path = ../../../src/fatal.h; sourceTree = "<group>"; };
 		03485E101829D637003C6B40 /* protocol-int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "protocol-int.h"; path = "../../../src/protocol-int.h"; sourceTree = "<group>"; };
+		03485E1A1829E779003C6B40 /* protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = protocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				033E456A1829C075002EAB3A /* client.h */,
+				03485E1A1829E779003C6B40 /* protocol.h */,
 			);
 			name = includes;
 			path = ../../../includes;
