@@ -27,6 +27,7 @@
 #include <errno.h>
 #include <string.h>
 #include <getopt.h>
+#include <libgen.h>
 
 #include "../config.h"
 #include "../util/confscan.h"
@@ -40,9 +41,12 @@
 
 
 brain_client_t *g_client = NULL;
+char *g_invoked_name = NULL;
 
 
-
+/* compile-time configuration */
+#define BRSH_VERSION_STRING "1.0"
+#define MIN_TIMEOUT_SECONDS    2
 
 
 /* program defaults */
@@ -53,7 +57,6 @@ brain_client_t *g_client = NULL;
 static long g_timeout_secs = DEFAULT_TIMEOUT_SECONDS;
 
 /* command-line switches */
-static int g_debug = 0;
 static int g_print_version = 0;
 static int g_print_help = 0;
 
@@ -90,13 +93,136 @@ static void meaning2nl(int argc, char const *argv[])
 }
 
 
+
+static void do_version(void)
+{
+    printf("%s (BRAIN) %s\n", g_invoked_name, BRSH_VERSION_STRING);
+    printf("Copyright (C) 2012-2013 Joshua Hawcroft\n");
+    printf("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n");
+    printf("This is free software: you are free to change and redistribute it.\n");
+    printf("There is NO WARRANTY, to the extent permitted by law.\n");
+}
+
+
+static void do_help(void)
+{
+    printf("Usage: %s [options] [thought ...]\n", g_invoked_name);
+    printf("Options:\n");
+    printf("  -t, --timeout         Terminate if the connection remains idle\n");
+    printf("                        for the specified seconds.\n");
+    printf("  -v, --version         Print version of thought and exit.\n");
+    printf("  -h, --help            Prints this help text and exits.\n");
+    printf("\n");
+    printf("Report bugs to: bugs@joshhawcroft.org\n");
+    printf("BRAIN home page: <http://joshhawcroft.org/brain/\n");
+}
+
+
+static struct option long_options[] =
+{
+    {"version", no_argument,       &g_print_version,    1},
+    {"help",    no_argument,       &g_print_help,       1},
+    
+    {"timeout", required_argument, 0,                   't'},
+    
+    {0, 0, 0, 0}
+};
+
+
+static char* short_options = "dvht:";
+
+
+static void use_specified_timeout(void)
+{
+    int timeout = (optarg ? atoi(optarg): 0);
+    if ((timeout > 0) && (timeout < MIN_TIMEOUT_SECONDS))
+        timeout = MIN_TIMEOUT_SECONDS;
+    else
+        g_timeout_secs = timeout;
+}
+
+
+static void process_options(int argc, char const *argv[])
+{
+    int c;
+    for (;;) /* iterate over command-line options */
+    {
+        int long_option_index = 0;
+        c = getopt_long (argc, (char**)argv, short_options,
+                         long_options, &long_option_index);
+        
+        if (c == -1) break; /* no more options */
+        switch (c)
+        {
+                /* handle a long option */
+            case 0:
+            {
+                if ((g_print_version) || (g_print_help))
+                    goto finish_processing_options;
+                
+                /* switches have already been handled */
+                if (long_options[long_option_index].flag != 0) break;
+                
+                switch (long_options[long_option_index].val)
+                {
+                    case 't':
+                        use_specified_timeout();
+                        break;
+                }
+                break;
+            }
+                
+                /* handle a short option */
+            case 't':
+                use_specified_timeout();
+                break;
+                
+            case 'h':
+                g_print_help = 1;
+                goto finish_processing_options;
+            case 'v':
+                g_print_version = 1;
+                goto finish_processing_options;
+                
+            case '?':
+                /* getopt_long already printed an error message. */
+                do_help();
+                exit(EXIT_FAILURE);
+                
+            default:
+                abort ();
+        }
+    }
+    
+finish_processing_options:
+    if ((g_print_help) || (argc == 1))
+    {
+        do_help();
+        exit(EXIT_SUCCESS);
+    }
+    if (g_print_version)
+    {
+        do_version();
+        exit(EXIT_SUCCESS);
+    }
+}
+
+
+
 int main(int argc, const char *argv[])
 {
-    /* need to handle command line args */
+    /* get the name we were invoked with */
+    g_invoked_name = strdup(argv[0]);
+    g_invoked_name = basename(g_invoked_name);
     
+    /* process command line arguments */
+    process_options(argc, argv);
+    
+    /* configure */
     if (brain_client_configure(NULL))
         brain_fatal_("Couldn't read brain.conf.\n");
 
+    /* connect to daemon */
     g_client = brain_client_create(NULL, NULL);
     if (!g_client) brain_fatal_("Not enough memory.\n");
     
@@ -118,12 +244,15 @@ int main(int argc, const char *argv[])
         }
     }
     
+    /* if we're invoked in an automatic mode,
+     interpret the commands given and exit */
     if (strstr(argv[0], "respond") != 0)
     {
         meaning2nl(argc - 1, argv + 1);
         return 0;
     }
     
+    /* invoke the normal interactive shell */
     brsh();
     
     return 0;
