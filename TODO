@@ -6,3 +6,6 @@
 way it logs stdout - that may explain our issue in testing with the bash error
 
 -	Complete configuration of auto-tools to allow modification/generation of config.h & installation into the correct directories
+
+
+- 	Must strip print to stderr/stdout statements from code in daemon - these are probably responsible for server crash once those are closed, and make sure they get closed at the bottom of daemonize() in braind.c
