@@ -370,7 +370,7 @@ static void thought_monitor(void)
 
 static void do_version(void)
 {
-    printf("thought (BRAIN) %s\n", THOUGHT_VERSION_STRING);
+    printf("thought (%s) %s\n", PACKAGE_STRING, THOUGHT_VERSION_STRING);
     printf("Copyright (C) 2012-2013 Joshua Hawcroft\n");
     printf("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n");
     printf("This is free software: you are free to change and redistribute it.\n");
@@ -392,8 +392,8 @@ static void do_help(void)
     printf("  -v, --version         Print version of thought and exit.\n");
     printf("  -h, --help            Prints this help text and exits.\n");
     printf("\n");
-    printf("Report bugs to: bugs@joshhawcroft.org\n");
-    printf("BRAIN home page: <http://joshhawcroft.org/brain/\n");
+    printf("Report bugs to: %s\n", PACKAGE_BUGREPORT);
+    printf("BRAIN home page: <%s>\n", PACKAGE_URL);
 }
 
 

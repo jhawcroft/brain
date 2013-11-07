@@ -22,6 +22,16 @@
 #ifndef BRAIN_CONFIG_H
 #define BRAIN_CONFIG_H
 
+#ifdef HAVE_CONFIG_H
+#include "compile.h"
+
+#else
+#define PACKAGE_STRING "BRAIN"
+#define PACKAGE_BUGREPORT "dev@joshhawcroft.org"
+#define PACKAGE_URL "http://joshhawcroft.org/"
+
+#endif
+
 
 /* default configuration;
  (ordinarily these will be set by make) */

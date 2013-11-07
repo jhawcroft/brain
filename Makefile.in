@@ -85,8 +85,9 @@ bin_PROGRAMS = brsh$(EXEEXT) thought$(EXEEXT) braind$(EXEEXT)
 subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/configure $(am__configure_deps) depcomp \
-	$(pkginclude_HEADERS) COPYING TODO compile install-sh missing
+	$(top_srcdir)/configure $(am__configure_deps) \
+	$(top_srcdir)/src/compile.h.in depcomp $(pkginclude_HEADERS) \
+	COPYING TODO compile install-sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -94,6 +95,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
+CONFIG_HEADER = $(top_builddir)/src/compile.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(thoughtdir)" \
@@ -175,7 +177,7 @@ AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
-DEFAULT_INCLUDES = -I.@am__isrc@
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
@@ -483,6 +485,21 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
+
+src/compile.h: src/stamp-h1
+	@test -f $@ || rm -f src/stamp-h1
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) src/stamp-h1
+
+src/stamp-h1: $(top_srcdir)/src/compile.h.in $(top_builddir)/config.status
+	@rm -f src/stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status src/compile.h
+$(top_srcdir)/src/compile.h.in:  $(am__configure_deps) 
+	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
+	rm -f src/stamp-h1
+	touch $@
+
+distclean-hdr:
+	-rm -f src/compile.h src/stamp-h1
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -1142,7 +1159,7 @@ distclean: distclean-am
 	-rm -rf src/braind/$(DEPDIR) src/brsh/$(DEPDIR) src/client/$(DEPDIR) src/cont/$(DEPDIR) src/intl/$(DEPDIR) src/kn/$(DEPDIR) src/mem/$(DEPDIR) src/nl/$(DEPDIR) src/nl/plug/$(DEPDIR) src/thought/$(DEPDIR) src/util/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-tags
+	distclean-hdr distclean-tags
 
 dvi: dvi-am
 
@@ -1215,18 +1232,19 @@ uninstall-am: uninstall-binPROGRAMS uninstall-pkgincludeHEADERS \
 	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
 	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
 	distcheck distclean distclean-compile distclean-generic \
-	distclean-tags distcleancheck distdir distuninstallcheck dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-binPROGRAMS install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-exec-hook \
-	install-html install-html-am install-info install-info-am \
-	install-man install-pdf install-pdf-am \
-	install-pkgincludeHEADERS install-ps install-ps-am \
-	install-strip install-sysconfDATA install-thoughtSCRIPTS \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS uninstall-hook \
+	distclean-hdr distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-exec-hook install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-pkgincludeHEADERS install-ps \
+	install-ps-am install-strip install-sysconfDATA \
+	install-thoughtSCRIPTS installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
+	ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-hook \
 	uninstall-pkgincludeHEADERS uninstall-sysconfDATA \
 	uninstall-thoughtSCRIPTS
 

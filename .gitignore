@@ -19,6 +19,8 @@ xcuserdata
 
 
 # Build files
+**/stamp-h1
+**/*.cache
 **/*.o
 **/*.dirstamp
 Makefile

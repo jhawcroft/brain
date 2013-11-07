@@ -1,9 +1,9 @@
 # process this file with autoconf to produce a configure script
 
 AC_PREREQ(2.59)
-AC_INIT([BRAIN], [0.1], [dev@joshhawcroft.org])
+AC_INIT([BRAIN], [0.1], [dev@joshhawcroft.org], [brain-0.1], [http://joshhawcroft.org/brain/])
 
-#AC_CONFIG_HEADERS([compile.h])
+AC_CONFIG_HEADERS([src/compile.h])
 
 #AC_CONFIG_AUX_DIR([build-aux])
 
