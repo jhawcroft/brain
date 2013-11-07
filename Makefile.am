@@ -6,10 +6,17 @@ AUTOMAKE_OPTIONS = subdir-objects
 thoughtdir = $(pkgdatadir)/thoughts/
 
 
-AM_CPPFLAGS = -DBRAIN_CONFIG='"$(sysconfdir)/brain.conf"' \
+# could protentially use sed or similar
+# to insert these?  should they be?
+
+AM_CXXFLAGS = -DBRAIN_CONFIG='"$(sysconfdir)/brain.conf"' \
 	-DBRAIN_BIN_DIR='"$(bindir)/"' -DBRAIN_THOUGHTS_DIR='"$(thoughtdir)"' \
 	-DBRAIN_SOCKET='"$(localstatedir)/run/brain.sock"' \
-	-DBRAIN_LOG='"$(prefix)/var/brain.log"'
+	-DBRAIN_LOG='"$(prefix)/var/brain.log"' 
+AM_CFLAGS = $(AM_CXXFLAGS)
+
+	
+
 	
 
 bin_PROGRAMS = 	brsh thought braind

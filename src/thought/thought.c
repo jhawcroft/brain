@@ -506,6 +506,10 @@ finish_processing_options:
 
 int main(int argc, const char * argv[])
 {
+#ifdef DEBUG
+    printf("DEBUG MODE\n");
+#endif
+    
     process_options(argc, argv);
     
     thought_name = brain_strdup(argv[optind]);

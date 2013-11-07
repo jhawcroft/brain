@@ -3,7 +3,19 @@
 AC_PREREQ(2.59)
 AC_INIT([BRAIN], [0.1], [dev@joshhawcroft.org], [brain-0.1], [http://joshhawcroft.org/brain/])
 
+
+AC_ARG_ENABLE([debug], 
+	[AS_HELP_STRING([--with-debug],
+		[enables debugging and verbose output messages (default is no)])],
+	[debug=yes],[debug=no])
+
+AM_CONDITIONAL([DEBUG], [test "x$debug" = "xyes"])
+
+
+
 AC_CONFIG_HEADERS([src/compile.h])
+
+
 
 #AC_CONFIG_AUX_DIR([build-aux])
 
@@ -12,11 +24,30 @@ AC_CONFIG_SRCDIR([src/config.h])
 
 AM_INIT_AUTOMAKE
 
-AC_LANG([C])
+
+
+# customize compiler options for debug mode
+if test "x$debug" = "xyes" ; then
+	CFLAGS="-g3 -O0"
+
+	AC_MSG_NOTICE([Debug mode.])
+	AC_DEFINE([DEBUG], [1], [Enables debug mode])
+
+fi
+
+
 
 
 # check for programs
+AC_LANG([C])
+cflags_save="$CFLAGS" 
 AC_PROG_CC
+#AC_PROG_CC_STDC
+CFLAGS="$cflags_save" 
+
+
+
+
 
 
 # check for libraries
