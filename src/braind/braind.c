@@ -75,6 +75,9 @@ static void daemonize(void)
     /* create a new session ID for the child process */
     if (setsid() < 0) brain_fatal_("unable to obtain session ID");
     
+    /* reinitalize logging after fork() */
+    log_init(g_brain_log_name, SYSLOG_DAEMON);
+    
     /* change the current working directory */
     if (chdir("/") < 0) brain_fatal_("unable to change to root directory");
     
@@ -95,12 +98,17 @@ static void start_daemon(void)
     if (brain_configure_(NULL))
         brain_fatal_("Couldn't load brain.conf.\n");
     
+    /* reinitalize logging in case the configuration specifies a log file */
+    log_init(g_brain_log_name, SYSLOG_DAEMON);
+    
+    /* verify mandatory configuration */
     g_brain_bin_thought = brain_strdup(make_name(g_brain_bin, "thought"));
     if (!g_brain_bin_thought)
         brain_fatal_("Not enough memory.\n");
     
     /* daemonize (detatch from calling process) */
-    daemonize();
+    //daemonize();
+    log_debug();
     
     /* initalize the knowledge network
      and natural language processing engine */

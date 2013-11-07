@@ -22,22 +22,65 @@
 /* brain daemon logger */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdarg.h>
 #include <syslog.h>
 #include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 #include "log.h"
+#include "../config.h"
 
 
 #define BRAIND_SYSLOG_IDENT "braind"
 
 
 static FILE *g_log_file = NULL;
+static char *g_log_name = NULL;
 
 static int g_syslog_facility = LOG_DAEMON;
 static int g_log_debug = 0;
+
+
+static void reopenlogfile_(void)
+{
+    if (!g_log_name) return;
+    if (g_log_file) fclose(g_log_file);
+    g_log_file = fopen(g_log_name, "a");
+    if (!g_log_file)
+    {
+        int err = errno;
+        switch (err)
+        {
+            case EACCES:
+                if (isatty(fileno(stdout)))
+                    fprintf(stdout, "couldn't create log file; insufficient privileges\n");
+                syslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR),
+                       "couldn't create log file; insufficient privileges");
+                break;
+            default:
+                if (isatty(fileno(stdout)))
+                    fprintf(stdout, "couldn't create log file; system error %d\n", err);
+                syslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR),
+                       "couldn't create log file; system error %d", err);
+                break;
+        }
+    }
+}
+
+
+static void checklogfile_(void)
+{
+    if (!g_log_name) return;
+    struct stat logstat;
+    if (g_log_file && (fstat(fileno(g_log_file), &logstat) == 0))
+    {
+        if (logstat.st_nlink > 0) return;
+    }
+    reopenlogfile_();
+}
 
 
 void log_init(char const *in_log_name, int in_syslog_local)
@@ -66,30 +109,15 @@ void log_init(char const *in_log_name, int in_syslog_local)
          just use syslog */
         if (g_log_file) fclose(g_log_file);
         g_log_file = NULL;
+        if (g_log_name) free(g_log_name);
+        g_log_name = NULL;
         return;
     }
     
     /* try and open our own log file */
-    g_log_file = fopen(in_log_name, "a");
-    if (!g_log_file)
-    {
-        int err = errno;
-        switch (err)
-        {
-            case EACCES:
-                if (isatty(fileno(stdout)))
-                    fprintf(stdout, "couldn't create log file; insufficient privileges\n");
-                syslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR),
-                       "couldn't create log file; insufficient privileges");
-                break;
-            default:
-                if (isatty(fileno(stdout)))
-                    fprintf(stdout, "couldn't create log file; system error %d\n", err);
-                syslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR),
-                       "couldn't create log file; system error %d", err);
-                break;
-        }
-    }
+    if (g_log_name) free(g_log_name);
+    g_log_name = strdup(in_log_name);
+    reopenlogfile_();
 }
 
 
@@ -101,6 +129,8 @@ int fd_is_valid(int fd)
 
 void lvprintf(int in_level, char const *in_message, va_list in_args)
 {
+    checklogfile_();
+    
 #if DEBUG != 1
     if ((!g_log_debug) && (in_level == BRAIN_DEBUG)) return;
 #endif
@@ -126,7 +156,10 @@ void lvprintf(int in_level, char const *in_message, va_list in_args)
             break;
     }
     if (g_log_file != NULL)
+    {
         vfprintf(g_log_file, in_message, in_args);
+        fflush(g_log_file);
+    }
 }
 
 
