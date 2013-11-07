@@ -1,5 +1,4 @@
 # OS X & xCode files
-
 **/.DS_Store
 .Trashes
 *.swp
@@ -17,3 +16,17 @@ build/
 !default.perspectivev3
 xcuserdata
 *.moved-aside
+
+
+# Build files
+**/*.o
+**/*.dirstamp
+Makefile
+*.deps
+*.log
+*.status
+
+**/braind
+**/brsh
+**/thought
+

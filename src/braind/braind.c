@@ -22,7 +22,7 @@
 /* brain daemon; primary server process that services requests to translate
  between natural language and meanings, and visa-versa. */
 
-#include <stdio.h>
+#include <stdio.h> 
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>

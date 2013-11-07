@@ -88,21 +88,6 @@ static int g_print_help = 0;
 
 
 
-
-/*
- #define CONFIG_ERROR 1
- #define CONFIG_OK 0
-static int scan_conf_line_(long in_line_number, char const *in_key, char const *in_value)
-{
-    if (strcmp(in_key, "thought-dir") == 0)
-        g_script_dir = strdup(in_value);
-    else if (strcmp(in_key, "log-dir") == 0)
-        g_log_dir = strdup(in_value);
-    
-    return CONFIG_OK;
-}
-*/
-
 static void log_begin(void)
 {
     if (g_debug)
@@ -528,7 +513,7 @@ int main(int argc, const char * argv[])
     
     if (brain_configure_(NULL))
     {
-        fprintf(stderr, "Couldn't read brain.conf\n");
+        fprintf(stderr, "Couldn't read %s\n", g_brain_conf_name);
         exit(EXIT_FAILURE);
     }
     

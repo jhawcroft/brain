@@ -27,6 +27,7 @@
 int brain_configure_(char const *in_alternate_config_file);
 
 
+extern char const *const g_brain_conf_name;
 extern char const *const g_brain_thoughts;
 extern char const *const g_brain_bin;
 extern char const *const g_brain_socket_name;

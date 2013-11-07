@@ -29,6 +29,7 @@
 
 
 /* load default configuration */
+char const* g_brain_conf_name = NULL;
 char const* g_brain_thoughts = BRAIN_THOUGHTS_DIR;
 char const* g_brain_bin = BRAIN_BIN_DIR;
 char const* g_brain_socket_name = BRAIN_SOCKET;
@@ -62,6 +63,7 @@ static int scan_conf_line_(long in_line_number, char const *in_key, char const *
 int brain_configure_(char const *in_alternate_config_file)
 {
     char const *config_file = (in_alternate_config_file ? in_alternate_config_file : BRAIN_CONFIG);
+    g_brain_conf_name = config_file;
     return brain_confscan_(config_file, &scan_conf_line_);
 }
 
