@@ -23,6 +23,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include <syslog.h>
 #include <errno.h>
@@ -42,6 +43,7 @@ static char *g_log_name = NULL;
 
 static int g_syslog_facility = LOG_DAEMON;
 static int g_log_debug = 0;
+static int g_log_stdout = 0;
 
 
 static void reopenlogfile_(void)
@@ -129,6 +131,9 @@ int fd_is_valid(int fd)
 
 void lvprintf(int in_level, char const *in_message, va_list in_args)
 {
+    va_list args_primary;
+    va_copy(args_primary, in_args);
+    
     checklogfile_();
     
 #if DEBUG != 1
@@ -138,13 +143,13 @@ void lvprintf(int in_level, char const *in_message, va_list in_args)
     {
         case BRAIN_WARNING:
             if (g_log_file == NULL)
-                vsyslog(LOG_MAKEPRI(g_syslog_facility, LOG_WARNING), in_message, in_args);
+                vsyslog(LOG_MAKEPRI(g_syslog_facility, LOG_WARNING), in_message, args_primary);
             else
                 fprintf(g_log_file, "Warning: ");
             break;
         case BRAIN_ERROR:
             if (g_log_file == NULL)
-                vsyslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR), in_message, in_args);
+                vsyslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR), in_message, args_primary);
             else
                 fprintf(g_log_file, "Fatal Error: ");
             break;
@@ -152,13 +157,20 @@ void lvprintf(int in_level, char const *in_message, va_list in_args)
         case BRAIN_DEBUG:
         case BRAIN_NOTICE:
             if (g_log_file == NULL)
-                vsyslog(LOG_MAKEPRI(g_syslog_facility, LOG_NOTICE), in_message, in_args);
+                vsyslog(LOG_MAKEPRI(g_syslog_facility, LOG_NOTICE), in_message, args_primary);
             break;
     }
     if (g_log_file != NULL)
     {
-        vfprintf(g_log_file, in_message, in_args);
+        vfprintf(g_log_file, in_message, args_primary);
         fflush(g_log_file);
+    }
+    
+    va_end(args_primary);
+    
+    if (g_log_stdout)
+    {
+        vprintf(in_message, in_args);
     }
 }
 
@@ -166,17 +178,9 @@ void lvprintf(int in_level, char const *in_message, va_list in_args)
 void lprintf(int in_level, char const *in_message, ...)
 {
     va_list arg_list;
-    
     va_start(arg_list, in_message);
     lvprintf(in_level, in_message, arg_list);
     va_end(arg_list);
-    
-    if (g_log_debug)
-    {
-        va_start(arg_list, in_message);
-        vprintf(in_message, arg_list);
-        va_end(arg_list);
-    }
 }
 
 
@@ -191,6 +195,7 @@ void log_deinit(void)
     if (g_log_file) fclose(g_log_file);
     g_log_file = NULL;
     g_log_debug = 0;
+    g_log_stdout = 0;
     closelog();
 }
 
@@ -200,5 +205,10 @@ void log_debug(void)
     g_log_debug = 1;
 }
 
+
+void log_stdout(int in_on)
+{
+    g_log_stdout = (in_on != 0);
+}
 
 

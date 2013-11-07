@@ -30,7 +30,9 @@
 #include <stdarg.h>
 #include <sys/stat.h>
 #include <libgen.h>
+#include <signal.h>
 
+#include "config.h"
 #include "../util/conf.h"
 #include "../util/util.h"
 #include "../fatal.h"
@@ -40,10 +42,26 @@
 #include "../nl/nl.h"
 
 
+/* the name of the thought executable;
+ computed at startup based on configuration */
 char *g_brain_bin_thought = NULL;
 
 
+/* command-line switches */
+static int g_debug = 0;
+static int g_daemonize = 0;
+static int g_print_version = 0;
+static int g_print_help = 0;
+static int g_signal = 0;
+
+
+#define BRAIN_SIGSTART -1
+
+
+/* entry to the listening service */
 void brain_uds_start(void);
+
+
 
 
 /* handle fatal errors */
@@ -57,8 +75,18 @@ void brain_fatal_(char const *in_message, ...)
 }
 
 
+
+static void do_send_signal(void)
+{
+    printf("Sending signals not yet implemented!\n");
+}
+
+
+
 static void daemonize(void)
 {
+    log_deinit();
+    
     pid_t pid = fork();
     if (pid < 0) brain_fatal_("unable to fork() to background");
     if (pid > 0)
@@ -77,6 +105,7 @@ static void daemonize(void)
     
     /* reinitalize logging after fork() */
     log_init(g_brain_log_name, SYSLOG_DAEMON);
+    if (g_debug) log_debug();
     
     /* change the current working directory */
     if (chdir("/") < 0) brain_fatal_("unable to change to root directory");
@@ -93,6 +122,7 @@ static void start_daemon(void)
     /* initalize basic logging to screen/syslog
      until configuration loaded */
     log_init(NULL, SYSLOG_DAEMON);
+    log_stdout(1);
     
     /* load the configuration file */
     if (brain_configure_(NULL))
@@ -107,8 +137,12 @@ static void start_daemon(void)
         brain_fatal_("Not enough memory.\n");
     
     /* daemonize (detatch from calling process) */
-    //daemonize();
-    log_debug();
+    if (g_daemonize)
+    {
+        daemonize();
+    }
+    else
+        log_debug();
     
     /* initalize the knowledge network
      and natural language processing engine */
@@ -120,18 +154,168 @@ static void start_daemon(void)
 }
 
 
+
+static void do_version(void)
+{
+    printf("braind (%s)\n", PACKAGE_STRING);
+    printf("Copyright (C) 2012-2013 Joshua Hawcroft\n");
+    printf("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n");
+    printf("This is free software: you are free to change and redistribute it.\n");
+    printf("There is NO WARRANTY, to the extent permitted by law.\n\n");
+    
+    printf("Compiled " __DATE__ " " __TIME__ "\n");
+#if HAVE_UNISTRING == 1
+    printf("Unicode Support: GNU libunistring\n");
+#else
+    printf("Unicode Support: Not Available (see configure --with-unistring)\n");
+#endif
+}
+
+
+static void do_help(void)
+{
+    printf("Usage: braind [options]\n");
+    printf("Options:\n");
+    printf("  -s, --signal          Send signal to braind.  The argument can\n");
+    printf("                        be one of: start, stop, quit and restart.\n");
+    printf("  -B, --background      Run in the background.\n");
+    printf("  -d, --debug           Debug mode; enables very verbose logging.\n");
+    printf("  -v, --version         Print version of thought and exit.\n");
+    printf("  -h, --help            Prints this help text and exits.\n");
+    printf("\n");
+    printf("Report bugs to: %s\n", PACKAGE_BUGREPORT);
+    printf("%s home page: <%s>\n", PACKAGE_NAME, PACKAGE_URL);
+}
+
+
+static struct option long_options[] =
+{
+    {"debug",   no_argument,       &g_debug,            1},
+    {"background",  no_argument,   &g_daemonize,            1},
+    {"version", no_argument,       &g_print_version,    1},
+    {"help",    no_argument,       &g_print_help,       1},
+    
+    {"signal",  required_argument, 0,                   's'},
+    
+    {0, 0, 0, 0}
+};
+
+
+static char* short_options = "s:Bdvh";
+
+
+static void use_specified_signal(void)
+{
+    if (optarg)
+    {
+        if (strcmp(optarg, "start") == 0)
+            g_signal = BRAIN_SIGSTART;
+        else if (strcmp(optarg, "stop") == 0)
+            g_signal = SIGTERM;
+        else if (strcmp(optarg, "quit") == 0)
+            g_signal = SIGQUIT;
+        else if (strcmp(optarg, "restart") == 0)
+            g_signal = SIGUSR1;
+        else
+        {
+            printf("Invalid signal - %s\n", optarg);
+            do_help();
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        do_help();
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+static void process_options(int argc, char const *argv[])
+{
+    int c;
+    for (;;) /* iterate over command-line options */
+    {
+        int long_option_index = 0;
+        c = getopt_long (argc, (char**)argv, short_options,
+                         long_options, &long_option_index);
+        
+        if (c == -1) break; /* no more options */
+        switch (c)
+        {
+                /* handle a long option */
+            case 0:
+            {
+                if ((g_print_version) || (g_print_help))
+                    goto finish_processing_options;
+                
+                /* switches have already been handled */
+                if (long_options[long_option_index].flag != 0) break;
+                
+                switch (long_options[long_option_index].val)
+                {
+                    case 's':
+                        use_specified_signal();
+                        break;
+                }
+                break;
+            }
+                
+                /* handle a short option */
+            case 's':
+                use_specified_signal();
+                break;
+                
+            case 'd':
+                g_debug = 1;
+                break;
+            case 'h':
+                g_print_help = 1;
+                goto finish_processing_options;
+            case 'v':
+                g_print_version = 1;
+                goto finish_processing_options;
+            case 'B':
+                g_daemonize = 1;
+                break;
+            case '?':
+                /* getopt_long already printed an error message. */
+                do_help();
+                exit(EXIT_FAILURE);
+                
+            default:
+                abort ();
+        }
+    }
+    
+finish_processing_options:
+    if (g_print_help)
+    {
+        do_help();
+        exit(EXIT_SUCCESS);
+    }
+    if (g_print_version)
+    {
+        do_version();
+        exit(EXIT_SUCCESS);
+    }
+}
+
+
+
 int main(int argc, const char * argv[])
 {
-#if HAVE_UNISTRING == 1
-    /* TODO: want to print this out somewhere, maybe in log and/or at end of version;
-     so we can check what libraries it was compiled with... */
-    printf("have unistring==1\n");
-#endif
+    process_options(argc, argv);
+    
+    if (g_signal)
+    {
+        do_send_signal();
+        exit(EXIT_SUCCESS);
+    }
+
     start_daemon(); /* only if the command line arguments request it */
     
-    
-    
-    
-    return 0;
+    exit(EXIT_SUCCESS);
+    return 0; /* keep compiler happy */
 }
 

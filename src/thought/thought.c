@@ -124,7 +124,11 @@ static void thought_setup(void)
     
     /* reinitalize logging after forking */
     log_init(g_brain_log_name, SYSLOG_DAEMON);
-    if (g_debug) log_debug();
+    if (g_debug)
+    {
+        log_debug();
+        log_stdout(1);
+    }
     
     if (!g_debug)
     {
@@ -509,7 +513,11 @@ int main(int argc, const char * argv[])
     
     /* reinitalize logging after configuration has been read */
     log_init(g_brain_log_name, SYSLOG_DAEMON);
-    if (g_debug) log_debug();
+    if (g_debug)
+    {
+        log_debug();
+        log_stdout(1);
+    }
     
     if (g_id_cookie)
         setenv("BRAIN_COOKIE", g_id_cookie, 1);
