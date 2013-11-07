@@ -1,7 +1,7 @@
 # process this file with autoconf to produce a configure script
 
 AC_PREREQ(2.59)
-AC_INIT([BRAIN], [0.1], [dev@joshhawcroft.org], [brain-0.1], [http://joshhawcroft.org/brain/])
+AC_INIT([BRAIN], [0.1], [dev@joshhawcroft.org], [brain], [http://joshhawcroft.org/brain/])
 
 
 AC_ARG_ENABLE([debug], 

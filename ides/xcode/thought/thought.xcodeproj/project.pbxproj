@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		031CADAB182B77EC006DC96B /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 031CADA4182B77EC006DC96B /* log.c */; };
 		033E45511829A949002EAB3A /* thought.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E45501829A949002EAB3A /* thought.c */; };
 		033E455D1829A95A002EAB3A /* confscan.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E45531829A95A002EAB3A /* confscan.c */; };
 		033E45611829A95A002EAB3A /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 033E455B1829A95A002EAB3A /* util.c */; };
@@ -27,6 +28,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		031CADA4182B77EC006DC96B /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
+		031CADA5182B77EC006DC96B /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
 		033E45411829A92E002EAB3A /* thought */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = thought; sourceTree = BUILT_PRODUCTS_DIR; };
 		033E454D1829A938002EAB3A /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../../src/config.h; sourceTree = "<group>"; };
 		033E454F1829A949002EAB3A /* thought.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = thought.1; sourceTree = "<group>"; };
@@ -52,6 +55,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		031CAD9A182B77EC006DC96B /* braind */ = {
+			isa = PBXGroup;
+			children = (
+				031CADA4182B77EC006DC96B /* log.c */,
+				031CADA5182B77EC006DC96B /* log.h */,
+			);
+			name = braind;
+			path = ../../../src/braind;
+			sourceTree = "<group>";
+		};
 		033E45381829A92E002EAB3A = {
 			isa = PBXGroup;
 			children = (
@@ -59,6 +72,7 @@
 				033E454E1829A949002EAB3A /* thought */,
 				033E45521829A95A002EAB3A /* util */,
 				033E45621829A960002EAB3A /* mem */,
+				031CAD9A182B77EC006DC96B /* braind */,
 				033E45421829A92E002EAB3A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -156,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				031CADAB182B77EC006DC96B /* log.c in Sources */,
 				03485E191829DF77003C6B40 /* conf.c in Sources */,
 				033E45651829A960002EAB3A /* alloc.c in Sources */,
 				033E455D1829A95A002EAB3A /* confscan.c in Sources */,

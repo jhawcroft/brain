@@ -579,7 +579,7 @@ MAKEFLAGS=
 
 # Identity of this package.
 PACKAGE_NAME='BRAIN'
-PACKAGE_TARNAME='brain-0.1'
+PACKAGE_TARNAME='brain'
 PACKAGE_VERSION='0.1'
 PACKAGE_STRING='BRAIN 0.1'
 PACKAGE_BUGREPORT='dev@joshhawcroft.org'
@@ -1317,7 +1317,7 @@ Fine tuning of the installation directories:
   --infodir=DIR           info documentation [DATAROOTDIR/info]
   --localedir=DIR         locale-dependent data [DATAROOTDIR/locale]
   --mandir=DIR            man documentation [DATAROOTDIR/man]
-  --docdir=DIR            documentation root [DATAROOTDIR/doc/brain-0.1]
+  --docdir=DIR            documentation root [DATAROOTDIR/doc/brain]
   --htmldir=DIR           html documentation [DOCDIR]
   --dvidir=DIR            dvi documentation [DOCDIR]
   --pdfdir=DIR            pdf documentation [DOCDIR]
@@ -2745,7 +2745,7 @@ fi
 
 
 # Define the identity of the package.
- PACKAGE='brain-0.1'
+ PACKAGE='brain'
  VERSION='0.1'
 
 

@@ -50,13 +50,15 @@ thought_SOURCES = src/thought/thought.c \
 				src/util/confscan.c \
 				src/util/util.c \
 				src/mem/alloc.c \
+				src/braind/log.c \
 				\
 				src/config.h \
 				src/fatal.h \
 				src/util/conf.h \
 				src/util/confscan.h \
 				src/util/util.h \
-				src/mem/alloc.h
+				src/mem/alloc.h \
+				src/braind/log.h
 				
 braind_SOURCES = src/braind/braind.c \
 				src/braind/event.c \

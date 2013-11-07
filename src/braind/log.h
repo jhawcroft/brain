@@ -52,6 +52,9 @@ enum
 void log_init(char const *in_log_name, int in_syslog_local);
 void lprintf(int in_level, char const *in_message, ...);
 void lvprintf(int in_level, char const *in_message, va_list in_args);
+void log_flush(void);
+void log_deinit(void);
+void log_debug(void);
 
 
 

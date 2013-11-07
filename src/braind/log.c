@@ -26,6 +26,7 @@
 #include <syslog.h>
 #include <errno.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include "log.h"
 
@@ -36,6 +37,7 @@
 static FILE *g_log_file = NULL;
 
 static int g_syslog_facility = LOG_DAEMON;
+static int g_log_debug = 0;
 
 
 void log_init(char const *in_log_name, int in_syslog_local)
@@ -44,13 +46,13 @@ void log_init(char const *in_log_name, int in_syslog_local)
     switch (in_syslog_local)
     {
         case 0: g_syslog_facility = LOG_LOCAL0; break;
-        case 1: g_syslog_facility = LOG_LOCAL0; break;
-        case 2: g_syslog_facility = LOG_LOCAL0; break;
-        case 3: g_syslog_facility = LOG_LOCAL0; break;
-        case 4: g_syslog_facility = LOG_LOCAL0; break;
-        case 5: g_syslog_facility = LOG_LOCAL0; break;
-        case 6: g_syslog_facility = LOG_LOCAL0; break;
-        case 7: g_syslog_facility = LOG_LOCAL0; break;
+        case 1: g_syslog_facility = LOG_LOCAL1; break;
+        case 2: g_syslog_facility = LOG_LOCAL2; break;
+        case 3: g_syslog_facility = LOG_LOCAL3; break;
+        case 4: g_syslog_facility = LOG_LOCAL4; break;
+        case 5: g_syslog_facility = LOG_LOCAL5; break;
+        case 6: g_syslog_facility = LOG_LOCAL6; break;
+        case 7: g_syslog_facility = LOG_LOCAL7; break;
     }
 
     /* open connection to syslog;
@@ -58,8 +60,14 @@ void log_init(char const *in_log_name, int in_syslog_local)
      to do log something if that fails... */
     openlog(BRAIND_SYSLOG_IDENT, LOG_CONS, g_syslog_facility);
     
-    if (!in_log_name) return; /* custom log file disabled;
-                               just use syslog */
+    if (!in_log_name)
+    {
+        /* custom log file disabled;
+         just use syslog */
+        if (g_log_file) fclose(g_log_file);
+        g_log_file = NULL;
+        return;
+    }
     
     /* try and open our own log file */
     g_log_file = fopen(in_log_name, "a");
@@ -71,20 +79,31 @@ void log_init(char const *in_log_name, int in_syslog_local)
             case EACCES:
                 if (isatty(fileno(stdout)))
                     fprintf(stdout, "couldn't create log file; insufficient privileges\n");
-                syslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR), "couldn't create log file; insufficient privileges");
+                syslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR),
+                       "couldn't create log file; insufficient privileges");
                 break;
             default:
                 if (isatty(fileno(stdout)))
                     fprintf(stdout, "couldn't create log file; system error %d\n", err);
-                syslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR), "couldn't create log file; system error %d", err);
+                syslog(LOG_MAKEPRI(g_syslog_facility, LOG_ERR),
+                       "couldn't create log file; system error %d", err);
                 break;
         }
     }
 }
 
 
+int fd_is_valid(int fd)
+{
+    return fcntl(fd, F_GETFD) != -1 || errno != EBADF;
+}
+
+
 void lvprintf(int in_level, char const *in_message, va_list in_args)
 {
+#if DEBUG != 1
+    if ((!g_log_debug) && (in_level == BRAIN_DEBUG)) return;
+#endif
     switch (in_level)
     {
         case BRAIN_WARNING:
@@ -99,9 +118,8 @@ void lvprintf(int in_level, char const *in_message, va_list in_args)
             else
                 fprintf(g_log_file, "Fatal Error: ");
             break;
-#if DEBUG == 1
+
         case BRAIN_DEBUG:
-#endif
         case BRAIN_NOTICE:
             if (g_log_file == NULL)
                 vsyslog(LOG_MAKEPRI(g_syslog_facility, LOG_NOTICE), in_message, in_args);
@@ -115,9 +133,39 @@ void lvprintf(int in_level, char const *in_message, va_list in_args)
 void lprintf(int in_level, char const *in_message, ...)
 {
     va_list arg_list;
+    
     va_start(arg_list, in_message);
     lvprintf(in_level, in_message, arg_list);
     va_end(arg_list);
+    
+    if (g_log_debug)
+    {
+        va_start(arg_list, in_message);
+        vprintf(in_message, arg_list);
+        va_end(arg_list);
+    }
 }
+
+
+void log_flush(void)
+{
+    if (g_log_file) fflush(g_log_file);
+}
+
+
+void log_deinit(void)
+{
+    if (g_log_file) fclose(g_log_file);
+    g_log_file = NULL;
+    g_log_debug = 0;
+    closelog();
+}
+
+
+void log_debug(void)
+{
+    g_log_debug = 1;
+}
+
 
 
