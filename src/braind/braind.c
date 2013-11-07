@@ -79,8 +79,53 @@ void brain_fatal_(char const *in_message, ...)
 static void do_send_signal(void)
 {
     printf("Sending signals not yet implemented!\n");
+    switch (g_signal)
+    {
+        case BRAIN_SIGSTART:
+            /* look for pid file,
+             if found, unlink it,
+             and look for it again a short time later,
+             if it's still there, 
+             then brain is already running,
+             output an error, otherwise, 
+             invoke start_daemon(); */
+            
+            break;
+        case SIGQUIT:
+            /* read pid from pid file
+             and send kill SIGQUIT.
+             otherwise output error */
+            break;
+        case SIGTERM:
+            /* read pid from pid file
+             and send kill SIGTERM.
+             otherwise output error */
+            break;
+        case SIGUSR1:
+            /* read pid from pid file
+             and send SIGUSR1.
+             otherwise output error */
+            break;
+    }
 }
 
+
+static void handle_signal_(int in_signal)
+{
+    switch (in_signal)
+    {
+        case SIGQUIT:
+            /* set a boolean that the event loop in 
+             server.c will see and cause graceful termination */
+            break;
+        case SIGUSR1:
+            /* if daemonize == 0,
+             currently do nothing,
+             otherwise invoke start_daemon(),
+             and then call exit() */
+            break;
+    }
+}
 
 
 static void daemonize(void)
@@ -119,6 +164,10 @@ static void daemonize(void)
 
 static void start_daemon(void)
 {
+    /* install signal handlers */
+    signal(SIGQUIT, handle_signal_);
+    signal(SIGUSR1, handle_signal_);
+    
     /* initalize basic logging to screen/syslog
      until configuration loaded */
     log_init(NULL, SYSLOG_DAEMON);
