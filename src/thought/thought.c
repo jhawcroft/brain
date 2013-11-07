@@ -50,8 +50,6 @@ extern char **environ;
 
 /* program defaults */
 #define DEFAULT_TIMEOUT_SECONDS     15
-#define LOG_FILE_LOCATION           "/var/log/brain/"
-#define LOG_FILE_NAME               "thought"
 
 
 /* program compile-time configuration */
