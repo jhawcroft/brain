@@ -33,10 +33,13 @@
 #include <signal.h>
 #include <errno.h>
 
-#include "config.h"
+#include "../config.h"
 #include "../util/conf.h"
 #include "../util/util.h"
 #include "../fatal.h"
+
+#include "../../includes/client.h"
+
 #include "log.h"
 
 #include "../kn/kn.h"
@@ -81,39 +84,105 @@ void brain_fatal_(char const *in_message, ...)
 
 
 
+static void write_pid_file(void)
+{
+    FILE *pid_file = fopen(g_brain_pid_name, "w");
+    if (!pid_file) brain_fatal_("Couldn't write PID to file %s", g_brain_pid_name);
+    fprintf(pid_file, "%d", getpid());
+    fclose(pid_file);
+}
+
+
+static pid_t read_pid_file(void)
+{
+    FILE *pid_file = fopen(g_brain_pid_name, "r");
+    if (!pid_file) brain_fatal_("Couldn't read PID from file %s", g_brain_pid_name);
+    pid_t result;
+    fscanf(pid_file, "%d", &result);
+    return result;
+}
+
+
+/* returns -1 if we're unsure, 0 if it's not and 1 if it is */
+static int is_braind_running(void)
+{
+    brain_client_t *client;
+    
+    if (brain_client_configure(NULL))
+        brain_fatal_("Couldn't read brain.conf.\n");
+    
+    client = brain_client_create(NULL, NULL);
+    if (!client)
+        brain_fatal_("Not enough memory.");
+    
+    int err = brain_client_connect(client);
+    int result;
+    if (err == 0) result = 1;
+    else if ((err == BRAIN_ECONN) || (err == BRAIN_ESYS)) result = 0;
+    else result = -1;
+    
+    brain_client_dispose(client);
+    
+    return result;
+}
+
+
 static void do_send_signal(void)
 {
-    printf("Sending signals not yet implemented!\n");
+    /* find out about the current braind daemon (if any) */
+    int is_running = is_braind_running();
+    pid_t pid = 0;
+    if (is_running > 0) pid = read_pid_file();
+    
+    /* decide what to do */
     switch (g_signal)
     {
         case BRAIN_SIGSTART:
-            /* look for pid file,
-             if found, unlink it,
-             and look for it again a short time later,
-             if it's still there, 
-             then brain is already running,
-             output an error, otherwise, 
-             invoke start_daemon();
-             could also try a quick n' dirty socket
-             connection check */
+            /* if braind is running, do nothing,
+             otherwise, start braind with current arguments */
+            if (is_running > 0)
+            {
+                printf("BRAIN is already running.\n");
+                break;
+            }
+            return; /* skip exit() and continue executing main() */
             
-            break;
         case SIGQUIT:
-            /* read pid from pid file
-             and send kill SIGQUIT.
+            /* if running, send kill SIGQUIT.
              otherwise output error */
+            if (is_running > 0)
+            {
+                printf("Telling BRAIN to quit.\n");
+                kill(pid, SIGQUIT);
+            }
+            else
+                printf("BRAIN is not running.\n");
             break;
+            
         case SIGTERM:
-            /* read pid from pid file
-             and send kill SIGTERM.
+            /* if running, send kill SIGTERM.
              otherwise output error */
+            if (is_running > 0)
+            {
+                printf("Terminating BRAIN.\n");
+                kill(pid, SIGTERM);
+            }
+            else
+                printf("BRAIN is not running.\n");
             break;
         case SIGUSR1:
-            /* read pid from pid file
-             and send SIGUSR1.
+            /* if running, send SIGUSR1.
              otherwise output error */
+            if (is_running > 0)
+            {
+                printf("Telling BRAIN to restart.\n");
+                kill(pid, SIGUSR1);
+            }
+            else
+                printf("BRAIN is not running.\n");
             break;
     }
+    exit(EXIT_SUCCESS);
 }
 
 
@@ -170,18 +239,9 @@ static void daemonize(void)
 }
 
 
-static void restart_daemon(void)
-{
-    
-}
-
 
 static void start_daemon(void)
 {
-    /* install signal handlers */
-    signal(SIGQUIT, handle_signal_);
-    signal(SIGUSR1, handle_signal_);
-    
     /* initalize basic logging to screen/syslog
      until configuration loaded */
     log_init(NULL, SYSLOG_DAEMON);
@@ -207,6 +267,13 @@ static void start_daemon(void)
     else
         log_debug();
     
+    /* install signal handlers */
+    signal(SIGQUIT, handle_signal_);
+    signal(SIGUSR1, handle_signal_);
+    
+    /* write PID file */
+    write_pid_file();
+    
     /* initalize the knowledge network
      and natural language processing engine */
     if (kn_startup()) brain_fatal_("couldn't initalize knowledge network");
@@ -231,6 +298,11 @@ static void do_version(void)
     printf("Unicode Support: GNU libunistring\n");
 #else
     printf("Unicode Support: Not Available (see configure --with-unistring)\n");
+#endif
+#if DEBUG == 1
+    printf("Debugging      : Enabled\n");
+#else
+    printf("Debugging      : Not Available\n");
 #endif
 }
 
@@ -375,7 +447,6 @@ int main(int argc, const char * argv[])
     if (g_signal)
     {
         do_send_signal();
-        exit(EXIT_SUCCESS);
     }
 
     start_daemon(); /* only if the command line arguments request it */

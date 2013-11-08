@@ -47,6 +47,9 @@
 #ifndef BRAIN_SOCKET
 #define BRAIN_SOCKET "/var/run/braind.sock"
 #endif
+#ifndef BRAIN_PID
+#define BRAIN_PID "/var/run/braind.pid"
+#endif
 #ifndef BRAIN_LOG
 #define BRAIN_LOG "/var/log/brain.log"
 #endif

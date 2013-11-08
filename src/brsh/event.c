@@ -24,6 +24,7 @@
 
 
 #include "../../includes/client.h"
+#include "../../includes/protocol.h"
 #include "event.h"
 #include "ui.h"
 #include "../fatal.h"

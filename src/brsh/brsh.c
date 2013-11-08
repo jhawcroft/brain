@@ -34,6 +34,7 @@
 #include "../util/util.h"
 
 #include "../../includes/client.h"
+#include "../../includes/protocol.h"
 
 #include "ui.h"
 #include "../fatal.h"

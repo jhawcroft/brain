@@ -24,8 +24,6 @@
 #define BRAIN_CLIENT_H
 
 
-#include "protocol.h"
-
 
 enum
 {

@@ -31,6 +31,7 @@ extern char const *const g_brain_conf_name;
 extern char const *const g_brain_thoughts;
 extern char const *const g_brain_bin;
 extern char const *const g_brain_socket_name;
+extern char const *const g_brain_pid_name;
 extern char const *const g_brain_log_name;
 
 extern int const g_brain_buffer;

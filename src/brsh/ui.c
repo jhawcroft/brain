@@ -38,6 +38,7 @@
 #include "ui.h"
 #include "../fatal.h"
 #include "../../includes/client.h"
+#include "../../includes/protocol.h"
 
 
 /* compile-time configuration */

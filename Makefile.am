@@ -9,9 +9,13 @@ thoughtdir = $(pkgdatadir)/thoughts/
 # could protentially use sed or similar
 # to insert these?  should they be?
 
+# also, there is duplication of prefixes
+
 AM_CXXFLAGS = -DBRAIN_CONFIG='"$(sysconfdir)/brain.conf"' \
-	-DBRAIN_BIN_DIR='"$(bindir)/"' -DBRAIN_THOUGHTS_DIR='"$(thoughtdir)"' \
+	-DBRAIN_BIN_DIR='"$(bindir)/"' \
+	-DBRAIN_THOUGHTS_DIR='"$(thoughtdir)"' \
 	-DBRAIN_SOCKET='"$(localstatedir)/run/brain.sock"' \
+	-DBRAIN_PID='"$(localstatedir)/run/brain.pid"' \
 	-DBRAIN_LOG='"$(prefix)/var/brain.log"' 
 AM_CFLAGS = $(AM_CXXFLAGS)
 
@@ -92,6 +96,9 @@ braind_SOURCES = src/braind/braind.c \
 				src/util/sbuff.c \
 				src/util/util.c \
 				\
+				src/client/client.c \
+				src/client/setup.c \
+				\
 				src/config.h \
 				src/fatal.h \
 				src/protocol-int.h \
@@ -128,7 +135,11 @@ braind_SOURCES = src/braind/braind.c \
 				src/nl/plug/numbers.c \
 				src/nl/plug/sentences.c \
 				src/nl/plug/words.c \
-				src/nl/plug/wordizer.c
+				src/nl/plug/wordizer.c \
+				\
+				includes/protocol.h \
+				includes/client.h
+				
 braind_LDADD =	$(BRAIND_INTL_LIB)
 
 sysconf_DATA = data/brain.conf

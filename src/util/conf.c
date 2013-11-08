@@ -33,6 +33,7 @@ char const* g_brain_conf_name = NULL;
 char const* g_brain_thoughts = BRAIN_THOUGHTS_DIR;
 char const* g_brain_bin = BRAIN_BIN_DIR;
 char const* g_brain_socket_name = BRAIN_SOCKET;
+char const* g_brain_pid_name = BRAIN_PID;
 char const* g_brain_log_name = BRAIN_LOG;
 
 int g_brain_buffer = BRAIN_BUFFER;

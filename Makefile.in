@@ -118,6 +118,7 @@ am_braind_OBJECTS = src/braind/braind.$(OBJEXT) \
 	src/util/conf.$(OBJEXT) src/util/confscan.$(OBJEXT) \
 	src/util/file-read.$(OBJEXT) src/util/ifsai.$(OBJEXT) \
 	src/util/sbuff.$(OBJEXT) src/util/util.$(OBJEXT) \
+	src/client/client.$(OBJEXT) src/client/setup.$(OBJEXT) \
 	src/nl/plug/builtins.$(OBJEXT) src/nl/plug/acronyms.$(OBJEXT) \
 	src/nl/plug/datetimes.$(OBJEXT) \
 	src/nl/plug/emoticons.$(OBJEXT) src/nl/plug/numbers.$(OBJEXT) \
@@ -333,9 +334,13 @@ thoughtdir = $(pkgdatadir)/thoughts/
 
 # could protentially use sed or similar
 # to insert these?  should they be?
+
+# also, there is duplication of prefixes
 AM_CXXFLAGS = -DBRAIN_CONFIG='"$(sysconfdir)/brain.conf"' \
-	-DBRAIN_BIN_DIR='"$(bindir)/"' -DBRAIN_THOUGHTS_DIR='"$(thoughtdir)"' \
+	-DBRAIN_BIN_DIR='"$(bindir)/"' \
+	-DBRAIN_THOUGHTS_DIR='"$(thoughtdir)"' \
 	-DBRAIN_SOCKET='"$(localstatedir)/run/brain.sock"' \
+	-DBRAIN_PID='"$(localstatedir)/run/brain.pid"' \
 	-DBRAIN_LOG='"$(prefix)/var/brain.log"' 
 
 AM_CFLAGS = $(AM_CXXFLAGS)
@@ -410,6 +415,9 @@ braind_SOURCES = src/braind/braind.c \
 				src/util/sbuff.c \
 				src/util/util.c \
 				\
+				src/client/client.c \
+				src/client/setup.c \
+				\
 				src/config.h \
 				src/fatal.h \
 				src/protocol-int.h \
@@ -446,7 +454,10 @@ braind_SOURCES = src/braind/braind.c \
 				src/nl/plug/numbers.c \
 				src/nl/plug/sentences.c \
 				src/nl/plug/words.c \
-				src/nl/plug/wordizer.c
+				src/nl/plug/wordizer.c \
+				\
+				includes/protocol.h \
+				includes/client.h
 
 braind_LDADD = $(BRAIND_INTL_LIB)
 sysconf_DATA = data/brain.conf
@@ -653,6 +664,16 @@ src/util/sbuff.$(OBJEXT): src/util/$(am__dirstamp) \
 	src/util/$(DEPDIR)/$(am__dirstamp)
 src/util/util.$(OBJEXT): src/util/$(am__dirstamp) \
 	src/util/$(DEPDIR)/$(am__dirstamp)
+src/client/$(am__dirstamp):
+	@$(MKDIR_P) src/client
+	@: > src/client/$(am__dirstamp)
+src/client/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/client/$(DEPDIR)
+	@: > src/client/$(DEPDIR)/$(am__dirstamp)
+src/client/client.$(OBJEXT): src/client/$(am__dirstamp) \
+	src/client/$(DEPDIR)/$(am__dirstamp)
+src/client/setup.$(OBJEXT): src/client/$(am__dirstamp) \
+	src/client/$(DEPDIR)/$(am__dirstamp)
 src/nl/plug/$(am__dirstamp):
 	@$(MKDIR_P) src/nl/plug
 	@: > src/nl/plug/$(am__dirstamp)
@@ -693,16 +714,6 @@ src/brsh/event.$(OBJEXT): src/brsh/$(am__dirstamp) \
 	src/brsh/$(DEPDIR)/$(am__dirstamp)
 src/brsh/ui.$(OBJEXT): src/brsh/$(am__dirstamp) \
 	src/brsh/$(DEPDIR)/$(am__dirstamp)
-src/client/$(am__dirstamp):
-	@$(MKDIR_P) src/client
-	@: > src/client/$(am__dirstamp)
-src/client/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) src/client/$(DEPDIR)
-	@: > src/client/$(DEPDIR)/$(am__dirstamp)
-src/client/client.$(OBJEXT): src/client/$(am__dirstamp) \
-	src/client/$(DEPDIR)/$(am__dirstamp)
-src/client/setup.$(OBJEXT): src/client/$(am__dirstamp) \
-	src/client/$(DEPDIR)/$(am__dirstamp)
 
 brsh$(EXEEXT): $(brsh_OBJECTS) $(brsh_DEPENDENCIES) $(EXTRA_brsh_DEPENDENCIES) 
 	@rm -f brsh$(EXEEXT)

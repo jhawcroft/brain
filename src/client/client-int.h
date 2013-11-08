@@ -39,6 +39,7 @@
 #include <poll.h>
 
 #include "../../includes/client.h"
+#include "../../includes/protocol.h"
 #include "../config.h"
 #include "../protocol-int.h"
 #include "../mem/alloc.h"
