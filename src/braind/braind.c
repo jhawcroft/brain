@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <libgen.h>
 #include <signal.h>
+#include <errno.h>
 
 #include "config.h"
 #include "../util/conf.h"
@@ -56,6 +57,10 @@ static int g_signal = 0;
 
 
 #define BRAIN_SIGSTART -1
+
+
+extern int g_server_shutdown;
+extern int g_server_restart;
 
 
 /* entry to the listening service */
@@ -88,7 +93,9 @@ static void do_send_signal(void)
              if it's still there, 
              then brain is already running,
              output an error, otherwise, 
-             invoke start_daemon(); */
+             invoke start_daemon();
+             could also try a quick n' dirty socket
+             connection check */
             
             break;
         case SIGQUIT:
@@ -116,13 +123,14 @@ static void handle_signal_(int in_signal)
     {
         case SIGQUIT:
             /* set a boolean that the event loop in 
-             server.c will see and cause graceful termination */
+             server.c will see and cause graceful shutdown */
+            g_server_shutdown = 1;
             break;
         case SIGUSR1:
-            /* if daemonize == 0,
-             currently do nothing,
-             otherwise invoke start_daemon(),
-             and then call exit() */
+            /* ideally need to re-execve with the same environment
+             and arguments we were initially created */
+            g_server_restart = 1;
+            g_server_shutdown = 1;
             break;
     }
 }
@@ -159,6 +167,12 @@ static void daemonize(void)
     close(STDIN_FILENO);
     close(STDOUT_FILENO);
     close(STDERR_FILENO);
+}
+
+
+static void restart_daemon(void)
+{
+    
 }
 
 
@@ -226,7 +240,7 @@ static void do_help(void)
     printf("Usage: braind [options]\n");
     printf("Options:\n");
     printf("  -s, --signal          Send signal to braind.  The argument can\n");
-    printf("                        be one of: start, stop, quit and restart.\n");
+    printf("                        be one of: start, shutdown, stop and restart.\n");
     printf("  -B, --background      Run in the background.\n");
     printf("  -d, --debug           Debug mode; enables very verbose logging.\n");
     printf("  -v, --version         Print version of thought and exit.\n");
@@ -261,7 +275,7 @@ static void use_specified_signal(void)
             g_signal = BRAIN_SIGSTART;
         else if (strcmp(optarg, "stop") == 0)
             g_signal = SIGTERM;
-        else if (strcmp(optarg, "quit") == 0)
+        else if ((strcmp(optarg, "shutdown") == 0) || (strcmp(optarg, "quit") == 0))
             g_signal = SIGQUIT;
         else if (strcmp(optarg, "restart") == 0)
             g_signal = SIGUSR1;
@@ -354,6 +368,8 @@ finish_processing_options:
 
 int main(int argc, const char * argv[])
 {
+    char *save_wd = getwd(NULL);
+    
     process_options(argc, argv);
     
     if (g_signal)
@@ -364,7 +380,19 @@ int main(int argc, const char * argv[])
 
     start_daemon(); /* only if the command line arguments request it */
     
-    exit(EXIT_SUCCESS);
+    /* if we get back here; we should restart
+     with our original arguments and environment */
+    if (chdir(save_wd))
+    {
+        brain_fatal_("Restart failed - system error on chdir %s: %d", save_wd, errno);
+        exit(EXIT_FAILURE);
+    }
+    if (execvp(argv[0], (char**)argv))
+    {
+        brain_fatal_("Restart failed - system error on execvp %d", errno);
+        exit(EXIT_FAILURE);
+    }
+    
     return 0; /* keep compiler happy */
 }
 

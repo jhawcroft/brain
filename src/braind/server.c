@@ -53,6 +53,10 @@
 #define BRAIND_VERSION      "1.0"
 
 
+int g_server_shutdown = 0;
+int g_server_restart = 0;
+
+
 /* globals I need to patch in from configuration: */
 int g_max_connections = 50;
 int g_connection_queue = 5;
@@ -279,7 +283,7 @@ static void server_awake(void)
 
 static void server_runloop(void)
 {
-    for (;;)
+    while (!g_server_shutdown)
     {
         if (!g_got_wakeup)
             sleep(SERVER_SLEEP_SECONDS);
@@ -288,6 +292,10 @@ static void server_runloop(void)
 }
 
 
+static void server_shutdown(void)
+{
+    
+}
 
 
 /* dummy SIGIO handler to ensure we awake from sleep() reliably */
@@ -395,6 +403,15 @@ void brain_uds_start(void)
     /* run the server event loop */
     lprintf(BRAIN_NOTICE, "Started BRAIN server.\n");
     server_runloop();
+    
+    if (g_server_restart)
+        lprintf(BRAIN_NOTICE, "Restarting BRAIN server.\n");
+    else
+        lprintf(BRAIN_NOTICE, "Shutting down BRAIN server.\n");
+    server_shutdown();
+    
+    if (!g_server_restart)
+        exit(EXIT_SUCCESS);
 }
 
 
